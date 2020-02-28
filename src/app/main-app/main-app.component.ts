@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main-app',
-  templateUrl: './main-app.component.html',
-  styleUrls: ['./main-app.component.scss']
+  template: `
+    <app-car-drawer>
+      <!--For the main-app-routing module -->
+      <router-outlet></router-outlet>
+    </app-car-drawer>
+  `,
+  styles: [],
 })
 export class MainAppComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
