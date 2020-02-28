@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "fuel-calculator",
+      "public": "dist/fuel-calculator",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

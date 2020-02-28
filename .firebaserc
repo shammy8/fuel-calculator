@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "fuel-calculator-3e5c1": {
+      "hosting": {
+        "fuel-calculator": [
+          "fuel-calculator-3e5c1"
+        ]
+      }
+    }
+  }
+}
