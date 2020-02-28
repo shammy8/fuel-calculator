@@ -11,8 +11,8 @@ export const environment = {
     projectId: 'fuel-calculator-3e5c1',
     storageBucket: 'fuel-calculator-3e5c1.appspot.com',
     messagingSenderId: '538397187755',
-    appId: '1:538397187755:web:43cd5eae1c813174df21ee'
-  };
+    appId: '1:538397187755:web:43cd5eae1c813174df21ee',
+  },
 };
 
 /*
