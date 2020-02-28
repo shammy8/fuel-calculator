@@ -1,0 +1,16 @@
+mat-sidenav-container {
+  height: 100%;
+}
+
+.side-bar-top {
+  justify-content: space-between;
+}
+
+mat-sidenav {
+  width: 220px;
+  border: none;
+}
+
+mat-nav-list {
+  padding-top: 0px;
+}

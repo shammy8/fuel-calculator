@@ -1,0 +1,30 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over">
+    <mat-nav-list>
+      <mat-toolbar class="side-bar-top">
+        <div>
+          🚗 Your Cars
+        </div>
+        <button
+          type="button"
+          mat-icon-button
+          matTooltip="Add a new car"
+          (click)="sidenav.close()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-toolbar>
+      <a mat-list-item (click)="sidenav.close()">Car 1</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button type="button" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      ⛽ Fuel
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
