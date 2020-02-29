@@ -13,9 +13,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  googleLogin() {
-    this.afAuth.auth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(() => this.router.navigate(['']));
+  async googleLogin() {
+    await this.afAuth.auth.signInWithPopup(
+      new firebase.auth.GoogleAuthProvider()
+    );
+
+    this.router.navigate(['']);
   }
 }
