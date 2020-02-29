@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-car',
@@ -8,14 +10,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AddCarComponent implements OnInit {
   addCarForm: FormGroup;
-  engines = [
-    { value: 'petrol', label: 'Petrol' },
-    { value: 'diesel', label: 'Diesel' },
-    { value: 'electric', label: 'Electric' },
-  ];
-  logos = ['🚗', '🚓', '🏎', '🚘', '🚕', '🛺', '🚙', '🚌', '🚐'];
+  engines;
+  logos;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private afs: AngularFirestore) {}
 
   ngOnInit(): void {
     this.addCarForm = this.fb.group({
@@ -24,12 +22,21 @@ export class AddCarComponent implements OnInit {
       engineType: '',
       date: ['', [Validators.required]],
       mileage: [
-        '',
+        null,
         [Validators.required, Validators.min(0), Validators.max(9999999)],
       ],
     });
 
-    this.addCarForm.valueChanges.subscribe(console.log);
+    this.afs
+      .doc('general/ui')
+      .valueChanges()
+      .pipe(
+        map((res: { engineTypes: []; logos: [] }) => {
+          this.engines = res.engineTypes;
+          this.logos = res.logos;
+        })
+      )
+      .subscribe();
   }
 
   submitForm() {}
