@@ -14,7 +14,7 @@
           <mat-icon>add</mat-icon>
         </button>
       </mat-toolbar>
-      <a mat-list-item (click)="sidenav.close()">Car 1</a>
+      <a mat-list-item (click)="sidenav.close()">🚘 Car 1</a>
     </mat-nav-list>
   </mat-sidenav>
 
@@ -24,6 +24,10 @@
         <mat-icon>menu</mat-icon>
       </button>
       ⛽ Fuel
+      <div class="fill-space"></div>
+      <button mat-icon-button (click)="signOut()">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>
