@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="over">
+  <mat-sidenav #sidenav mode="side" opened>
     <mat-nav-list>
       <mat-toolbar class="side-bar-top">
         <div>
@@ -14,7 +14,12 @@
           <mat-icon>add</mat-icon>
         </button>
       </mat-toolbar>
-      <a mat-list-item (click)="sidenav.close()">🚘 Car 1</a>
+      <a
+        mat-list-item
+        *ngFor="let car of cars$ | async"
+        (click)="sidenav.close()"
+        >{{ car.logo }} {{ car.name }}
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 

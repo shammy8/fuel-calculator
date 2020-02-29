@@ -22,7 +22,7 @@ export class AddCarComponent implements OnInit {
 
   ngOnInit(): void {
     this.addCarForm = this.fb.group({
-      carName: ['', [Validators.required]],
+      name: ['', [Validators.required]],
       logo: '',
       engineType: '',
       date: ['', [Validators.required]],
