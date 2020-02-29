@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MainAppRoutingModule } from './main-app-routing.module';
 import { MainAppComponent } from './main-app.component';
@@ -9,6 +10,11 @@ import { AddCarComponent } from './add-car/add-car.component';
 
 @NgModule({
   declarations: [MainAppComponent, CarDrawerComponent, AddCarComponent],
-  imports: [CommonModule, SharedModule, MainAppRoutingModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    MainAppRoutingModule,
+    ReactiveFormsModule,
+  ],
 })
 export class MainAppModule {}

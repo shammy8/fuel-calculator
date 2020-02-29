@@ -1,1 +1,55 @@
-<p>add-car works!</p>
+<mat-card>
+  <form [formGroup]="addCarForm" (ngSubmit)="submitForm()">
+    <mat-form-field>
+      <mat-label>Name of Car</mat-label>
+      <input matInput formControlName="carName" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Logo</mat-label>
+      <mat-select formControlName="logo">
+        <mat-option
+          *ngFor="let logo of logos"
+          [value]="logo"
+          style="font-size: 25px;"
+        >
+          {{ logo }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Engine Type</mat-label>
+      <mat-select formControlName="engineType">
+        <mat-option *ngFor="let engine of engines" [value]="engine.value">
+          {{ engine.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker touchUi></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Current Mileage</mat-label>
+      <input type="number" matInput formControlName="mileage" />
+      <mat-hint>Must be a postive number smaller than 9,999,999</mat-hint>
+    </mat-form-field>
+
+    <div class="buttons">
+      <button type="button" mat-button>Reset</button>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="addCarForm.invalid"
+      >
+        Add Vehicle
+      </button>
+    </div>
+  </form>
+</mat-card>
