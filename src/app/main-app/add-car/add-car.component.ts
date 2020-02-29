@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -13,7 +14,11 @@ export class AddCarComponent implements OnInit {
   engines;
   logos;
 
-  constructor(private fb: FormBuilder, private afs: AngularFirestore) {}
+  constructor(
+    private fb: FormBuilder,
+    private afs: AngularFirestore,
+    private afAuth: AngularFireAuth
+  ) {}
 
   ngOnInit(): void {
     this.addCarForm = this.fb.group({
@@ -39,5 +44,10 @@ export class AddCarComponent implements OnInit {
       .subscribe();
   }
 
-  submitForm() {}
+  submitForm() {
+    this.afs.collection('cars').add({
+      ...this.addCarForm.value,
+      uid: this.afAuth.auth.currentUser.uid,
+    });
+  }
 }
