@@ -12,6 +12,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
+  isLoggedIn: boolean;
+
   constructor(private afAuth: AngularFireAuth) {}
 
   canActivate(
@@ -22,6 +24,14 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return !!this.afAuth.authState;
+    this.afAuth.authState.subscribe(status => {
+      if (status) {
+        this.isLoggedIn = true;
+      } else {
+        this.isLoggedIn = false;
+      }
+    });
+    console.log(this.isLoggedIn);
+    return true;
   }
 }
