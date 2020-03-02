@@ -1,5 +1,10 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side" opened>
+  <mat-sidenav
+    #sidenav
+    fixedInViewport
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    closed
+  >
     <mat-nav-list>
       <mat-toolbar class="side-bar-top">
         <div>
@@ -9,7 +14,7 @@
           type="button"
           mat-icon-button
           matTooltip="Add a new car"
-          (click)="addCar(); sidenav.close()"
+          (click)="addCar()"
         >
           <mat-icon>add</mat-icon>
         </button>
@@ -17,7 +22,7 @@
       <a
         mat-list-item
         *ngFor="let car of cars$ | async"
-        (click)="sidenav.close()"
+        (click)="handleCloseDrawer()"
         >{{ car.logo }} {{ car.name }}
       </a>
     </mat-nav-list>
