@@ -32,10 +32,10 @@ export class CarDrawerComponent implements OnInit {
     private breakpointObserver: BreakpointObserver
   ) {}
 
-  ngOnInit(): void {
-    const uid = this.afAuth.auth.currentUser.uid;
+  async ngOnInit(): Promise<void> {
+    const currentUser = await this.afAuth.currentUser;
     this.cars$ = this.afs
-      .collection('cars', ref => ref.where('uid', '==', uid))
+      .collection('cars', ref => ref.where('uid', '==', currentUser.uid))
       .valueChanges();
   }
 
@@ -45,7 +45,7 @@ export class CarDrawerComponent implements OnInit {
   }
 
   signOut(): void {
-    this.afAuth.auth.signOut().then(() => this.router.navigate(['login']));
+    this.afAuth.signOut();
   }
 
   handleCloseDrawer(): void {

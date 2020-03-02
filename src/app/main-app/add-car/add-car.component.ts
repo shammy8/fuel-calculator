@@ -44,10 +44,11 @@ export class AddCarComponent implements OnInit {
       .subscribe();
   }
 
-  submitForm() {
+  async submitForm() {
+    const currentUser = await this.afAuth.currentUser;
     this.afs.collection('cars').add({
       ...this.addCarForm.value,
-      uid: this.afAuth.auth.currentUser.uid,
+      uid: currentUser.uid,
     });
   }
 }
