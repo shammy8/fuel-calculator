@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -29,7 +29,8 @@ export class CarDrawerComponent implements OnInit {
     private router: Router,
     private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private ngZone: NgZone
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -40,7 +41,7 @@ export class CarDrawerComponent implements OnInit {
   }
 
   addCar() {
-    this.router.navigate(['add']);
+    this.ngZone.run(() => this.router.navigate(['add']));
     this.handleCloseDrawer();
   }
 
