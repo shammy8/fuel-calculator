@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import {
+  canActivate,
+  redirectUnauthorizedTo,
+  redirectLoggedInTo,
+} from '@angular/fire/auth-guard';
 
 import { LoginComponent } from './login/login.component';
 import { MainAppComponent } from './main-app/main-app.component';
@@ -13,7 +17,11 @@ const routes: Routes = [
     ...canActivate(() => redirectUnauthorizedTo(['login'])),
     children: [{ path: 'add', component: AddCarComponent }],
   },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+    ...canActivate(() => redirectLoggedInTo([''])),
+  },
 ];
 
 @NgModule({
