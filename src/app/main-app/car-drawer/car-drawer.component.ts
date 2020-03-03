@@ -22,7 +22,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
       map(result => {
         return result.matches; // returns true if below 780px width
       }),
-      shareReplay() // share to subscription among the various times we use async pipes
+      shareReplay() // share the subscription among all the times we use async pipes
     );
 
   @ViewChild('sidenav') drawer: MatSidenav;
@@ -32,7 +32,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private afs: AngularFirestore,
-    private afAuth: AngularFireAuth,
+    public afAuth: AngularFireAuth,
     private breakpointObserver: BreakpointObserver // private ngZone: NgZone
   ) {}
 
@@ -56,14 +56,14 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   addCar() {
     this.router.navigate(['add']);
     // this.ngZone.run(() => this.router.navigate(['add']));
-    this.handleCloseDrawer();
+    this.handleCloseDrawerOnClick();
   }
 
   signOut(): void {
     this.afAuth.signOut();
   }
 
-  handleCloseDrawer(): void {
+  handleCloseDrawerOnClick(): void {
     let isHandset: boolean;
     this.isHandset$.subscribe(res => (isHandset = res));
 

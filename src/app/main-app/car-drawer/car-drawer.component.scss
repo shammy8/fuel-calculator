@@ -9,6 +9,11 @@ mat-sidenav-container {
 mat-sidenav {
   width: 220px;
   border: none;
+
+  mat-toolbar {
+    font-size: 18px;
+    background: rgb(54, 71, 224);
+  }
 }
 
 mat-nav-list {

@@ -1,14 +1,15 @@
 <mat-sidenav-container>
+  <!-- open sidenav if logged in and not on handset -->
   <mat-sidenav
     #sidenav
     fixedInViewport
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    opened
+    [opened]="(afAuth.user | async) && !(isHandset$ | async) ? true : false"
   >
     <mat-nav-list>
       <mat-toolbar class="side-bar-top">
         <div>
-          🚗 Your Cars
+          🚗 Your Vehicles
         </div>
         <button
           type="button"
@@ -22,7 +23,7 @@
       <a
         mat-list-item
         *ngFor="let car of cars$ | async"
-        (click)="handleCloseDrawer()"
+        (click)="handleCloseDrawerOnClick()"
         >{{ car.logo }} {{ car.name }}
       </a>
     </mat-nav-list>
@@ -30,12 +31,22 @@
 
   <mat-sidenav-content>
     <mat-toolbar>
-      <button type="button" mat-icon-button (click)="sidenav.toggle()">
+      <button
+        *ngIf="afAuth.user | async"
+        type="button"
+        mat-icon-button
+        (click)="sidenav.toggle()"
+      >
         <mat-icon>menu</mat-icon>
       </button>
       ⛽ Fuel
       <div class="fill-space"></div>
-      <button mat-icon-button (click)="signOut()" matTooltip="Sign Out">
+      <button
+        *ngIf="afAuth.user | async"
+        mat-icon-button
+        (click)="signOut()"
+        matTooltip="Sign Out"
+      >
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </mat-toolbar>
