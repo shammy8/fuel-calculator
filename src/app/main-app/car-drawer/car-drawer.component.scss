@@ -2,22 +2,19 @@ mat-sidenav-container {
   height: 100%;
 }
 
-.side-bar-top {
-  justify-content: space-between;
-}
-
 mat-sidenav {
   width: 220px;
   border: none;
 
+  mat-nav-list {
+    padding-top: 0px;
+  }
+
   mat-toolbar {
+    justify-content: space-between;
     font-size: 18px;
     background: rgb(54, 71, 224);
   }
-}
-
-mat-nav-list {
-  padding-top: 0px;
 }
 
 .fill-space {
