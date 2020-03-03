@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Observable, Subscription, of } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, Subscription } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-car-drawer',
@@ -18,12 +20,12 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     .observe(['(max-width: 780px)'])
     .pipe(
       map(result => {
-        return result.matches;
+        return result.matches; // returns true if below 780px width
       }),
-      shareReplay()
+      shareReplay() // share to subscription among the various times we use async pipes
     );
 
-  @ViewChild('sidenav') drawer;
+  @ViewChild('sidenav') drawer: MatSidenav;
 
   userSub: Subscription;
 
@@ -31,8 +33,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     private router: Router,
     private afs: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private breakpointObserver: BreakpointObserver,
-    private ngZone: NgZone
+    private breakpointObserver: BreakpointObserver // private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +42,9 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
         this.cars$ = this.afs
           .collection('cars', ref => ref.where('uid', '==', user.uid))
           .valueChanges();
+      } else {
+        // if user is logged out return empty array observable
+        this.cars$ = of([]);
       }
     });
   }
