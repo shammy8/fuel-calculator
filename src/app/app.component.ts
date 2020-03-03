@@ -6,7 +6,9 @@ import { AngularFireAuth } from '@angular/fire/auth/';
 @Component({
   selector: 'app-root',
   template: `
-    <router-outlet></router-outlet>
+    <app-car-drawer>
+      <router-outlet></router-outlet>
+    </app-car-drawer>
   `,
   styles: [],
 })

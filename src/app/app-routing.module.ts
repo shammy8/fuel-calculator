@@ -1,9 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
 import { LoginComponent } from './login/login.component';
+import { MainAppComponent } from './main-app/main-app.component';
+import { AddCarComponent } from './main-app/add-car/add-car.component';
 
-const routes: Routes = [{ path: 'login', component: LoginComponent }];
+const routes: Routes = [
+  {
+    path: '',
+    component: MainAppComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['login'])),
+    children: [{ path: 'add', component: AddCarComponent }],
+  },
+  { path: 'login', component: LoginComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

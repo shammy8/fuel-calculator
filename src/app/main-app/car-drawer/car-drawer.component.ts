@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
@@ -11,7 +11,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
   templateUrl: './car-drawer.component.html',
   styleUrls: ['./car-drawer.component.scss'],
 })
-export class CarDrawerComponent implements OnInit {
+export class CarDrawerComponent implements OnInit, OnDestroy {
   cars$;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -25,6 +25,8 @@ export class CarDrawerComponent implements OnInit {
 
   @ViewChild('sidenav') drawer;
 
+  userSub: Subscription;
+
   constructor(
     private router: Router,
     private afs: AngularFirestore,
@@ -33,15 +35,23 @@ export class CarDrawerComponent implements OnInit {
     private ngZone: NgZone
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    const currentUser = await this.afAuth.currentUser;
-    this.cars$ = this.afs
-      .collection('cars', ref => ref.where('uid', '==', currentUser.uid))
-      .valueChanges();
+  ngOnInit(): void {
+    this.userSub = this.afAuth.user.subscribe(user => {
+      if (user) {
+        this.cars$ = this.afs
+          .collection('cars', ref => ref.where('uid', '==', user.uid))
+          .valueChanges();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
   }
 
   addCar() {
-    this.ngZone.run(() => this.router.navigate(['add']));
+    this.router.navigate(['add']);
+    // this.ngZone.run(() => this.router.navigate(['add']));
     this.handleCloseDrawer();
   }
 

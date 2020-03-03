@@ -3,10 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-main-app',
   template: `
-    <app-car-drawer>
-      <!--For the main-app-routing module -->
-      <router-outlet></router-outlet>
-    </app-car-drawer>
+    <router-outlet></router-outlet>
   `,
   styles: [],
 })
