@@ -36,4 +36,4 @@ const modules = [
   imports: [...modules],
   exports: [...modules, ...components],
 })
-export class SharedModule {}
+export class MaterialModule {}

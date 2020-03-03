@@ -10,7 +10,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 import { environment } from '../environments/environment';
-import { SharedModule } from './shared/shared.module';
+import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -30,7 +30,7 @@ import { AddCarComponent } from './main-app/add-car/add-car.component';
     BrowserModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    SharedModule,
+    MaterialModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
