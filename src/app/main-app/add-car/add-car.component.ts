@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { map } from 'rxjs/operators';
+
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-add-car',
@@ -17,7 +20,8 @@ export class AddCarComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private afs: AngularFirestore,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private databaseService: DatabaseService
   ) {}
 
   ngOnInit(): void {
@@ -32,9 +36,8 @@ export class AddCarComponent implements OnInit {
       ],
     });
 
-    this.afs
-      .doc('general/ui')
-      .valueChanges()
+    this.databaseService
+      .fetchUiElements()
       .pipe(
         map((res: { engineTypes: []; logos: [] }) => {
           this.engines = res.engineTypes;
@@ -44,11 +47,7 @@ export class AddCarComponent implements OnInit {
       .subscribe();
   }
 
-  async submitForm() {
-    const currentUser = await this.afAuth.currentUser;
-    this.afs.collection('cars').add({
-      ...this.addCarForm.value,
-      uid: currentUser.uid,
-    });
+  addVehicle() {
+    this.databaseService.addVehicle(this.addCarForm.value);
   }
 }

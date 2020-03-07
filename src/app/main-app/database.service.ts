@@ -12,6 +12,10 @@ import { User } from 'firebase';
 export class DatabaseService {
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
+  fetchUiElements() {
+    return this.afs.doc('general/ui').valueChanges();
+  }
+
   // fetch the cars of a particular user
   fetchCars() {
     return this.afAuth.user.pipe(
@@ -26,5 +30,13 @@ export class DatabaseService {
         }
       })
     );
+  }
+
+  async addVehicle(carData) {
+    const currentUser = await this.afAuth.currentUser;
+    return this.afs.collection('cars').add({
+      ...carData,
+      uid: currentUser.uid,
+    });
   }
 }
