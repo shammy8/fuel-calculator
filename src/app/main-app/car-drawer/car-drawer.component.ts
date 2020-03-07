@@ -1,20 +1,21 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable, Subscription, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-car-drawer',
   templateUrl: './car-drawer.component.html',
   styleUrls: ['./car-drawer.component.scss'],
 })
-export class CarDrawerComponent implements OnInit, OnDestroy {
-  cars$;
+export class CarDrawerComponent implements OnInit {
+  cars$: Observable<any>; // TODO change the any with the model
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(['(max-width: 780px)'])
@@ -27,35 +28,19 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
 
   @ViewChild('sidenav') drawer: MatSidenav;
 
-  userSub: Subscription;
-
   constructor(
     private router: Router,
-    private afs: AngularFirestore,
     public afAuth: AngularFireAuth,
-    private breakpointObserver: BreakpointObserver // private ngZone: NgZone
+    private breakpointObserver: BreakpointObserver,
+    private databaseService: DatabaseService
   ) {}
 
   ngOnInit(): void {
-    this.userSub = this.afAuth.user.subscribe(user => {
-      if (user) {
-        this.cars$ = this.afs
-          .collection('cars', ref => ref.where('uid', '==', user.uid))
-          .valueChanges();
-      } else {
-        // if user is logged out return empty array observable
-        this.cars$ = of([]);
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.userSub.unsubscribe();
+    this.cars$ = this.databaseService.fetchCars();
   }
 
   addCar() {
     this.router.navigate(['add']);
-    // this.ngZone.run(() => this.router.navigate(['add']));
     this.handleCloseDrawerOnClick();
   }
 
