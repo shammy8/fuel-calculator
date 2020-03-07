@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { DatabaseService } from '../database.service';
+import { Car } from '../Car.model';
 
 @Component({
   selector: 'app-car-drawer',
@@ -14,7 +15,7 @@ import { DatabaseService } from '../database.service';
   styleUrls: ['./car-drawer.component.scss'],
 })
 export class CarDrawerComponent implements OnInit {
-  cars$: Observable<any>; // TODO change the any to the car model
+  cars$: Observable<Car[]>;
   isHandset: boolean; // consider under 780px a handset screen
 
   @ViewChild('sidenav') drawer: MatSidenav;
