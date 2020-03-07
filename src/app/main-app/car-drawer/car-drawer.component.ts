@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 
@@ -15,16 +14,8 @@ import { DatabaseService } from '../database.service';
   styleUrls: ['./car-drawer.component.scss'],
 })
 export class CarDrawerComponent implements OnInit {
-  cars$: Observable<any>; // TODO change the any with the model
-
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(['(max-width: 780px)'])
-    .pipe(
-      map(result => {
-        return result.matches; // returns true if below 780px width
-      }),
-      shareReplay() // share the subscription among all the times we use async pipes
-    );
+  cars$: Observable<any>; // TODO change the any to the car model
+  isHandset: boolean; // consider under 780px a handset screen
 
   @ViewChild('sidenav') drawer: MatSidenav;
 
@@ -37,6 +28,10 @@ export class CarDrawerComponent implements OnInit {
 
   ngOnInit(): void {
     this.cars$ = this.databaseService.fetchCars();
+
+    this.breakpointObserver
+      .observe(['(max-width: 780px)'])
+      .subscribe(res => (this.isHandset = res.matches));
   }
 
   addCar() {
@@ -48,11 +43,9 @@ export class CarDrawerComponent implements OnInit {
     this.afAuth.signOut();
   }
 
+  // handles whether to close drawer after clicking on the buttons in side drawer
   handleCloseDrawerOnClick(): void {
-    let isHandset: boolean;
-    this.isHandset$.subscribe(res => (isHandset = res));
-
-    if (isHandset) {
+    if (this.isHandset) {
       this.drawer.close();
     }
   }

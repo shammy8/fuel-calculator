@@ -3,8 +3,8 @@
   <mat-sidenav
     #sidenav
     fixedInViewport
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(afAuth.user | async) && !(isHandset$ | async) ? true : false"
+    [mode]="isHandset ? 'over' : 'side'"
+    [opened]="(afAuth.user | async) && !isHandset ? true : false"
   >
     <mat-nav-list>
       <mat-toolbar>
