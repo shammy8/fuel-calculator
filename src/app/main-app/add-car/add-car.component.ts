@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { map } from 'rxjs/operators';
 
 import { DatabaseService } from '../database.service';
 
@@ -19,8 +16,6 @@ export class AddCarComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private afs: AngularFirestore,
-    private afAuth: AngularFireAuth,
     private databaseService: DatabaseService
   ) {}
 
@@ -29,9 +24,9 @@ export class AddCarComponent implements OnInit {
       name: ['', [Validators.required]],
       logo: '',
       engineType: '',
-      date: ['', [Validators.required]],
+      date: [new Date(), [Validators.required]],
       mileage: [
-        null,
+        0,
         [Validators.required, Validators.min(0), Validators.max(9999999)],
       ],
     });

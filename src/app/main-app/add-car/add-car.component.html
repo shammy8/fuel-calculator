@@ -2,7 +2,7 @@
   <form [formGroup]="addCarForm" (ngSubmit)="addVehicle()">
     <mat-form-field>
       <mat-label>Name of Car</mat-label>
-      <input matInput formControlName="name" />
+      <input matInput type="text" formControlName="name" />
     </mat-form-field>
 
     <mat-form-field>
@@ -32,12 +32,13 @@
       <input matInput [matDatepicker]="picker" formControlName="date" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker touchUi></mat-datepicker>
+      <mat-hint>The date at which the below mileage was recorded</mat-hint>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Current Mileage</mat-label>
       <input type="number" matInput formControlName="mileage" />
-      <mat-hint>Must be a postive number smaller than 9,999,999</mat-hint>
+      <mat-error>Must be a postive number smaller than 9,999,999</mat-error>
     </mat-form-field>
 
     <div class="buttons">
