@@ -17,25 +17,21 @@ export class DatabaseService {
     .valueChanges()
     .pipe(shareReplay());
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
+  // the cars of a particular user
+  cars$: Observable<Car[] | []> = this.afAuth.user.pipe(
+    switchMap((user: User) => {
+      if (user) {
+        return this.afs
+          .collection<Car[]>('cars', (ref) => ref.where('uid', '==', user.uid))
+          .valueChanges();
+      } else {
+        // if user is logged out return empty array observable
+        return of([]);
+      }
+    })
+  );
 
-  // fetch the cars of a particular user
-  fetchCars(): Observable<Car[] | []> {
-    return this.afAuth.user.pipe(
-      switchMap((user: User) => {
-        if (user) {
-          return this.afs
-            .collection<Car[]>('cars', (ref) =>
-              ref.where('uid', '==', user.uid)
-            )
-            .valueChanges();
-        } else {
-          // if user is logged out return empty array observable
-          return of([]);
-        }
-      })
-    );
-  }
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
   async addVehicle(carData: Car): Promise<DocumentReference> {
     const currentUser = await this.afAuth.currentUser;

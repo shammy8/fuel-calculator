@@ -15,7 +15,7 @@ import { Car } from '../Car.model';
   styleUrls: ['./car-drawer.component.scss'],
 })
 export class CarDrawerComponent implements OnInit {
-  cars$: Observable<Car[]>;
+  cars$: Observable<Car[]> = this.databaseService.cars$;
   isHandset: boolean; // consider under 780px a handset screen
 
   @ViewChild('sidenav') drawer: MatSidenav;
@@ -28,11 +28,9 @@ export class CarDrawerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cars$ = this.databaseService.fetchCars();
-
     this.breakpointObserver
       .observe(['(max-width: 780px)'])
-      .subscribe(res => (this.isHandset = res.matches));
+      .subscribe((res) => (this.isHandset = res.matches));
   }
 
   addCar() {
