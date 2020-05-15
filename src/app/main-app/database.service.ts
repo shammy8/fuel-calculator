@@ -6,13 +6,15 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { User } from 'firebase';
 
-import { Car } from './Car.model';
+import { Car, UIElements } from './Car.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DatabaseService {
-  uiElements$: Observable<any> = this.afs.doc('general/ui').valueChanges();
+  uiElements$: Observable<UIElements> = this.afs
+    .doc('general/ui')
+    .valueChanges();
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 

@@ -10,3 +10,8 @@ export interface Car {
   uid?: string;
   fuellingHistory?: AngularFirestoreCollection;
 }
+
+export interface UIElements {
+  engineTypes?: { label: string; value: string }[];
+  logo?: string[];
+}

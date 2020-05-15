@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { map, tap } from 'rxjs/operators';
+
+import { Observable } from 'rxjs';
 
 import { DatabaseService } from '../database.service';
-import { Observable } from 'rxjs';
+import { UIElements } from '../Car.model';
 
 @Component({
   selector: 'app-add-car',
@@ -13,7 +14,7 @@ import { Observable } from 'rxjs';
 export class AddCarComponent implements OnInit {
   addCarForm: FormGroup;
 
-  uiElements$: Observable<any> = this.databaseService.uiElements$;
+  uiElements$: Observable<UIElements> = this.databaseService.uiElements$;
 
   constructor(
     private fb: FormBuilder,
