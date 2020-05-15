@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { Observable } from 'rxjs';
 
 import { DatabaseService } from '../database.service';
@@ -34,7 +33,7 @@ export class AddCarComponent implements OnInit {
     });
   }
 
-  addVehicle() {
+  addVehicle(): void {
     this.databaseService.addVehicle(this.addCarForm.value);
   }
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, shareReplay } from 'rxjs/operators';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { User } from 'firebase';
 
 import { Car, UIElements } from './Car.model';
@@ -14,7 +14,8 @@ import { Car, UIElements } from './Car.model';
 export class DatabaseService {
   uiElements$: Observable<UIElements> = this.afs
     .doc('general/ui')
-    .valueChanges();
+    .valueChanges()
+    .pipe(shareReplay());
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
@@ -36,7 +37,7 @@ export class DatabaseService {
     );
   }
 
-  async addVehicle(carData: Car) {
+  async addVehicle(carData: Car): Promise<DocumentReference> {
     const currentUser = await this.afAuth.currentUser;
     return this.afs.collection('cars').add({
       ...carData,
