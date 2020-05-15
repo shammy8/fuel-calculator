@@ -12,11 +12,9 @@ import { Car } from './Car.model';
   providedIn: 'root',
 })
 export class DatabaseService {
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
+  uiElements$: Observable<any> = this.afs.doc('general/ui').valueChanges();
 
-  fetchUiElements() {
-    return this.afs.doc('general/ui').valueChanges();
-  }
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
   // fetch the cars of a particular user
   fetchCars(): Observable<Car[] | []> {
@@ -24,7 +22,9 @@ export class DatabaseService {
       switchMap((user: User) => {
         if (user) {
           return this.afs
-            .collection<Car[]>('cars', ref => ref.where('uid', '==', user.uid))
+            .collection<Car[]>('cars', (ref) =>
+              ref.where('uid', '==', user.uid)
+            )
             .valueChanges();
         } else {
           // if user is logged out return empty array observable

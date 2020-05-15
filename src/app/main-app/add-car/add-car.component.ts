@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { DatabaseService } from '../database.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-car',
@@ -11,8 +12,8 @@ import { DatabaseService } from '../database.service';
 })
 export class AddCarComponent implements OnInit {
   addCarForm: FormGroup;
-  engines;
-  logos;
+
+  uiElements$: Observable<any> = this.databaseService.uiElements$;
 
   constructor(
     private fb: FormBuilder,
@@ -30,16 +31,6 @@ export class AddCarComponent implements OnInit {
         [Validators.required, Validators.min(0), Validators.max(9999999)],
       ],
     });
-
-    this.databaseService
-      .fetchUiElements()
-      .pipe(
-        map((res: { engineTypes: []; logos: [] }) => {
-          this.engines = res.engineTypes;
-          this.logos = res.logos;
-        })
-      )
-      .subscribe();
   }
 
   addVehicle() {

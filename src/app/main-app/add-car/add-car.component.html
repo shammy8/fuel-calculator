@@ -1,5 +1,9 @@
 <mat-card>
-  <form [formGroup]="addCarForm" (ngSubmit)="addVehicle()">
+  <form
+    *ngIf="uiElements$ | async as uiElements"
+    [formGroup]="addCarForm"
+    (ngSubmit)="addVehicle()"
+  >
     <mat-form-field>
       <mat-label>Name of Car</mat-label>
       <input matInput type="text" formControlName="name" />
@@ -9,7 +13,7 @@
       <mat-label>Logo</mat-label>
       <mat-select formControlName="logo">
         <mat-option
-          *ngFor="let logo of logos"
+          *ngFor="let logo of uiElements.logos"
           [value]="logo"
           style="font-size: 25px;"
         >
@@ -21,7 +25,10 @@
     <mat-form-field>
       <mat-label>Engine Type</mat-label>
       <mat-select formControlName="engineType">
-        <mat-option *ngFor="let engine of engines" [value]="engine.value">
+        <mat-option
+          *ngFor="let engine of uiElements.engineTypes"
+          [value]="engine.value"
+        >
           {{ engine.label }}
         </mat-option>
       </mat-select>
