@@ -13,5 +13,5 @@ export interface Car {
 
 export interface UIElements {
   engineTypes?: { label: string; value: string }[];
-  logo?: string[];
+  logos?: string[];
 }
