@@ -42,6 +42,11 @@ export class CarDrawerComponent implements OnInit {
     this.afAuth.signOut();
   }
 
+  onCarClick(car) {
+    console.log(car);
+    this.handleCloseDrawerOnClick();
+  }
+
   // handles whether to close drawer after clicking on the buttons in side drawer
   handleCloseDrawerOnClick(): void {
     if (this.isHandset) {

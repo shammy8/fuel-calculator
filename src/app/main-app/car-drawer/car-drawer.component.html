@@ -23,7 +23,7 @@
       <a
         mat-list-item
         *ngFor="let car of cars$ | async"
-        (click)="handleCloseDrawerOnClick()"
+        (click)="onCarClick(car)"
         >{{ car.logo }} {{ car.name }}
       </a>
     </mat-nav-list>
