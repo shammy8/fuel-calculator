@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CarDrawerComponent } from './main-app/car-drawer/car-drawer.component';
-import { MainAppComponent } from './main-app/main-app.component';
+import { DashboardComponent } from './main-app/dashboard.component';
 import { AddCarComponent } from './main-app/add-car/add-car.component';
 
 @NgModule({
@@ -23,7 +23,7 @@ import { AddCarComponent } from './main-app/add-car/add-car.component';
     AppComponent,
     LoginComponent,
     CarDrawerComponent,
-    MainAppComponent,
+    DashboardComponent,
     AddCarComponent,
   ],
   imports: [

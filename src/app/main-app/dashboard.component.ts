@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main-app',
-  template: `
-    <router-outlet></router-outlet>
-  `,
+  template: ` <router-outlet></router-outlet> `,
   styles: [],
 })
-export class MainAppComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
