@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { DatabaseService } from '../database.service';
 import { UIElements } from '../Car.model';
@@ -17,7 +18,8 @@ export class AddCarComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +36,12 @@ export class AddCarComponent implements OnInit {
   }
 
   addVehicle(): void {
-    this.databaseService.addVehicle(this.addCarForm.value);
+    this.databaseService.addVehicle(this.addCarForm.value).then((res) => {
+      if (!res) {
+        return;
+      }
+      this.router.navigate(['']);
+    });
   }
 
   onReset() {
