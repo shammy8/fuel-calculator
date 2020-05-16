@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main-app',
-  template: ` <router-outlet></router-outlet> `,
+  template: ` <app-car-overview></app-car-overview> `,
   styles: [],
 })
 export class DashboardComponent implements OnInit {

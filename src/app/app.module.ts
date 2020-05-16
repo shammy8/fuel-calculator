@@ -17,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { CarDrawerComponent } from './main-app/car-drawer/car-drawer.component';
 import { DashboardComponent } from './main-app/dashboard.component';
 import { AddCarComponent } from './main-app/add-car/add-car.component';
+import { CarOverviewComponent } from './main-app/car-overview/car-overview.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AddCarComponent } from './main-app/add-car/add-car.component';
     CarDrawerComponent,
     DashboardComponent,
     AddCarComponent,
+    CarOverviewComponent,
   ],
   imports: [
     BrowserModule,
