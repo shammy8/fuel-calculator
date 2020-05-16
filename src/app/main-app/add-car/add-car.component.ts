@@ -36,4 +36,9 @@ export class AddCarComponent implements OnInit {
   addVehicle(): void {
     this.databaseService.addVehicle(this.addCarForm.value);
   }
+
+  onReset() {
+    this.addCarForm.reset();
+    this.addCarForm.patchValue({ date: new Date(), mileage: 0 });
+  }
 }
