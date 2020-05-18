@@ -28,10 +28,6 @@ export class AddCarComponent implements OnInit {
       logo: '',
       engineType: '',
       date: [new Date(), [Validators.required]],
-      mileage: [
-        0,
-        [Validators.required, Validators.min(0), Validators.max(9999999)],
-      ],
     });
   }
 
