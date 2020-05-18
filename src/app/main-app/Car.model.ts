@@ -2,12 +2,11 @@ export interface Car {
   dateAdded?: Date;
   date?: Date;
   engineType?: string;
+  fuellingHistory?: FuelHistory[];
+  latestHistory: FuelHistory;
   logo?: string;
-  mileage?: number;
   name?: string;
   uid?: string;
-  latestHistory: FuelHistory;
-  fuellingHistory?: FuelHistory[];
 }
 
 export interface FuelHistory {
