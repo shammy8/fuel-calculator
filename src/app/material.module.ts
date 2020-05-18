@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const components = [];
 const modules = [
@@ -29,6 +30,7 @@ const modules = [
   MatFormFieldModule,
   MatSelectModule,
   MatCardModule,
+  MatProgressBarModule,
 ];
 
 @NgModule({

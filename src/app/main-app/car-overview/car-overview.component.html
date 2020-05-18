@@ -1,3 +1,19 @@
 <mat-card>
-  <p>{{ carDetails | json }}</p>
+  <mat-card-title
+    >{{ carDetails.logo }} {{ carDetails.name }}
+    <div class="fill-space"></div>
+    <p>{{ carDetails.latestHistory.avgMilesPerVolume }}mpg</p>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="avgMilesPerVolumePercentage"
+      color="primary"
+    ></mat-progress-bar>
+  </mat-card-content>
+  <mat-card-actions
+    ><button mat-raised-button color="primary">
+      History
+    </button></mat-card-actions
+  >
 </mat-card>

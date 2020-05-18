@@ -6,13 +6,13 @@ export interface Car {
   mileage?: number;
   name?: string;
   uid?: string;
-  LatestHistory: FuelHistory;
+  latestHistory: FuelHistory;
   fuellingHistory?: FuelHistory[];
 }
 
 export interface FuelHistory {
+  avgMilesPerVolume: number;
   avgPricePerMile: number;
-  avgPricePerVolume: number;
   comment: string;
   cost: 40;
   costSinceRecordsBegan: number;
