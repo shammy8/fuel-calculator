@@ -1,5 +1,3 @@
-import { AngularFirestoreCollection } from '@angular/fire/firestore/public_api';
-
 export interface Car {
   dateAdded?: Date;
   date?: Date;
@@ -8,7 +6,21 @@ export interface Car {
   mileage?: number;
   name?: string;
   uid?: string;
-  fuellingHistory?: AngularFirestoreCollection;
+  LatestHistory: FuelHistory;
+  fuellingHistory?: FuelHistory[];
+}
+
+export interface FuelHistory {
+  avgPricePerMile: number;
+  avgPricePerVolume: number;
+  comment: string;
+  cost: 40;
+  costSinceRecordsBegan: number;
+  date: Date;
+  mileage: number;
+  mileageSinceRecordsBegan: number;
+  volume: number;
+  volumeSinceRecordsBegan: number;
 }
 
 export interface UIElements {
