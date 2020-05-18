@@ -5,11 +5,17 @@
     <p>{{ carDetails.latestHistory.avgMilesPerVolume }}mpg</p>
   </mat-card-title>
   <mat-card-content>
-    <mat-progress-bar
-      mode="determinate"
-      [value]="avgMilesPerVolumePercentage"
-      color="primary"
-    ></mat-progress-bar>
+    <app-efficiency-bar
+      [value]="carDetails.latestHistory.avgMilesPerVolume"
+      [upperLimit]="avgMilesPerVolumeUpperLimit"
+      [lowerLimit]="avgMilesPerVolumeLowerLimit"
+    ></app-efficiency-bar>
+
+    <app-efficiency-bar
+      [value]="carDetails.latestHistory.avgPricePerMile"
+      [upperLimit]="avgPricePerMileUpperLimit"
+      [lowerLimit]="avgPricePerMileLowerLimit"
+    ></app-efficiency-bar>
   </mat-card-content>
   <mat-card-actions
     ><button mat-raised-button color="primary">
