@@ -13,6 +13,7 @@ import {
 })
 export class EfficiencyBarComponent implements OnInit {
   @Input() value: number;
+  @Input() unit: string;
   @Input() upperLimit: number;
   @Input() lowerLimit: number;
 

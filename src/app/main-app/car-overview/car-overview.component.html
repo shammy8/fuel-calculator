@@ -2,17 +2,18 @@
   <mat-card-title
     >{{ carDetails.logo }} {{ carDetails.name }}
     <div class="fill-space"></div>
-    <p>{{ carDetails.latestHistory.avgMilesPerVolume }}mpg</p>
   </mat-card-title>
   <mat-card-content>
     <app-efficiency-bar
       [value]="carDetails.latestHistory.avgMilesPerVolume"
+      unit="litres/mile"
       [upperLimit]="avgMilesPerVolumeUpperLimit"
       [lowerLimit]="avgMilesPerVolumeLowerLimit"
     ></app-efficiency-bar>
 
     <app-efficiency-bar
       [value]="carDetails.latestHistory.avgPricePerMile"
+      unit="£/mile"
       [upperLimit]="avgPricePerMileUpperLimit"
       [lowerLimit]="avgPricePerMileLowerLimit"
     ></app-efficiency-bar>
