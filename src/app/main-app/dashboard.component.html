@@ -1,0 +1,17 @@
+<div class="add-car-button">
+  <button
+    mat-mini-fab
+    color="primary"
+    (click)="onAdd()"
+    [disabled]="addClicked"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<app-add-car *ngIf="addClicked" (cancel)="addClicked = false"></app-add-car>
+<div *ngIf="cars$ | async as cars">
+  <app-car-overview
+    *ngFor="let car of cars"
+    [carDetails]="car"
+  ></app-car-overview>
+</div>

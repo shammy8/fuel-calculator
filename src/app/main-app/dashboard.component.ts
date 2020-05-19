@@ -6,20 +6,19 @@ import { DatabaseService } from './database.service';
 
 @Component({
   selector: 'app-main-app',
-  template: `
-    <div *ngIf="cars$ | async as cars">
-      <app-car-overview
-        *ngFor="let car of cars"
-        [carDetails]="car"
-      ></app-car-overview>
-    </div>
-  `,
-  styles: [],
+  templateUrl: 'dashboard.component.html',
+  styleUrls: ['dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   cars$: Observable<Car[]> = this.databaseService.cars$;
+  addClicked = false;
 
   constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {}
+
+  onAdd() {
+    this.addClicked = true;
+    console.log(this.addClicked);
+  }
 }
