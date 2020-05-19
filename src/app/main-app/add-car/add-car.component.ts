@@ -27,7 +27,6 @@ export class AddCarComponent implements OnInit {
       name: ['', [Validators.required]],
       logo: '',
       engineType: '',
-      date: [new Date(), [Validators.required]],
     });
   }
 
@@ -42,6 +41,5 @@ export class AddCarComponent implements OnInit {
 
   onReset() {
     this.addCarForm.reset();
-    this.addCarForm.patchValue({ date: new Date(), mileage: 0 });
   }
 }

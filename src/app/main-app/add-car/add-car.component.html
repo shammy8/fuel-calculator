@@ -34,14 +34,6 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Current Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date" />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker touchUi></mat-datepicker>
-      <mat-hint>The date at which the below mileage was recorded</mat-hint>
-    </mat-form-field>
-
     <div class="buttons">
       <button type="button" mat-button (click)="onReset()">Reset</button>
       <button
