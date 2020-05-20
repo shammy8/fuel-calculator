@@ -13,7 +13,7 @@ import { AddCarComponent } from './main-app/add-car/add-car.component';
 const routes: Routes = [
   {
     path: '',
-    ...canActivate(() => redirectUnauthorizedTo(['login'])),
+    // ...canActivate(() => redirectUnauthorizedTo(['login'])),
     children: [
       { path: '', component: DashboardComponent },
       { path: 'add', component: AddCarComponent },
@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    ...canActivate(() => redirectLoggedInTo([''])),
+    // ...canActivate(() => redirectLoggedInTo([''])),
   },
 ];
 
