@@ -37,7 +37,8 @@ export class AddCarComponent implements OnInit {
       if (!res) {
         return;
       }
-      this.router.navigate(['']);
+      this.onCancel();
+      // this.router.navigate(['']);
     });
   }
 

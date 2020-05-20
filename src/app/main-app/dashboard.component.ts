@@ -11,14 +11,13 @@ import { DatabaseService } from './database.service';
 })
 export class DashboardComponent implements OnInit {
   cars$: Observable<Car[]> = this.databaseService.cars$;
-  addClicked = false;
+  showAddCarComponent = false;
 
   constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {}
 
   onAdd() {
-    this.addClicked = true;
-    console.log(this.addClicked);
+    this.showAddCarComponent = true;
   }
 }
