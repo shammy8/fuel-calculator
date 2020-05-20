@@ -1,55 +1,59 @@
-<mat-sidenav-container>
-  <!-- open sidenav if logged in and not on handset -->
-  <mat-sidenav
-    #sidenav
-    fixedInViewport
-    [mode]="isHandset ? 'over' : 'side'"
-    [opened]="(afAuth.user | async) && !isHandset ? true : false"
-  >
-    <mat-nav-list>
+<div class="app-container">
+  <mat-sidenav-container>
+    <!-- open sidenav if logged in and not on handset -->
+    <mat-sidenav
+      #sidenav
+      fixedInViewport
+      [mode]="isHandset ? 'over' : 'side'"
+      [opened]="(afAuth.user | async) && !isHandset ? true : false"
+    >
+      <mat-nav-list>
+        <mat-toolbar>
+          <div>
+            🚗 Your Vehicles
+          </div>
+          <button
+            type="button"
+            mat-icon-button
+            matTooltip="Add a new car"
+            (click)="addCar()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-toolbar>
+        <a
+          mat-list-item
+          *ngFor="let car of cars$ | async"
+          (click)="onCarClick(car)"
+          >{{ car.logo }} {{ car.name }}
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
       <mat-toolbar>
-        <div>
-          🚗 Your Vehicles
-        </div>
         <button
+          *ngIf="afAuth.user | async"
           type="button"
           mat-icon-button
-          matTooltip="Add a new car"
-          (click)="addCar()"
+          (click)="sidenav.toggle()"
         >
-          <mat-icon>add</mat-icon>
+          <mat-icon>menu</mat-icon>
+        </button>
+        ⛽ Fuelling Dashboard
+        <div class="fill-space"></div>
+        <button
+          *ngIf="afAuth.user | async"
+          mat-icon-button
+          (click)="signOut()"
+          matTooltip="Sign Out"
+        >
+          <mat-icon>exit_to_app</mat-icon>
         </button>
       </mat-toolbar>
-      <a
-        mat-list-item
-        *ngFor="let car of cars$ | async"
-        (click)="onCarClick(car)"
-        >{{ car.logo }} {{ car.name }}
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <mat-toolbar>
-      <button
-        *ngIf="afAuth.user | async"
-        type="button"
-        mat-icon-button
-        (click)="sidenav.toggle()"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-      ⛽ Fuelling Dashboard
-      <div class="fill-space"></div>
-      <button
-        *ngIf="afAuth.user | async"
-        mat-icon-button
-        (click)="signOut()"
-        matTooltip="Sign Out"
-      >
-        <mat-icon>exit_to_app</mat-icon>
-      </button>
-    </mat-toolbar>
-    <ng-content></ng-content>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+      <div class="app-body">
+        <ng-content></ng-content>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

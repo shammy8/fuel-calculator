@@ -1,3 +1,11 @@
+.app-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 mat-sidenav-container {
   height: 100%;
 }
@@ -15,6 +23,15 @@ mat-sidenav {
     font-size: 18px;
     background: rgb(54, 71, 224);
   }
+}
+
+.app-body {
+  overflow: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 64px;
 }
 
 .fill-space {
