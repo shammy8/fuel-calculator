@@ -22,22 +22,30 @@
       <div class="total">
         <p class="lighter">Total mileage</p>
         <span class="mat-display-1">
-          {{ carDetails.latestHistory.mileageSinceRecordsBegan }}
+          {{
+            carDetails.latestHistory.mileageSinceRecordsBegan | number: '1.0-0'
+          }}
         </span>
-        <span class="lighter">m</span>
+        <span class="lighter">mi.</span>
       </div>
+
       <div class="total">
         <p class="lighter">Total volume</p>
         <span class="mat-display-1">
-          {{ carDetails.latestHistory.volumeSinceRecordsBegan }}
+          {{
+            carDetails.latestHistory.volumeSinceRecordsBegan | number: '1.2-2'
+          }}
         </span>
         <span class="lighter">l</span>
       </div>
+
       <div class="total">
         <p class="lighter">Total cost</p>
         <span class="lighter">£</span>
         <span class="mat-display-1">
-          {{ carDetails.latestHistory.costSinceRecordsBegan }}
+          {{
+            carDetails.latestHistory.costSinceRecordsBegan | currency: 'GBP':''
+          }}
         </span>
       </div>
     </div>
