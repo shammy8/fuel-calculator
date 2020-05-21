@@ -19,6 +19,7 @@ import { DashboardComponent } from './main-app/dashboard.component';
 import { AddCarComponent } from './main-app/add-car/add-car.component';
 import { CarOverviewComponent } from './main-app/car-overview/car-overview.component';
 import { EfficiencyBarComponent } from './main-app/efficiency-bar/efficiency-bar.component';
+import { AddHistoryComponent } from './main-app/add-history/add-history.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { EfficiencyBarComponent } from './main-app/efficiency-bar/efficiency-bar
     AddCarComponent,
     CarOverviewComponent,
     EfficiencyBarComponent,
+    AddHistoryComponent,
   ],
   imports: [
     BrowserModule,

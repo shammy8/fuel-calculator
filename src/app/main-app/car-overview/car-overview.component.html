@@ -50,9 +50,12 @@
       </div>
     </div>
   </mat-card-content>
-  <mat-card-actions
-    ><button mat-raised-button color="primary">
+  <mat-card-actions>
+    <button mat-raised-button color="primary">
       History
-    </button></mat-card-actions
-  >
+    </button>
+    <button mat-raised-button (click)="onAddFuel()" color="primary">
+      Add Fuel
+    </button>
+  </mat-card-actions>
 </mat-card>

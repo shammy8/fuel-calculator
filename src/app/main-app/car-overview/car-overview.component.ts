@@ -1,5 +1,8 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+
 import { Car } from '../Car.model';
+import { AddHistoryComponent } from '../add-history/add-history.component';
 
 @Component({
   selector: 'app-car-overview',
@@ -15,4 +18,14 @@ export class CarOverviewComponent {
 
   avgPricePerMileUpperLimit = 0.5;
   avgPricePerMileLowerLimit = 0;
+
+  constructor(private bottomSheet: MatBottomSheet) {}
+
+  onAddFuel() {
+    const addHistoryRef = this.bottomSheet.open(AddHistoryComponent, {
+      data: this.carDetails,
+    });
+
+    addHistoryRef.afterDismissed().subscribe(console.log);
+  }
 }
