@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Car } from './Car.model';
@@ -9,15 +9,8 @@ import { DatabaseService } from './database.service';
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   cars$: Observable<Car[]> = this.databaseService.cars$;
-  showAddCarComponent = false;
 
   constructor(private databaseService: DatabaseService) {}
-
-  ngOnInit(): void {}
-
-  onAdd() {
-    this.showAddCarComponent = true;
-  }
 }

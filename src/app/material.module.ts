@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 const components = [];
 const modules = [
@@ -31,6 +32,7 @@ const modules = [
   MatSelectModule,
   MatCardModule,
   MatProgressBarModule,
+  MatBottomSheetModule,
 ];
 
 @NgModule({

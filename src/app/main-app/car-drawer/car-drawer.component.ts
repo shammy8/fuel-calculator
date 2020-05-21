@@ -3,11 +3,13 @@ import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { DatabaseService } from '../database.service';
 import { Car } from '../Car.model';
+import { AddCarComponent } from '../add-car/add-car.component';
 
 @Component({
   selector: 'app-car-drawer',
@@ -24,7 +26,8 @@ export class CarDrawerComponent implements OnInit {
     private router: Router,
     public afAuth: AngularFireAuth,
     private breakpointObserver: BreakpointObserver,
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private addCarBottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +37,7 @@ export class CarDrawerComponent implements OnInit {
   }
 
   addCar() {
-    this.router.navigate(['add']);
+    this.addCarBottomSheet.open(AddCarComponent);
     this.handleCloseDrawerOnClick();
   }
 
