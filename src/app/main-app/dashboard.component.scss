@@ -2,3 +2,10 @@
   text-align: center;
   margin-top: 8px;
 }
+
+.car-overviews-container {
+  display: grid;
+  gap: 1rem;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 600px));
+}

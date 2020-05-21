@@ -14,7 +14,7 @@
   *ngIf="showAddCarComponent"
   (cancel)="showAddCarComponent = false"
 ></app-add-car>
-<div *ngIf="cars$ | async as cars">
+<div *ngIf="cars$ | async as cars" class="car-overviews-container">
   <app-car-overview
     *ngFor="let car of cars"
     [carDetails]="car"
