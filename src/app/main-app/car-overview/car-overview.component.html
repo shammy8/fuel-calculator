@@ -1,8 +1,6 @@
 <mat-card>
-  <mat-card-title
-    >{{ carDetails.logo }} {{ carDetails.name }}
-    <div class="fill-space"></div>
-  </mat-card-title>
+  <mat-card-title>{{ carDetails.logo }} {{ carDetails.name }} </mat-card-title>
+
   <mat-card-content>
     <app-efficiency-bar
       *ngIf="carDetails.latestHistory?.avgMilesPerVolume"
@@ -19,6 +17,30 @@
       [upperLimit]="avgPricePerMileUpperLimit"
       [lowerLimit]="avgPricePerMileLowerLimit"
     ></app-efficiency-bar>
+
+    <div class="totals" *ngIf="carDetails.latestHistory">
+      <div class="total">
+        <p class="lighter">Total mileage</p>
+        <span class="mat-display-1">
+          {{ carDetails.latestHistory.mileageSinceRecordsBegan }}
+        </span>
+        <span class="lighter">m</span>
+      </div>
+      <div class="total">
+        <p class="lighter">Total volume</p>
+        <span class="mat-display-1">
+          {{ carDetails.latestHistory.volumeSinceRecordsBegan }}
+        </span>
+        <span class="lighter">l</span>
+      </div>
+      <div class="total">
+        <p class="lighter">Total cost</p>
+        <span class="lighter">£</span>
+        <span class="mat-display-1">
+          {{ carDetails.latestHistory.costSinceRecordsBegan }}
+        </span>
+      </div>
+    </div>
   </mat-card-content>
   <mat-card-actions
     ><button mat-raised-button color="primary">

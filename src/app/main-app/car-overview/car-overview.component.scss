@@ -10,6 +10,25 @@ mat-card-title {
   margin-bottom: 30px;
 }
 
-.fill-space {
-  flex: 1 1 auto;
+.totals {
+  display: flex;
+  justify-content: space-between;
+
+  .total {
+    text-align: center;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .mat-display-1 {
+    margin-bottom: 0;
+    margin-right: -6px;
+    margin-left: -6px;
+  }
+
+  .lighter {
+    opacity: 0.5;
+  }
 }
