@@ -1,26 +1,39 @@
 <div class="container">
-  <div class="mat-title">{{ carDetails.logo }}{{ carDetails.name }}</div>
+  <div class="mat-title">{{ carDetails.logo }} {{ carDetails.name }}</div>
   <form [formGroup]="addFuelForm" (ngSubmit)="addFuel()">
     <mat-form-field>
       <mat-label>Current Mileage</mat-label>
       <input matInput type="number" formControlName="mileage" />
+      <mat-hint>Current mileage of the vehicle</mat-hint>
+      <mat-error
+        *ngIf="this.addFuelForm.get('mileage').errors?.greaterThanPrevious"
+        >Must be the same or equal to the previous mileage of
+        {{ carDetails.latestHistory.mileage }}</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Volume Added</mat-label>
+      <mat-label>Volume Fuelled (litres)</mat-label>
       <input matInput type="number" formControlName="volume" />
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Cost</mat-label>
+      <mat-label>Cost (£)</mat-label>
       <input matInput type="number" formControlName="cost" />
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Date Added</mat-label>
+      <mat-label>Date Fuelled</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="date" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker touchUi></mat-datepicker>
+      <mat-error
+        *ngIf="this.addFuelForm.get('date').errors?.greaterThanPrevious"
+        >Must be the same day or after the previous fuelling of
+        {{
+          carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy'
+        }}</mat-error
+      >
     </mat-form-field>
 
     <mat-form-field>
