@@ -1,1 +1,46 @@
-{{ carDetails.name }}
+<div class="mat-title">{{ carDetails.logo }}{{ carDetails.name }}</div>
+<form [formGroup]="addFuelForm" (ngSubmit)="addFuel()">
+  <mat-form-field>
+    <mat-label>Current Mileage</mat-label>
+    <input matInput type="number" formControlName="mileage" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Volume Added</mat-label>
+    <input matInput type="number" formControlName="volume" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Cost</mat-label>
+    <input matInput type="number" formControlName="cost" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Date Added</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker touchUi></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Comments</mat-label>
+    <textarea
+      matInput
+      formControlName="comments"
+      placeholder="Ex. It makes me feel..."
+    ></textarea>
+  </mat-form-field>
+
+  <div class="buttons">
+    <button type="button" mat-button (click)="onCancel($event)">Cancel</button>
+    <button type="button" mat-button (click)="onReset()">Reset</button>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="addFuelForm.invalid"
+    >
+      Add Fuel
+    </button>
+  </div>
+</form>
