@@ -1,48 +1,52 @@
-<form
-  *ngIf="uiElements$ | async as uiElements"
-  [formGroup]="addCarForm"
-  (ngSubmit)="addVehicle()"
->
-  <mat-form-field>
-    <mat-label>Name of Car</mat-label>
-    <input matInput type="text" formControlName="name" />
-  </mat-form-field>
+<div class="container">
+  <form
+    *ngIf="uiElements$ | async as uiElements"
+    [formGroup]="addCarForm"
+    (ngSubmit)="addVehicle()"
+  >
+    <mat-form-field>
+      <mat-label>Name of Car</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Logo</mat-label>
-    <mat-select formControlName="logo">
-      <mat-option
-        *ngFor="let logo of uiElements.logos"
-        [value]="logo"
-        style="font-size: 25px;"
+    <mat-form-field>
+      <mat-label>Logo</mat-label>
+      <mat-select formControlName="logo">
+        <mat-option
+          *ngFor="let logo of uiElements.logos"
+          [value]="logo"
+          style="font-size: 25px;"
+        >
+          {{ logo }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Engine Type</mat-label>
+      <mat-select formControlName="engineType">
+        <mat-option
+          *ngFor="let engine of uiElements.engineTypes"
+          [value]="engine.value"
+        >
+          {{ engine.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="buttons">
+      <button type="button" mat-button (click)="onCancel($event)">
+        Cancel
+      </button>
+      <button type="button" mat-button (click)="onReset()">Reset</button>
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="addCarForm.invalid"
       >
-        {{ logo }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Engine Type</mat-label>
-    <mat-select formControlName="engineType">
-      <mat-option
-        *ngFor="let engine of uiElements.engineTypes"
-        [value]="engine.value"
-      >
-        {{ engine.label }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <div class="buttons">
-    <button type="button" mat-button (click)="onCancel($event)">Cancel</button>
-    <button type="button" mat-button (click)="onReset()">Reset</button>
-    <button
-      type="submit"
-      mat-raised-button
-      color="primary"
-      [disabled]="addCarForm.invalid"
-    >
-      Add Vehicle
-    </button>
-  </div>
-</form>
+        Add Vehicle
+      </button>
+    </div>
+  </form>
+</div>

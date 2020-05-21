@@ -35,7 +35,7 @@ export class CarDrawerComponent implements OnInit {
   }
 
   addCar() {
-    this.addCarBottomSheet.open(AddCarComponent);
+    this.addCarBottomSheet.open(AddCarComponent, { autoFocus: true });
     this.handleCloseDrawerOnClick();
   }
 

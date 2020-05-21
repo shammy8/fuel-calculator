@@ -24,6 +24,7 @@ export class CarOverviewComponent {
   onAddFuel() {
     const addHistoryRef = this.bottomSheet.open(AddHistoryComponent, {
       data: this.carDetails,
+      autoFocus: true,
     });
 
     addHistoryRef.afterDismissed().subscribe(console.log);
