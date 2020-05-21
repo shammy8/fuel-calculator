@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
@@ -23,7 +22,6 @@ export class CarDrawerComponent implements OnInit {
   @ViewChild('sidenav') drawer: MatSidenav;
 
   constructor(
-    private router: Router,
     public afAuth: AngularFireAuth,
     private breakpointObserver: BreakpointObserver,
     private databaseService: DatabaseService,

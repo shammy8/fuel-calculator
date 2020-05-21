@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 import { DatabaseService } from '../database.service';
@@ -20,7 +19,6 @@ export class AddCarComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private databaseService: DatabaseService,
-    private router: Router,
     private bottomSheetRef: MatBottomSheetRef<AddCarComponent>
   ) {}
 
