@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -16,8 +16,6 @@ export class AddCarComponent implements OnInit {
   addCarForm: FormGroup;
 
   uiElements$: Observable<UIElements> = this.databaseService.uiElements$;
-
-  @Output() cancel = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +37,7 @@ export class AddCarComponent implements OnInit {
       if (!res) {
         return;
       }
-      this.onCancel();
+      this.bottomSheetRef.dismiss();
       // this.router.navigate(['']);
     });
   }
@@ -48,7 +46,8 @@ export class AddCarComponent implements OnInit {
     this.addCarForm.reset();
   }
 
-  onCancel() {
-    this.cancel.emit();
+  onCancel(event: MouseEvent) {
+    this.bottomSheetRef.dismiss();
+    event.preventDefault(); // copying the docs
   }
 }
