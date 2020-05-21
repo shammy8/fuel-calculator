@@ -1,8 +1,8 @@
-import { Timestamp } from '@google-cloud/firestore';
+// import { Timestamp } from '@google-cloud/firestore';
 
 export interface Car {
-  dateAdded?: Timestamp;
-  date?: Timestamp;
+  dateAdded?: any; // Timestamp;
+  date?: any; // Timestamp;
   engineType?: string;
   fuellingHistory?: FuelHistory[];
   latestHistory: FuelHistory;
@@ -17,7 +17,7 @@ export interface FuelHistory {
   comment: string;
   cost: 40;
   costSinceRecordsBegan: number;
-  date: Timestamp;
+  date: any; // Timestamp;
   mileage: number;
   mileageSinceRecordsBegan: number;
   volume: number;
