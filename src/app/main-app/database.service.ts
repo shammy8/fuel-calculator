@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { User } from 'firebase';
 
-import { Car, UIElements } from './Car.model';
+import { Car, FuelHistory, UIElements } from './Car.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,9 @@ export class DatabaseService {
     const currentUser = await this.afAuth.currentUser;
     return this.afs.collection('cars').add({
       ...carData,
+      date: new Date(),
       uid: currentUser.uid,
-    });
+      latestHistory: { ...new FuelHistory() },
+    } as Car);
   }
 }

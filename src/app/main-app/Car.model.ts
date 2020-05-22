@@ -1,7 +1,6 @@
 // import { Timestamp } from '@google-cloud/firestore';
 
 export interface Car {
-  dateAdded?: any; // Timestamp;
   date?: any; // Timestamp;
   engineType?: string;
   fuellingHistory?: FuelHistory[];
@@ -11,17 +10,17 @@ export interface Car {
   uid?: string;
 }
 
-export interface FuelHistory {
-  avgMilesPerVolume: number;
-  avgPricePerMile: number;
-  comment: string;
-  cost: 40;
-  costSinceRecordsBegan: number;
-  date: any; // Timestamp;
-  mileage: number;
-  mileageSinceRecordsBegan: number;
-  volume: number;
-  volumeSinceRecordsBegan: number;
+export class FuelHistory {
+  avgMilesPerVolume?: number;
+  avgPricePerMile?: number;
+  comment?: string;
+  cost?: number;
+  costSinceRecordsBegan = 0;
+  date?: any; // Timestamp;
+  mileage?: number;
+  mileageSinceRecordsBegan = 0;
+  volume?: number;
+  volumeSinceRecordsBegan = 0;
 }
 
 export interface UIElements {
