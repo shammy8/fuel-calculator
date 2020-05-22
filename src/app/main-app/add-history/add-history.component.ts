@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import {
   MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
@@ -10,6 +10,7 @@ import {
   AbstractControl,
   ValidatorFn,
 } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 
 import { Car } from '../Car.model';
 import { DatabaseService } from '../database.service';
@@ -31,6 +32,8 @@ function mustBeGreaterThanPrevious(previous: any): ValidatorFn {
 })
 export class AddHistoryComponent implements OnInit {
   addFuelForm: FormGroup;
+
+  @ViewChild('addFuelButton') addFuelButton: MatButton;
 
   constructor(
     private databaseService: DatabaseService,
@@ -64,9 +67,11 @@ export class AddHistoryComponent implements OnInit {
   }
 
   addFuel() {
+    this.addFuelButton.disabled = true;
     this.databaseService
       .addFuel(this.addFuelForm.value, this.carDetails)
-      .then(() => this.bottomSheetRef.dismiss());
+      .then(() => this.bottomSheetRef.dismiss())
+      .catch(() => (this.addFuelButton.disabled = false));
   }
 
   onReset() {

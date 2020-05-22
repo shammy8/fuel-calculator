@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatButton } from '@angular/material/button';
 
 import { DatabaseService } from '../database.service';
 import { UIElements } from '../Car.model';
@@ -15,6 +16,8 @@ export class AddCarComponent implements OnInit {
   addCarForm: FormGroup;
 
   uiElements$: Observable<UIElements> = this.databaseService.uiElements$;
+
+  @ViewChild('addVehicleButton') addVehicleButton: MatButton;
 
   constructor(
     private fb: FormBuilder,
@@ -31,13 +34,16 @@ export class AddCarComponent implements OnInit {
   }
 
   addVehicle(): void {
-    this.databaseService.addVehicle(this.addCarForm.value).then((res) => {
-      if (!res) {
-        return;
-      }
-      this.bottomSheetRef.dismiss();
-      // this.router.navigate(['']);
-    });
+    this.addVehicleButton.disabled = true;
+    this.databaseService
+      .addVehicle(this.addCarForm.value)
+      .then((res) => {
+        if (!res) {
+          return;
+        }
+        this.bottomSheetRef.dismiss();
+      })
+      .catch(() => (this.addVehicleButton.disabled = false));
   }
 
   onReset() {
