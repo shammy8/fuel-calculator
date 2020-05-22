@@ -6,7 +6,7 @@
 <div class="bar-label">
   <p class="lighter">{{ lowerLimit }}</p>
   <div>
-    <span class="mat-display-1">{{ value }}</span>
+    <span class="mat-display-1">{{ value | number: '1.2-2' }}</span>
     <span class="lighter"> {{ unit }}</span>
   </div>
   <p class="lighter">{{ upperLimit }}</p>
