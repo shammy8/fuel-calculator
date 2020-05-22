@@ -44,7 +44,7 @@ export class CarDrawerComponent implements OnInit {
   }
 
   onCarClick(car) {
-    console.log(car);
+    // console.log(car);
     this.handleCloseDrawerOnClick();
   }
 

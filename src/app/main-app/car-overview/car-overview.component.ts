@@ -27,6 +27,6 @@ export class CarOverviewComponent {
       autoFocus: true,
     });
 
-    addHistoryRef.afterDismissed().subscribe(console.log);
+    // addHistoryRef.afterDismissed().subscribe(console.log);
   }
 }

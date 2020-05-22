@@ -21,7 +21,6 @@ export class DashboardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Car[]>) {
-    console.log(event);
     moveItemInArray(this.cars, event.previousIndex, event.currentIndex);
   }
 }
