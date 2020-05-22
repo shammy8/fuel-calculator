@@ -46,7 +46,12 @@ export class DatabaseService {
   async addFuel(fuelData: FuelHistory, previousData: Car) {
     const previousHistory = previousData.latestHistory;
 
-    // update the latest history
+    // add the latestHistory into the history subcolletion
+    const addHistory = this.afs
+      .collection(`cars/${previousData.docId}/history`)
+      .add(previousHistory);
+
+    // update the latest history with new values from the form
     const mileageSinceRecordsBegan = previousHistory.mileage
       ? previousHistory.mileageSinceRecordsBegan +
         (fuelData.mileage - previousHistory.mileage)
@@ -74,8 +79,10 @@ export class DatabaseService {
       avgPricePerMile,
     };
 
-    this.afs
+    const updateLatestHistory = this.afs
       .doc(`cars/${previousData.docId}`)
       .update({ latestHistory: newLatestHistory });
+
+    return Promise.all([addHistory, updateLatestHistory]);
   }
 }
