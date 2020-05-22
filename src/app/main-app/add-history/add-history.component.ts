@@ -3,7 +3,6 @@ import {
   MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material/bottom-sheet';
-import { Car } from '../Car.model';
 import {
   FormGroup,
   FormBuilder,
@@ -11,6 +10,9 @@ import {
   AbstractControl,
   ValidatorFn,
 } from '@angular/forms';
+
+import { Car } from '../Car.model';
+import { DatabaseService } from '../database.service';
 
 // custom validator to ensure entered value is greater than the value in the previous fuelling history
 // TODO what happens if the date is null
@@ -32,6 +34,7 @@ export class AddHistoryComponent implements OnInit {
   addFuelForm: FormGroup;
 
   constructor(
+    private databaseService: DatabaseService,
     private fb: FormBuilder,
     private bottomSheetRef: MatBottomSheetRef<AddHistoryComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public carDetails: Car
@@ -40,7 +43,7 @@ export class AddHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.addFuelForm = this.fb.group({
       mileage: [
-        this.carDetails.latestHistory.mileage,
+        this.carDetails.latestHistory.mileage ?? null,
         [
           Validators.required,
           mustBeGreaterThanPrevious(this.carDetails.latestHistory.mileage),
@@ -53,7 +56,7 @@ export class AddHistoryComponent implements OnInit {
         [
           Validators.required,
           mustBeGreaterThanPrevious(
-            this.carDetails.latestHistory.date.toDate()
+            this.carDetails.latestHistory.date?.toDate()
           ),
         ],
       ],
@@ -61,7 +64,12 @@ export class AddHistoryComponent implements OnInit {
     });
   }
 
-  addFuel() {}
+  addFuel() {
+    this.databaseService.addFuel(
+      this.addFuelForm.value,
+      this.carDetails.latestHistory
+    );
+  }
 
   onReset() {
     this.addFuelForm.reset();

@@ -42,4 +42,8 @@ export class DatabaseService {
       latestHistory: { ...new FuelHistory() },
     } as Car);
   }
+
+  async addFuel(fuelData: FuelHistory, previousData: FuelHistory) {
+    console.log(fuelData, previousData);
+  }
 }
