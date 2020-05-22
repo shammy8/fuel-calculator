@@ -8,6 +8,7 @@ export interface Car {
   logo?: string;
   name?: string;
   uid?: string;
+  docId?: string;
 }
 
 export class FuelHistory {

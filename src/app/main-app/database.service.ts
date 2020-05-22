@@ -23,7 +23,7 @@ export class DatabaseService {
       if (user) {
         return this.afs
           .collection<Car[]>('cars', (ref) => ref.where('uid', '==', user.uid))
-          .valueChanges();
+          .valueChanges({ idField: 'docId' });
       } else {
         // if user is logged out return empty array observable
         return of([]);
@@ -43,7 +43,39 @@ export class DatabaseService {
     } as Car);
   }
 
-  async addFuel(fuelData: FuelHistory, previousData: FuelHistory) {
-    console.log(fuelData, previousData);
+  async addFuel(fuelData: FuelHistory, previousData: Car) {
+    const previousHistory = previousData.latestHistory;
+
+    // update the latest history
+    const mileageSinceRecordsBegan = previousHistory.mileage
+      ? previousHistory.mileageSinceRecordsBegan +
+        (fuelData.mileage - previousHistory.mileage)
+      : 0;
+    const costSinceRecordsBegan = previousHistory.cost
+      ? previousHistory.cost + previousHistory.costSinceRecordsBegan
+      : 0;
+    const volumeSinceRecordsBegan = previousHistory.volume
+      ? previousHistory.volume + previousHistory.volumeSinceRecordsBegan
+      : 0;
+    const avgMilesPerVolume = volumeSinceRecordsBegan
+      ? mileageSinceRecordsBegan / volumeSinceRecordsBegan
+      : null;
+    const avgPricePerMile = mileageSinceRecordsBegan
+      ? costSinceRecordsBegan / mileageSinceRecordsBegan
+      : null;
+
+    const newLatestHistory: FuelHistory = {
+      ...fuelData,
+      date: new Date(),
+      mileageSinceRecordsBegan,
+      costSinceRecordsBegan,
+      volumeSinceRecordsBegan,
+      avgMilesPerVolume,
+      avgPricePerMile,
+    };
+
+    this.afs
+      .doc(`cars/${previousData.docId}`)
+      .update({ latestHistory: newLatestHistory });
   }
 }

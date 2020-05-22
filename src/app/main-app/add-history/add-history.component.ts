@@ -65,10 +65,7 @@ export class AddHistoryComponent implements OnInit {
   }
 
   addFuel() {
-    this.databaseService.addFuel(
-      this.addFuelForm.value,
-      this.carDetails.latestHistory
-    );
+    this.databaseService.addFuel(this.addFuelForm.value, this.carDetails);
   }
 
   onReset() {
