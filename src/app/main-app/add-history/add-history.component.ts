@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 
 // custom validator to ensure entered value is greater than the value in the previous fuelling history
+// TODO what happens if the date is null
 function mustBeGreaterThanPrevious(previous: any): ValidatorFn {
   return (c: AbstractControl): { [key: string]: boolean } | null => {
     if (c.value !== null && c.value < previous) {

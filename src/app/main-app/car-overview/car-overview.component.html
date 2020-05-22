@@ -1,5 +1,8 @@
 <mat-card>
-  <mat-card-title>{{ carDetails.logo }} {{ carDetails.name }} </mat-card-title>
+  <mat-card-title
+    >{{ carDetails.logo }} {{ carDetails.name }}
+    <ng-content></ng-content>
+  </mat-card-title>
 
   <mat-card-content>
     <app-efficiency-bar

@@ -1,6 +1,10 @@
-<div *ngIf="cars$ | async as cars" class="car-overviews-container">
-  <app-car-overview
-    *ngFor="let car of cars"
-    [carDetails]="car"
-  ></app-car-overview>
+<div
+  *ngIf="cars"
+  class="car-overviews-container"
+  cdkDropList
+  (cdkDropListDropped)="drop($event)"
+>
+  <app-car-overview *ngFor="let car of cars" [carDetails]="car" cdkDrag>
+    <mat-icon cdkDragHandle>drag_handle</mat-icon>
+  </app-car-overview>
 </div>
