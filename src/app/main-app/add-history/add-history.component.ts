@@ -11,6 +11,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
+import { combineLatest } from 'rxjs';
 
 import { Car } from '../Car.model';
 import { DatabaseService } from '../database.service';
@@ -53,6 +54,7 @@ export class AddHistoryComponent implements OnInit {
       ],
       volume: [null, [Validators.required]],
       cost: [null, [Validators.required]],
+      costPerVolume: [{ value: null, disabled: true }],
       date: [
         new Date(),
         [
@@ -63,6 +65,20 @@ export class AddHistoryComponent implements OnInit {
         ],
       ],
       comments: [''],
+    });
+
+    // watches for changes to volume and cost fields and update cost per volume
+    const volume$ = this.addFuelForm.get('volume').valueChanges;
+    const cost$ = this.addFuelForm.get('cost').valueChanges;
+    combineLatest([volume$, cost$]).subscribe(([volume, cost]) => {
+      let costPerVolume: number;
+      if (volume <= 0) {
+        costPerVolume = null;
+      } else {
+        // round to 2 decimal places
+        costPerVolume = Math.round((cost / volume) * 100 * 100) / 100;
+      }
+      this.addFuelForm.patchValue({ costPerVolume });
     });
   }
 
