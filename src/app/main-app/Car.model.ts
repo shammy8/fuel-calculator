@@ -2,6 +2,7 @@
 
 export interface Car {
   date?: any; // Timestamp;
+  dateOfFirstHistory?: any; // Timestamp;
   engineType?: string;
   fuellingHistory?: FuelHistory[];
   latestHistory: FuelHistory;

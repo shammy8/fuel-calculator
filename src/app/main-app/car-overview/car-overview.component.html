@@ -27,7 +27,9 @@
     <!-- start of totals -->
     <div class="totals" *ngIf="carDetails.latestHistory">
       <div class="lighter">
-        Stats. since records began on dd/MM/yyyy
+        Stats. since records began
+        <span *ngIf="carDetails.dateOfFirstHistory">on</span>
+        {{ carDetails.dateOfFirstHistory?.toDate() | date: 'dd/MM/yyyy' }}
       </div>
       <div class="totals-content">
         <div class="total">

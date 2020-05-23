@@ -66,9 +66,18 @@ export class DatabaseService {
       fuelData
     );
 
-    const updateLatestHistory = this.afs
-      .doc(`cars/${previousData.docId}`)
-      .update({ latestHistory: newLatestHistory });
+    let updateLatestHistory: Promise<void>;
+    if (!previousData.dateOfFirstHistory) {
+      // update the dateOfFirstHistory for first fuelling history record
+      updateLatestHistory = this.afs.doc(`cars/${previousData.docId}`).update({
+        latestHistory: newLatestHistory,
+        dateOfFirstHistory: fuelData.date,
+      });
+    } else {
+      updateLatestHistory = this.afs
+        .doc(`cars/${previousData.docId}`)
+        .update({ latestHistory: newLatestHistory });
+    }
 
     return Promise.all([addHistory, updateLatestHistory]);
   }
@@ -96,7 +105,6 @@ export class DatabaseService {
 
     const newLatestHistory: FuelHistory = {
       ...fuelData,
-      date: new Date(),
       mileageSinceRecordsBegan,
       costSinceRecordsBegan,
       volumeSinceRecordsBegan,
