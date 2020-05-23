@@ -4,7 +4,7 @@
     <mat-form-field>
       <mat-label>Current Mileage</mat-label>
       <input matInput type="number" formControlName="mileage" />
-      <mat-hint>Current mileage of the vehicle</mat-hint>
+      <mat-hint>Current mileage from the vehicle's odometer</mat-hint>
       <mat-error
         *ngIf="this.addFuelForm.get('mileage').errors?.greaterThanPrevious"
         >Must be the same or equal to the previous mileage of
