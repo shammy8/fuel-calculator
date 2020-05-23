@@ -16,11 +16,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(private databaseService: DatabaseService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.databaseService.cars$.subscribe((cars) => (this.cars = cars));
   }
 
-  drop(event: CdkDragDrop<Car[]>) {
+  drop(event: CdkDragDrop<Car[]>): void {
     moveItemInArray(this.cars, event.previousIndex, event.currentIndex);
   }
 }

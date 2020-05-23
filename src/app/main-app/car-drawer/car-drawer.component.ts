@@ -34,7 +34,7 @@ export class CarDrawerComponent implements OnInit {
       .subscribe((res) => (this.isHandset = res.matches));
   }
 
-  addCar() {
+  addCar(): void {
     this.addCarBottomSheet.open(AddCarComponent, { autoFocus: true });
     this.handleCloseDrawerOnClick();
   }
@@ -43,7 +43,7 @@ export class CarDrawerComponent implements OnInit {
     this.afAuth.signOut();
   }
 
-  onCarClick(car) {
+  onCarClick(car): void {
     // console.log(car);
     this.handleCloseDrawerOnClick();
   }

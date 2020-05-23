@@ -21,7 +21,7 @@ export class CarOverviewComponent {
 
   constructor(private bottomSheet: MatBottomSheet) {}
 
-  onAddFuel() {
+  onAddFuel(): void {
     const addHistoryRef = this.bottomSheet.open(AddHistoryComponent, {
       data: this.carDetails,
       autoFocus: true,

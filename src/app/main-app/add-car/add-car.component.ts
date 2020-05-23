@@ -46,11 +46,11 @@ export class AddCarComponent implements OnInit {
       .catch(() => (this.addVehicleButton.disabled = false));
   }
 
-  onReset() {
+  onReset(): void {
     this.addCarForm.reset();
   }
 
-  onCancel(event: MouseEvent) {
+  onCancel(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault(); // copying the docs
   }
