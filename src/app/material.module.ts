@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const components = [];
@@ -34,6 +35,7 @@ const modules = [
   MatCardModule,
   MatProgressBarModule,
   MatBottomSheetModule,
+  MatExpansionModule,
   DragDropModule,
 ];
 
