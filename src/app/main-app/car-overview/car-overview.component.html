@@ -27,7 +27,7 @@
     <div class="totals" *ngIf="carDetails.latestHistory">
       <div class="total">
         <p class="lighter">Total mileage</p>
-        <span class="mat-display-1">
+        <span class="mat-headline">
           {{
             carDetails.latestHistory.mileageSinceRecordsBegan | number: '1.0-0'
           }}
@@ -37,7 +37,7 @@
 
       <div class="total">
         <p class="lighter">Total volume</p>
-        <span class="mat-display-1">
+        <span class="mat-headline">
           {{
             carDetails.latestHistory.volumeSinceRecordsBegan | number: '1.2-2'
           }}
@@ -48,7 +48,7 @@
       <div class="total">
         <p class="lighter">Total cost</p>
         <span class="lighter">£</span>
-        <span class="mat-display-1">
+        <span class="mat-headline">
           {{
             carDetails.latestHistory.costSinceRecordsBegan | currency: 'GBP':''
           }}
