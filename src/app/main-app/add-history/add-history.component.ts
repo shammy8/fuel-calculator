@@ -44,6 +44,11 @@ export class AddHistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initialiseForm();
+    this.autoUpdateCostPerVolume();
+  }
+
+  private initialiseForm(): void {
     this.addFuelForm = this.fb.group({
       mileage: [
         this.carDetails.latestHistory.mileage ?? null,
@@ -67,8 +72,10 @@ export class AddHistoryComponent implements OnInit {
       ],
       comments: [''],
     });
+  }
 
-    // watches for changes to volume and cost fields and update cost per volume
+  // watches for changes to volume and cost fields and update cost per volume
+  private autoUpdateCostPerVolume(): void {
     const volume$ = this.addFuelForm.get('volume').valueChanges;
     const cost$ = this.addFuelForm.get('cost').valueChanges;
     combineLatest([volume$, cost$]).subscribe(([volume, cost]) => {
@@ -83,7 +90,7 @@ export class AddHistoryComponent implements OnInit {
     });
   }
 
-  addFuel() {
+  addFuel(): void {
     this.addFuelButton.disabled = true;
     this.databaseService
       .addFuel(this.addFuelForm.value, this.carDetails)
@@ -91,11 +98,11 @@ export class AddHistoryComponent implements OnInit {
       .catch(() => (this.addFuelButton.disabled = false));
   }
 
-  onReset() {
+  onReset(): void {
     this.addFuelForm.reset();
   }
 
-  onCancel(event: MouseEvent) {
+  onCancel(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault(); // copying the docs
   }
