@@ -49,11 +49,12 @@ export class AddHistoryComponent implements OnInit {
         this.carDetails.latestHistory.mileage ?? null,
         [
           Validators.required,
+          Validators.min(0),
           mustBeGreaterThanPrevious(this.carDetails.latestHistory.mileage),
         ],
       ],
-      volume: [null, [Validators.required]],
-      cost: [null, [Validators.required]],
+      cost: [null, [Validators.required, Validators.min(0)]],
+      volume: [null, [Validators.required, Validators.min(1)]],
       costPerVolume: [{ value: null, disabled: true }],
       date: [
         new Date(),
