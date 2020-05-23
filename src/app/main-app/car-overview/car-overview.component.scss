@@ -2,10 +2,13 @@ mat-card {
   margin: 10px;
 }
 
-mat-card-title {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
+.logo {
+  font-size: 35px;
+  line-height: 35px;
+}
+
+.fill-space {
+  flex: 1 1 auto;
 }
 
 .totals {
