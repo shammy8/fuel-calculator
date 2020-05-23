@@ -14,6 +14,7 @@ mat-card {
 .totals {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 
   .total {
     text-align: center;
@@ -22,8 +23,8 @@ mat-card {
   p {
     margin-bottom: 0;
   }
+}
 
-  .lighter {
-    opacity: 0.5;
-  }
+.lighter {
+  opacity: 0.5;
 }

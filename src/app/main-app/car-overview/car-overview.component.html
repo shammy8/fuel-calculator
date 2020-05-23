@@ -24,9 +24,11 @@
       [lowerLimit]="avgPricePerMileLowerLimit"
     ></app-efficiency-bar>
 
+    <div class="lighter">
+      Stats. since records began on dd/MM/yyyy
+    </div>
     <div class="totals" *ngIf="carDetails.latestHistory">
       <div class="total">
-        <p class="lighter">Total mileage</p>
         <span class="mat-headline">
           {{
             carDetails.latestHistory.mileageSinceRecordsBegan | number: '1.0-0'
@@ -36,7 +38,6 @@
       </div>
 
       <div class="total">
-        <p class="lighter">Total volume</p>
         <span class="mat-headline">
           {{
             carDetails.latestHistory.volumeSinceRecordsBegan | number: '1.2-2'
@@ -46,7 +47,6 @@
       </div>
 
       <div class="total">
-        <p class="lighter">Total cost</p>
         <span class="lighter">£</span>
         <span class="mat-headline">
           {{
@@ -55,6 +55,35 @@
         </span>
       </div>
     </div>
+    <!-- end of totals -->
+
+    <div class="lighter">
+      Latest Fuelling on
+      {{ carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy' }}
+    </div>
+    <div class="totals" *ngIf="carDetails.latestHistory">
+      <div class="total">
+        <span class="mat-headline">
+          {{ carDetails.latestHistory.mileage | number: '1.0-0' }}
+        </span>
+        <span class="lighter">mi.</span>
+      </div>
+
+      <div class="total">
+        <span class="mat-headline">
+          {{ carDetails.latestHistory.volume | number: '1.2-2' }}
+        </span>
+        <span class="lighter">l</span>
+      </div>
+
+      <div class="total">
+        <span class="lighter">£</span>
+        <span class="mat-headline">
+          {{ carDetails.latestHistory.cost | currency: 'GBP':'' }}
+        </span>
+      </div>
+    </div>
+    <!-- end of last fuelling -->
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="primary">
