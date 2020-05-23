@@ -12,9 +12,12 @@ mat-card {
 }
 
 .totals {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  margin: 20px 0;
+
+  .totals-content {
+    display: flex;
+    justify-content: space-between;
+  }
 
   .total {
     text-align: center;
