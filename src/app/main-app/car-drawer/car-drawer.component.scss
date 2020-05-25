@@ -16,6 +16,13 @@ mat-sidenav {
 
   mat-nav-list {
     padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .sidenav-end {
+    margin-top: auto;
   }
 
   mat-toolbar {

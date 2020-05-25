@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -16,9 +16,13 @@ import { AddCarComponent } from '../add-car/add-car.component';
   templateUrl: './car-drawer.component.html',
   styleUrls: ['./car-drawer.component.scss'],
 })
-export class CarDrawerComponent implements OnInit {
+export class CarDrawerComponent implements OnInit, OnDestroy {
   cars$: Observable<Car[]> = this.databaseService.cars$;
+
   isHandset: boolean; // consider under 780px a handset screen
+
+  user: firebase.User;
+  authSub: Subscription;
 
   @ViewChild('sidenav') drawer: MatSidenav;
 
@@ -33,6 +37,10 @@ export class CarDrawerComponent implements OnInit {
     this.breakpointObserver
       .observe(['(max-width: 780px)'])
       .subscribe((res) => (this.isHandset = res.matches));
+
+    this.authSub = this.afAuth.user.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   addCar(): void {
@@ -57,8 +65,10 @@ export class CarDrawerComponent implements OnInit {
   }
 
   linkAnonymousToGoogleAccount() {
-    this.afAuth.authState.subscribe((user) => {
-      user.linkWithPopup(new firebase.auth.GoogleAuthProvider());
-    });
+    this.user.linkWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
+
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
   }
 }

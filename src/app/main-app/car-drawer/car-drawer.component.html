@@ -5,7 +5,7 @@
       #sidenav
       fixedInViewport
       [mode]="isHandset ? 'over' : 'side'"
-      [opened]="(afAuth.user | async) && !isHandset ? true : false"
+      [opened]="user && !isHandset ? true : false"
     >
       <mat-nav-list>
         <mat-toolbar>
@@ -27,8 +27,13 @@
           (click)="onCarClick(car)"
           >{{ car.logo }} {{ car.name }}
         </a>
-        <a mat-list-item (click)="linkAnonymousToGoogleAccount()">
-          <img src="/assets/google-logo.svg" /> Link to Google
+        <a
+          class="sidenav-end"
+          *ngIf="user?.isAnonymous"
+          mat-list-item
+          (click)="linkAnonymousToGoogleAccount()"
+        >
+          <img src="/assets/google-logo.svg" /> Link to Google Account
         </a>
       </mat-nav-list>
     </mat-sidenav>
@@ -36,7 +41,7 @@
     <mat-sidenav-content>
       <mat-toolbar>
         <button
-          *ngIf="afAuth.user | async"
+          *ngIf="user"
           type="button"
           mat-icon-button
           (click)="sidenav.toggle()"
@@ -46,7 +51,7 @@
         ⛽ Fuelling Dashboard
         <div class="fill-space"></div>
         <button
-          *ngIf="afAuth.user | async"
+          *ngIf="user"
           mat-icon-button
           (click)="signOut()"
           matTooltip="Sign Out"
