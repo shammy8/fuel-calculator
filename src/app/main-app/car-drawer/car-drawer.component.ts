@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
 
 import { DatabaseService } from '../database.service';
 import { Car } from '../Car.model';
@@ -53,5 +54,11 @@ export class CarDrawerComponent implements OnInit {
     if (this.isHandset) {
       this.drawer.close();
     }
+  }
+
+  linkAnonymousToGoogleAccount() {
+    this.afAuth.authState.subscribe((user) => {
+      user.linkWithPopup(new firebase.auth.GoogleAuthProvider());
+    });
   }
 }

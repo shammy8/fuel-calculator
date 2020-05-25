@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
