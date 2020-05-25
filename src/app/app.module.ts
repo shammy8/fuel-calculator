@@ -20,6 +20,7 @@ import { AddCarComponent } from './main-app/add-car/add-car.component';
 import { CarOverviewComponent } from './main-app/car-overview/car-overview.component';
 import { EfficiencyBarComponent } from './main-app/efficiency-bar/efficiency-bar.component';
 import { AddHistoryComponent } from './main-app/add-history/add-history.component';
+import { LoseAllDataWarningDialogComponent } from './dialog-boxes/lose-all-data-warning-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AddHistoryComponent } from './main-app/add-history/add-history.componen
     CarOverviewComponent,
     EfficiencyBarComponent,
     AddHistoryComponent,
+    LoseAllDataWarningDialogComponent,
   ],
   imports: [
     BrowserModule,

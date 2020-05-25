@@ -3,6 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
@@ -10,6 +11,7 @@ import * as firebase from 'firebase/app';
 import { DatabaseService } from '../database.service';
 import { Car } from '../Car.model';
 import { AddCarComponent } from '../add-car/add-car.component';
+import { LoseAllDataWarningDialogComponent } from 'src/app/dialog-boxes/lose-all-data-warning-dialog.component';
 
 @Component({
   selector: 'app-car-drawer',
@@ -30,7 +32,8 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     public afAuth: AngularFireAuth,
     private breakpointObserver: BreakpointObserver,
     private databaseService: DatabaseService,
-    private addCarBottomSheet: MatBottomSheet
+    private addCarBottomSheet: MatBottomSheet,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +52,13 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   }
 
   signOut(): void {
-    this.afAuth.signOut();
+    if (this.user.isAnonymous) {
+      this.dialog.open(LoseAllDataWarningDialogComponent, {
+        width: '500px',
+      });
+    } else {
+      this.afAuth.signOut();
+    }
   }
 
   onCarClick(car): void {
