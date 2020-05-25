@@ -51,11 +51,11 @@ export class AddHistoryComponent implements OnInit {
   private initialiseForm(): void {
     this.addFuelForm = this.fb.group({
       mileage: [
-        this.carDetails.latestHistory.mileage ?? null,
+        this.carDetails.latestHistory?.mileage ?? null,
         [
           Validators.required,
           Validators.min(0),
-          mustBeGreaterThanPrevious(this.carDetails.latestHistory.mileage),
+          mustBeGreaterThanPrevious(this.carDetails.latestHistory?.mileage),
         ],
       ],
       cost: [null, [Validators.required, Validators.min(0)]],
@@ -66,7 +66,7 @@ export class AddHistoryComponent implements OnInit {
         [
           Validators.required,
           mustBeGreaterThanPrevious(
-            this.carDetails.latestHistory.date?.toDate()
+            this.carDetails.latestHistory?.date?.toDate()
           ),
         ],
       ],

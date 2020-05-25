@@ -39,7 +39,6 @@ export class DatabaseService {
       ...carData,
       date: new Date(),
       uid: currentUser.uid,
-      latestHistory: { ...new FuelHistory() },
     } as Car);
   }
 
@@ -52,13 +51,11 @@ export class DatabaseService {
   async addFuel(
     fuelData: FuelHistory,
     previousData: Car
-  ): Promise<[DocumentReference, void]> {
+  ): Promise<void | [DocumentReference, void]> {
     const previousHistory = previousData.latestHistory;
 
-    // add the latestHistory into the history subcolletion
-    const addHistory = this.afs
-      .collection(`cars/${previousData.docId}/history`)
-      .add(previousHistory);
+    let updateLatestHistory: Promise<void>;
+    let addHistory: Promise<DocumentReference>;
 
     // update the latest history with new values from the form
     const newLatestHistory: FuelHistory = this.updateLatestHistory(
@@ -66,34 +63,42 @@ export class DatabaseService {
       fuelData
     );
 
-    let updateLatestHistory: Promise<void>;
-    if (!previousData.dateOfFirstHistory) {
-      // update the dateOfFirstHistory for first fuelling history record
+    if (previousHistory) {
+      // if this isn't the first fuelling
+
+      // add the latestHistory into the history subcollection
+      addHistory = this.afs
+        .collection(`cars/${previousData.docId}/history`)
+        .add(previousHistory);
+
+      updateLatestHistory = this.afs
+        .doc(`cars/${previousData.docId}`)
+        .update({ latestHistory: newLatestHistory });
+
+      return Promise.all([addHistory, updateLatestHistory]);
+    } else {
+      // else if this is the first fuelling
       updateLatestHistory = this.afs.doc(`cars/${previousData.docId}`).update({
         latestHistory: newLatestHistory,
         dateOfFirstHistory: fuelData.date,
       });
-    } else {
-      updateLatestHistory = this.afs
-        .doc(`cars/${previousData.docId}`)
-        .update({ latestHistory: newLatestHistory });
-    }
 
-    return Promise.all([addHistory, updateLatestHistory]);
+      return updateLatestHistory;
+    }
   }
 
   private updateLatestHistory(
     previousHistory: FuelHistory,
     fuelData: FuelHistory
   ) {
-    const mileageSinceRecordsBegan = previousHistory.mileage
+    const mileageSinceRecordsBegan = previousHistory?.mileage
       ? previousHistory.mileageSinceRecordsBegan +
         (fuelData.mileage - previousHistory.mileage)
       : 0;
-    const costSinceRecordsBegan = previousHistory.cost
+    const costSinceRecordsBegan = previousHistory?.cost
       ? previousHistory.cost + previousHistory.costSinceRecordsBegan
       : 0;
-    const volumeSinceRecordsBegan = previousHistory.volume
+    const volumeSinceRecordsBegan = previousHistory?.volume
       ? previousHistory.volume + previousHistory.volumeSinceRecordsBegan
       : 0;
     const avgMilesPerVolume = volumeSinceRecordsBegan

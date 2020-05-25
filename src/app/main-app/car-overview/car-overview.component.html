@@ -11,7 +11,7 @@
     <app-efficiency-bar
       *ngIf="carDetails.latestHistory?.avgMilesPerVolume"
       [value]="carDetails.latestHistory.avgMilesPerVolume"
-      unit="litres/mile"
+      unit="miles/litre"
       [upperLimit]="avgMilesPerVolumeUpperLimit"
       [lowerLimit]="avgMilesPerVolumeLowerLimit"
     ></app-efficiency-bar>
@@ -65,7 +65,7 @@
     <!-- end of totals -->
 
     <!-- start of last fuelling -->
-    <div class="totals" *ngIf="carDetails.latestHistory.date">
+    <div class="totals" *ngIf="carDetails.latestHistory?.date">
       <div class="lighter">
         Latest Fuelling on
         {{ carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy' }}
