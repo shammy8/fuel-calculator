@@ -22,7 +22,9 @@ export class DatabaseService {
     switchMap((user: User) => {
       if (user) {
         return this.afs
-          .collection<Car[]>('cars', (ref) => ref.where('uid', '==', user.uid))
+          .collection<Car[]>('cars', (ref) =>
+            ref.where('drivers', 'array-contains', user.uid)
+          )
           .valueChanges({ idField: 'docId' });
       } else {
         // if user is logged out return empty array observable
@@ -38,7 +40,7 @@ export class DatabaseService {
     return this.afs.collection('cars').add({
       ...carData,
       date: new Date(),
-      uid: currentUser.uid,
+      drivers: [currentUser.uid],
     } as Car);
   }
 

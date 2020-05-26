@@ -8,7 +8,7 @@ export interface Car {
   latestHistory: FuelHistory;
   logo?: string;
   name?: string;
-  uid?: string;
+  drivers?: string[];
   docId?: string;
 }
 
