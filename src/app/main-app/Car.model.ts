@@ -5,11 +5,12 @@ export interface Car {
   dateOfFirstHistory?: any; // Timestamp;
   engineType?: string;
   fuellingHistory?: FuelHistory[];
-  latestHistory: FuelHistory;
+  latestHistory?: FuelHistory;
   logo?: string;
   name?: string;
   drivers?: string[];
   docId?: string;
+  private?: any[]; // what else will be here besides owner of the vehicle
 }
 
 export class FuelHistory {

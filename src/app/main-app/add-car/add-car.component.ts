@@ -37,12 +37,7 @@ export class AddCarComponent implements OnInit {
     this.addVehicleButton.disabled = true;
     this.databaseService
       .addVehicle(this.addCarForm.value)
-      .then((res) => {
-        if (!res) {
-          return;
-        }
-        this.bottomSheetRef.dismiss();
-      })
+      .then(() => this.bottomSheetRef.dismiss())
       .catch(() => (this.addVehicleButton.disabled = false));
   }
 
