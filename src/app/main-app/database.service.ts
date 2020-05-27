@@ -123,4 +123,12 @@ export class DatabaseService {
 
     return newLatestHistory;
   }
+
+  addDriver(newDriverDetail, carDoc): Promise<void> {
+    console.log(newDriverDetail, carDoc);
+    const drivers = [...carDoc.drivers, newDriverDetail.uid];
+    return this.afs.doc(`cars/${carDoc.docId}`).update({
+      drivers,
+    });
+  }
 }

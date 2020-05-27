@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material/bottom-sheet';
+import { MatButton } from '@angular/material/button';
 
 import { DatabaseService } from '../database.service';
 import { Car } from '../Car.model';
@@ -15,6 +16,8 @@ import { Car } from '../Car.model';
 })
 export class AddDriverComponent implements OnInit {
   addDriverForm: FormGroup;
+
+  @ViewChild('addDriverButton') addDriverButton: MatButton;
 
   constructor(
     private databaseService: DatabaseService,
@@ -30,7 +33,13 @@ export class AddDriverComponent implements OnInit {
     });
   }
 
-  onAddDriver() {}
+  onAddDriver() {
+    this.addDriverButton.disabled = true;
+    this.databaseService
+      .addDriver(this.addDriverForm.value, this.carDetails)
+      .then(() => this.bottomSheetRef.dismiss())
+      .catch(() => (this.addDriverButton.disabled = false));
+  }
 
   onReset(): void {
     this.addDriverForm.reset();
