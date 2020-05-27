@@ -3,6 +3,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { Car } from '../Car.model';
 import { AddHistoryComponent } from '../add-history/add-history.component';
+import { AddDriverComponent } from '../add-driver/add-driver.component';
 
 @Component({
   selector: 'app-car-overview',
@@ -28,5 +29,12 @@ export class CarOverviewComponent {
     });
 
     // addHistoryRef.afterDismissed().subscribe(console.log);
+  }
+
+  onAddDriver(): void {
+    const addDriverRef = this.bottomSheet.open(AddDriverComponent, {
+      data: { docId: this.carDetails.docId, drivers: this.carDetails.drivers },
+      autoFocus: true,
+    });
   }
 }
