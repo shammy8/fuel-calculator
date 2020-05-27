@@ -35,21 +35,15 @@ export class DatabaseService {
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
-  async addVehicle(carData: Car): Promise<void> {
+  async addVehicle(carData: Car): Promise<DocumentReference> {
     const currentUser = await this.afAuth.currentUser;
     // return
-    const carResponse = await this.afs.collection('cars').add({
+    return this.afs.collection('cars').add({
       ...carData,
       date: new Date(),
+      owner: currentUser.uid,
       drivers: [currentUser.uid],
     } as Car);
-    const privateResponse = await this.afs
-      .doc(`cars/${carResponse.id}/private/owner`)
-      .set({
-        uid: currentUser.uid,
-        email: currentUser.email,
-      });
-    return privateResponse;
   }
 
   /**

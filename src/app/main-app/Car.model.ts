@@ -3,14 +3,14 @@
 export interface Car {
   date?: any; // Timestamp;
   dateOfFirstHistory?: any; // Timestamp;
+  docId?: string;
+  drivers?: string[]; // uids of the people who can edit the car (include owner)
   engineType?: string;
   fuellingHistory?: FuelHistory[];
   latestHistory?: FuelHistory;
   logo?: string;
   name?: string;
-  drivers?: string[];
-  docId?: string;
-  private?: any[]; // what else will be here besides owner of the vehicle
+  owner: string; // uid of the owner of the car
 }
 
 export class FuelHistory {
