@@ -1,4 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { Car } from '../Car.model';
@@ -20,7 +21,7 @@ export class CarOverviewComponent {
   avgPricePerMileUpperLimit = 0.5;
   avgPricePerMileLowerLimit = 0;
 
-  constructor(private bottomSheet: MatBottomSheet) {}
+  constructor(private bottomSheet: MatBottomSheet, private router: Router) {}
 
   onAddFuel(): void {
     const addHistoryRef = this.bottomSheet.open(AddHistoryComponent, {
@@ -36,5 +37,10 @@ export class CarOverviewComponent {
       data: { docId: this.carDetails.docId, drivers: this.carDetails.drivers },
       autoFocus: true,
     });
+  }
+
+  // navigate to the history page of the selected car
+  onHistory() {
+    this.router.navigate([this.carDetails.docId]);
   }
 }

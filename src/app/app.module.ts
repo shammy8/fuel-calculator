@@ -22,6 +22,7 @@ import { EfficiencyBarComponent } from './main-app/efficiency-bar/efficiency-bar
 import { AddHistoryComponent } from './main-app/add-history/add-history.component';
 import { LoseAllDataWarningDialogComponent } from './dialog-boxes/lose-all-data-warning-dialog.component';
 import { AddDriverComponent } from './main-app/add-driver/add-driver.component';
+import { HistoriesComponent } from './main-app/histories/histories.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddDriverComponent } from './main-app/add-driver/add-driver.component';
     AddHistoryComponent,
     LoseAllDataWarningDialogComponent,
     AddDriverComponent,
+    HistoriesComponent,
   ],
   imports: [
     BrowserModule,

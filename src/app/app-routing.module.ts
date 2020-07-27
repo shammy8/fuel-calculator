@@ -9,12 +9,16 @@ import {
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './main-app/dashboard.component';
 import { AddCarComponent } from './main-app/add-car/add-car.component';
+import { HistoriesComponent } from './main-app/histories/histories.component';
 
 const routes: Routes = [
   {
     path: '',
     // ...canActivate(() => redirectUnauthorizedTo(['login'])),
-    children: [{ path: '', component: DashboardComponent }],
+    children: [
+      { path: '', component: DashboardComponent },
+      { path: ':carId', component: HistoriesComponent },
+    ],
   },
   {
     path: 'login',
