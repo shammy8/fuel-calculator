@@ -124,9 +124,11 @@ export class DatabaseService {
     return newLatestHistory;
   }
 
-  addDriver(newDriverDetail, carDoc): Promise<void> {
-    console.log(newDriverDetail, carDoc);
-    const drivers = [...carDoc.drivers, newDriverDetail.uid];
+  // todo add typing, handle error
+  // todo add code to recognise if a email or uid is entered
+  addDriver(newDriverDetail: string, carDoc: Car): Promise<void> {
+    // drivers has to be in the right order or firebase security rules will reject the request
+    const drivers = [...carDoc.drivers, newDriverDetail];
     return this.afs.doc(`cars/${carDoc.docId}`).update({
       drivers,
     });

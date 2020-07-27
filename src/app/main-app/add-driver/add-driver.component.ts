@@ -28,17 +28,20 @@ export class AddDriverComponent implements OnInit {
 
   ngOnInit(): void {
     this.addDriverForm = this.fb.group({
-      uid: ['', [Validators.required]],
-      email: ['', [Validators.email]],
+      uidOrEmail: ['', [Validators.required]],
     });
   }
 
+  // todo add typing, handle error, allow adding driver by email
   onAddDriver() {
     this.addDriverButton.disabled = true;
     this.databaseService
-      .addDriver(this.addDriverForm.value, this.carDetails)
+      .addDriver(this.addDriverForm.value.uidOrEmail, this.carDetails)
       .then(() => this.bottomSheetRef.dismiss())
-      .catch(() => (this.addDriverButton.disabled = false));
+      .catch((err) => {
+        this.addDriverButton.disabled = false;
+        console.log(err);
+      });
   }
 
   onReset(): void {
