@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // this will navigate the user when the user changes from logged in to out and vice versa
+    // todo fix when refreshing on a page other than root page
     this.afAuth.authState.subscribe((user) => {
       user ? this.router.navigate(['']) : this.router.navigate(['login']);
     });

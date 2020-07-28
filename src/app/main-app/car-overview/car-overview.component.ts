@@ -41,6 +41,6 @@ export class CarOverviewComponent {
 
   // navigate to the history page of the selected car
   onHistory() {
-    this.router.navigate([this.carDetails.docId]);
+    this.router.navigate(['history', this.carDetails.docId]);
   }
 }

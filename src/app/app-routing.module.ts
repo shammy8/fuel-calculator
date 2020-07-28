@@ -17,7 +17,7 @@ const routes: Routes = [
     // ...canActivate(() => redirectUnauthorizedTo(['login'])),
     children: [
       { path: '', component: DashboardComponent },
-      { path: ':carId', component: HistoriesComponent },
+      { path: 'history/:carId', component: HistoriesComponent },
     ],
   },
   {
