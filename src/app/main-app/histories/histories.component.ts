@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -8,11 +8,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./histories.component.scss'],
 })
 export class HistoriesComponent implements OnInit {
-  carId$ = this.route.paramMap.pipe(
-    map((param) => {
-      return param.params.carId;
-    })
-  );
+  carId$ = this.route.paramMap.pipe(map((param) => param.get('carId')));
 
   constructor(private route: ActivatedRoute) {}
 
