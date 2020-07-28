@@ -12,8 +12,13 @@ import * as firebase from 'firebase/app';
 export class LoginComponent {
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
 
+  // todo handle error
   googleLogin() {
-    this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    this.afAuth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then(() => {
+        this.router.navigate(['']);
+      });
   }
 
   anonymousLogin() {

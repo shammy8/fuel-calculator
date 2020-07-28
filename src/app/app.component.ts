@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { AngularFireAuth } from '@angular/fire/auth/';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +9,4 @@ import { AngularFireAuth } from '@angular/fire/auth/';
   `,
   styles: [],
 })
-export class AppComponent implements OnInit {
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
-
-  ngOnInit() {
-    // this will navigate the user when the user changes from logged in to out and vice versa
-    // todo fix when refreshing on a page other than root page
-    this.afAuth.authState.subscribe((user) => {
-      user ? this.router.navigate(['']) : this.router.navigate(['login']);
-    });
-  }
-}
+export class AppComponent {}

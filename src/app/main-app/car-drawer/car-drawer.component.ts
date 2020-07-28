@@ -12,6 +12,7 @@ import { DatabaseService } from '../database.service';
 import { Car } from '../Car.model';
 import { AddCarComponent } from '../add-car/add-car.component';
 import { LoseAllDataWarningDialogComponent } from 'src/app/dialog-boxes/lose-all-data-warning-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-car-drawer',
@@ -33,7 +34,8 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private databaseService: DatabaseService,
     private addCarBottomSheet: MatBottomSheet,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -51,13 +53,16 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     this.handleCloseDrawerOnClick();
   }
 
+  // todo handle error
   signOut(): void {
     if (this.user.isAnonymous) {
       this.dialog.open(LoseAllDataWarningDialogComponent, {
         width: '500px',
       });
     } else {
-      this.afAuth.signOut();
+      this.afAuth.signOut().then(() => {
+        this.router.navigate(['login']);
+      });
     }
   }
 
