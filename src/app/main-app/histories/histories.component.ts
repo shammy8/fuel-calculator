@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { FuelHistory } from '../Car.model';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-histories',
@@ -51,5 +52,15 @@ export class HistoriesComponent implements OnInit {
       this.dataSource = new MatTableDataSource(history);
       this.dataSource.sort = this.sort;
     });
+  }
+
+  // drag to reorder table columns
+  // todo save the column order for user
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(
+      this.displayedColumns,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 }
