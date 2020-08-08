@@ -13,6 +13,17 @@ import { FuelHistory } from '../Car.model';
 })
 export class HistoriesComponent implements OnInit {
   history$: Observable<FuelHistory[]>;
+  displayedColumns: string[] = [
+    'date',
+    'mileage',
+    'cost',
+    'volume',
+    'mileageSinceRecordsBegan',
+    'volumeSinceRecordsBegan',
+    'costSinceRecordsBegan',
+    'avgPricePerMile',
+    'avgMilesPerVolume',
+  ];
 
   constructor(private route: ActivatedRoute, private afs: AngularFirestore) {}
 
@@ -24,7 +35,7 @@ export class HistoriesComponent implements OnInit {
       switchMap((carId) =>
         this.afs
           .collection<FuelHistory>(`cars/${carId}/history`, (ref) =>
-            ref.where('mileage', '>', 0).orderBy('mileage')
+            ref.where('mileage', '>', 0).orderBy('mileage', 'desc')
           )
           .valueChanges()
       )

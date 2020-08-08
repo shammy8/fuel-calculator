@@ -1,3 +1,68 @@
+<table mat-table *ngIf="history$ | async as history" [dataSource]="history">
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.date.toDate() | date: 'dd/MM/yyyy' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="mileage">
+    <th mat-header-cell *matHeaderCellDef>Mileage</th>
+    <td mat-cell *matCellDef="let element">{{ element.mileage }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="cost">
+    <th mat-header-cell *matHeaderCellDef>Cost</th>
+    <td mat-cell *matCellDef="let element">{{ element.cost }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="volume">
+    <th mat-header-cell *matHeaderCellDef>Volume</th>
+    <td mat-cell *matCellDef="let element">{{ element.volume }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="mileageSinceRecordsBegan">
+    <th mat-header-cell *matHeaderCellDef>Mileage Since Begin</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.mileageSinceRecordsBegan || '' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="volumeSinceRecordsBegan">
+    <th mat-header-cell *matHeaderCellDef>Volume Since Begin</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.volumeSinceRecordsBegan || '' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="costSinceRecordsBegan">
+    <th mat-header-cell *matHeaderCellDef>Cost Since Begin</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.costSinceRecordsBegan || '' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="avgPricePerMile">
+    <th mat-header-cell *matHeaderCellDef>Average price/mile</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.avgPricePerMile || '' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="avgMilesPerVolume">
+    <th mat-header-cell *matHeaderCellDef>Average miles/volume</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.avgMilesPerVolume || '' }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
 <pre>
   {{ history$ | async | json }}
 </pre>
