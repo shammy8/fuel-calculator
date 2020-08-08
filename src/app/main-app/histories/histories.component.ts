@@ -5,6 +5,13 @@ import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 import { FuelHistory } from '../Car.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -13,11 +20,21 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   selector: 'app-histories',
   templateUrl: './histories.component.html',
   styleUrls: ['./histories.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class HistoriesComponent implements OnInit {
   history$: Observable<FuelHistory[]>;
   dataSource: MatTableDataSource<FuelHistory>;
-
+  expandedElement: FuelHistory | null;
   displayedColumns: string[] = [
     'date',
     'mileage',
