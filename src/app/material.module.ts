@@ -19,6 +19,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 const components = [];
 const modules = [
@@ -41,6 +42,7 @@ const modules = [
   MatDialogModule,
   DragDropModule,
   MatTableModule,
+  MatSortModule,
 ];
 
 @NgModule({

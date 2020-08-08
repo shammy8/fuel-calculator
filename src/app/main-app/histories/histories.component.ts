@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { FuelHistory } from '../Car.model';
 
@@ -13,6 +15,8 @@ import { FuelHistory } from '../Car.model';
 })
 export class HistoriesComponent implements OnInit {
   history$: Observable<FuelHistory[]>;
+  dataSource: MatTableDataSource<FuelHistory>;
+
   displayedColumns: string[] = [
     'date',
     'mileage',
@@ -24,6 +28,8 @@ export class HistoriesComponent implements OnInit {
     'avgPricePerMile',
     'avgMilesPerVolume',
   ];
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private route: ActivatedRoute, private afs: AngularFirestore) {}
 
@@ -40,5 +46,10 @@ export class HistoriesComponent implements OnInit {
           .valueChanges()
       )
     );
+
+    this.history$.subscribe((history) => {
+      this.dataSource = new MatTableDataSource(history);
+      this.dataSource.sort = this.sort;
+    });
   }
 }
