@@ -22,3 +22,7 @@ tr.example-element-row:not(.example-expanded-row):hover {
 .example-element-description {
   margin-bottom: 10px;
 }
+
+th {
+  min-width: 100px;
+}
