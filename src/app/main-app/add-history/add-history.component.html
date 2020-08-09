@@ -6,13 +6,13 @@
       <input
         matInput
         type="number"
-        [min]="carDetails.latestHistory?.mileage"
+        [min]="carDetails.latestHistory?.mileage + 1"
         formControlName="mileage"
       />
       <mat-hint>Current mileage from the vehicle's odometer</mat-hint>
       <mat-error
         *ngIf="this.addFuelForm.get('mileage').errors?.greaterThanPrevious"
-        >Must be the same or equal to the previous mileage of
+        >Must be greater than the previous mileage of
         {{ carDetails.latestHistory.mileage }}</mat-error
       >
     </mat-form-field>
@@ -37,16 +37,15 @@
       <input
         matInput
         [matDatepicker]="picker"
-        [min]="carDetails.latestHistory?.date.toDate()"
         formControlName="date"
-        disabled
+        [disabled]="true"
         style="color: rgba(255, 255, 255, 1);"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker touchUi disabled="false"></mat-datepicker>
       <mat-error
         *ngIf="this.addFuelForm.get('date').errors?.greaterThanPrevious"
-        >Must be the same day or after the previous fuelling of
+        >Must be after the previous fuelling date of
         {{
           carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy'
         }}</mat-error
