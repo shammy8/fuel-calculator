@@ -95,20 +95,30 @@
     </div>
     <!-- end of last fuelling -->
   </mat-card-content>
+
   <mat-card-actions>
-    <button
-      mat-raised-button
-      (click)="onAddDriver()"
-      color="primary"
-      style="margin-right: 8px;"
-    >
-      Add Driver
-    </button>
-    <button mat-raised-button (click)="onHistory()" color="primary">
-      History
-    </button>
-    <button mat-raised-button (click)="onAddFuel()" color="primary">
-      Add Fuel
-    </button>
+    <button mat-button [matMenuTriggerFor]="moreButton">More</button>
+    <mat-menu #moreButton="matMenu">
+      <button mat-menu-item>
+        <mat-icon>backspace</mat-icon>
+        Delete Latest Fuelling
+      </button>
+
+      <!-- <button mat-menu-item (click)="onAddDriver()">
+        <mat-icon>person_add</mat-icon>
+        Add Driver
+      </button> -->
+
+      <button mat-menu-item><mat-icon>delete</mat-icon>Delete Car</button>
+    </mat-menu>
+
+    <div>
+      <button mat-raised-button (click)="onHistory()" color="primary">
+        History
+      </button>
+      <button mat-raised-button (click)="onAddFuel()" color="primary">
+        Add Fuel
+      </button>
+    </div>
   </mat-card-actions>
 </mat-card>

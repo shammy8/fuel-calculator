@@ -20,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatMenuModule } from '@angular/material/menu';
 
 const components = [];
 const modules = [
@@ -43,6 +44,7 @@ const modules = [
   DragDropModule,
   MatTableModule,
   MatSortModule,
+  MatMenuModule,
 ];
 
 @NgModule({
