@@ -135,7 +135,6 @@ export class DatabaseService {
 
   /**
    * todo add error handling
-   * todo handle deleting when only one history
    * @param carDetails carDetails of the car history being deleted
    */
   deleteLatestFuelling(carDetails: Car): Promise<void> {
@@ -154,17 +153,36 @@ export class DatabaseService {
           ).ref
         )
         .then((secondNewestHistory) => {
-          // update latestHistory of the car document with the 2nd newest history
-          transaction.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
-            latestHistory: secondNewestHistory.data(),
-          });
+          if (carDetails.latestHistory.mileageSinceRecordsBegan === 0) {
+            // if this is the only history
 
-          // delete the oldest history from history collection
-          transaction.delete(
-            this.afs.doc<FuelHistory>(
-              `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
-            ).ref
-          );
+            // update latestHistory of the car document with the 2nd newest history
+            transaction.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
+              dateOfFirstHistory: null,
+              latestHistory: null,
+            });
+
+            // delete the only history from history collection
+            transaction.delete(
+              this.afs.doc<FuelHistory>(
+                `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
+              ).ref
+            );
+          } else {
+            // else if this isn't the only history
+
+            // update latestHistory of the car document with the 2nd newest history
+            transaction.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
+              latestHistory: secondNewestHistory.data(),
+            });
+
+            // delete the oldest history from history collection
+            transaction.delete(
+              this.afs.doc<FuelHistory>(
+                `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
+              ).ref
+            );
+          }
         });
     });
   }
