@@ -52,10 +52,11 @@ export class DatabaseService {
    * @param fuelData the data from the add fuel form
    * @param previousData the Car data of the previous fuelling
    */
+  // todo add error handling
   async addFuel(
     fuelData: FuelHistory,
     previousData: Car
-  ): Promise<[DocumentReference, void]> {
+  ): Promise<[void, void]> {
     const previousHistory = previousData.latestHistory;
     let bodyToUpdateCarDoc: Car;
 
@@ -78,8 +79,8 @@ export class DatabaseService {
 
     // add the new history into the history subcollection
     const addHistory = this.afs
-      .collection(`cars/${previousData.docId}/history`)
-      .add(newLatestHistory);
+      .doc(`cars/${previousData.docId}/history/${fuelData.mileage}`)
+      .set(newLatestHistory);
 
     // update latest history in car document
     const updateLatestHistory = this.afs
@@ -132,7 +133,31 @@ export class DatabaseService {
     });
   }
 
-  deleteLatestFuelling(carDetails: Car) {
-    console.log(carDetails);
+  /**
+   * todo add error handling
+   * @param carDetails carDetails of the car history being deleted
+   */
+  async deleteLatestFuelling(carDetails: Car) {
+    // delete the latest history in the history subcollection
+    await this.afs
+      .doc<FuelHistory>(
+        `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
+      )
+      .delete();
+
+    // get the new latest history in history subcollection then use it to update the latestHistory in the car doc
+    return this.afs
+      .collection<FuelHistory>(`cars/${carDetails.docId}/history`, (ref) =>
+        ref.where('mileage', '>', 0).orderBy('mileage', 'desc').limit(1)
+      )
+      .valueChanges()
+      .pipe(
+        switchMap((newLatestHistory) => {
+          return this.afs
+            .doc(`cars/${carDetails.docId}`)
+            .update({ latestHistory: newLatestHistory[0] });
+        })
+      )
+      .subscribe();
   }
 }

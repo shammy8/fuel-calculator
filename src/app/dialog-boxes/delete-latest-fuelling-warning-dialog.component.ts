@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
 
 import { Car } from '../main-app/Car.model';
 import { DatabaseService } from '../main-app/database.service';
@@ -24,7 +25,7 @@ import { DatabaseService } from '../main-app/database.service';
       >
         Cancel
       </button>
-      <button mat-button (click)="onDelete()">
+      <button mat-button #deleteButton (click)="onDelete()">
         Delete
       </button>
     </div>
@@ -32,6 +33,8 @@ import { DatabaseService } from '../main-app/database.service';
   styles: ['.mat-dialog-actions {flex-direction: row-reverse}'],
 })
 export class DeleteLatestFuellingWarningDialogComponent {
+  @ViewChild('deleteButton') deleteButton: MatButton;
+
   constructor(
     public dialogRef: MatDialogRef<DeleteLatestFuellingWarningDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public carDetails: Car,
@@ -39,6 +42,12 @@ export class DeleteLatestFuellingWarningDialogComponent {
   ) {}
 
   onDelete() {
-    this.datebaseServce.deleteLatestFuelling(this.carDetails);
+    this.deleteButton.disabled = true;
+    this.datebaseServce
+      .deleteLatestFuelling(this.carDetails)
+      .then(() => {
+        this.dialogRef.close();
+      })
+      .catch(() => (this.deleteButton.disabled = false));
   }
 }
