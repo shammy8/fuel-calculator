@@ -32,16 +32,18 @@
       <input matInput type="number" formControlName="costPerVolume" />
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field (click)="picker.open()">
       <mat-label>Date Fuelled</mat-label>
       <input
         matInput
         [matDatepicker]="picker"
         [min]="carDetails.latestHistory?.date.toDate()"
         formControlName="date"
+        disabled
+        style="color: rgba(255, 255, 255, 1);"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker touchUi></mat-datepicker>
+      <mat-datepicker #picker touchUi disabled="false"></mat-datepicker>
       <mat-error
         *ngIf="this.addFuelForm.get('date').errors?.greaterThanPrevious"
         >Must be the same day or after the previous fuelling of

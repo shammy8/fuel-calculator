@@ -50,6 +50,6 @@ const modules = [
   imports: [...modules],
   exports: [...modules, ...components],
   // todo fix date input in angular material datepicker
-  // providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
 export class MaterialModule {}
