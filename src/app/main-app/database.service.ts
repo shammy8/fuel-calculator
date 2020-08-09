@@ -131,4 +131,8 @@ export class DatabaseService {
       drivers,
     });
   }
+
+  deleteLatestFuelling(carDetails: Car) {
+    console.log(carDetails);
+  }
 }

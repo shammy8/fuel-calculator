@@ -99,7 +99,7 @@
   <mat-card-actions>
     <button mat-button [matMenuTriggerFor]="moreButton">More</button>
     <mat-menu #moreButton="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="onDeleteLatestFuelling()">
         <mat-icon>backspace</mat-icon>
         Delete Latest Fuelling
       </button>
