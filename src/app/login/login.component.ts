@@ -22,6 +22,8 @@ export class LoginComponent {
   }
 
   anonymousLogin() {
-    this.afAuth.signInAnonymously().then(console.log);
+    this.afAuth.signInAnonymously().then(() => {
+      this.router.navigate(['']);
+    });
   }
 }

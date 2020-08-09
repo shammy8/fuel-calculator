@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lose-all-data-warning-dialog',
@@ -30,10 +31,14 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class LoseAllDataWarningDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<LoseAllDataWarningDialogComponent>,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    private router: Router
   ) {}
 
   onSignOut() {
-    this.afAuth.signOut().then(() => this.dialogRef.close());
+    this.afAuth.signOut().then(() => {
+      this.dialogRef.close();
+      this.router.navigate(['login']);
+    });
   }
 }
