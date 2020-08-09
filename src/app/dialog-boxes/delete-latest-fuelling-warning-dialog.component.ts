@@ -46,15 +46,16 @@ export class DeleteLatestFuellingWarningDialogComponent implements OnDestroy {
 
   onDelete() {
     this.deleteButton.disabled = true;
-    this.deleteSub = this.datebaseServce
+    // this.deleteSub =
+    this.datebaseServce
       .deleteLatestFuelling(this.carDetails)
-      .subscribe(() => {
+      .then(() => {
         this.dialogRef.close();
-      });
-    // .catch(() => (this.deleteButton.disabled = false));
+      })
+      .catch(() => (this.deleteButton.disabled = false));
   }
 
   ngOnDestroy() {
-    this.deleteSub.unsubscribe();
+    // this.deleteSub.unsubscribe();
   }
 }

@@ -135,38 +135,38 @@ export class DatabaseService {
 
   /**
    * todo add error handling
+   * todo handle deleting when only one history
    * @param carDetails carDetails of the car history being deleted
    */
-  deleteLatestFuelling(carDetails: Car) {
-    console.log('hi');
-    // get the second newest history in history subcollection
-    return this.afs
-      .collection<FuelHistory>(`cars/${carDetails.docId}/history`, (ref) =>
-        ref.where('mileage', '>', 0).orderBy('mileage', 'desc').limit(1)
-      )
-      .valueChanges()
-      .pipe(
-        switchMap((newLatestHistory) => {
-          console.log(newLatestHistory);
+  deleteLatestFuelling(carDetails: Car): Promise<void> {
+    // get the mileage of second newest history doc
+    const mileageOf2ndNewestHistory =
+      carDetails.latestHistory.mileage -
+      carDetails.latestHistory.mileageSinceRecordsBegan;
 
-          // start a batch write so the delete and update are done together atomically
-          const batch = this.afs.firestore.batch();
-
-          // update the latestHistory in the car document with the second newest history
-          batch.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
-            latestHistory: newLatestHistory[0],
+    // start a transaction to make sure the update and delete are done atomically
+    return this.afs.firestore.runTransaction((transaction) => {
+      return transaction
+        .get(
+          // get the history doc of the second newest document
+          this.afs.doc(
+            `cars/${carDetails.docId}/history/${mileageOf2ndNewestHistory}`
+          ).ref
+        )
+        .then((secondNewestHistory) => {
+          // update latestHistory of the car document with the 2nd newest history
+          transaction.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
+            latestHistory: secondNewestHistory.data(),
           });
 
-          // delete the latest history in the history subcollection
-          batch.delete(
+          // delete the oldest history from history collection
+          transaction.delete(
             this.afs.doc<FuelHistory>(
               `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
             ).ref
           );
-
-          return batch.commit();
-        })
-      );
+        });
+    });
   }
 
   /**
