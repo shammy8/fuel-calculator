@@ -10,7 +10,7 @@ export interface Car {
   latestHistory?: FuelHistory;
   logo?: string;
   name?: string;
-  owner: string; // uid of the owner of the car
+  owner?: string; // uid of the owner of the car
 }
 
 export class FuelHistory {

@@ -55,11 +55,9 @@ export class DatabaseService {
   async addFuel(
     fuelData: FuelHistory,
     previousData: Car
-  ): Promise<void | [DocumentReference, void]> {
+  ): Promise<[DocumentReference, void]> {
     const previousHistory = previousData.latestHistory;
-
-    let updateLatestHistory: Promise<void>;
-    let addHistory: Promise<DocumentReference>;
+    let bodyToUpdateCarDoc: Car;
 
     // update the latest history with new values from the form
     const newLatestHistory: FuelHistory = this.updateLatestHistory(
@@ -68,27 +66,27 @@ export class DatabaseService {
     );
 
     if (previousHistory) {
-      // if this isn't the first fuelling
-
-      // add the latestHistory into the history subcollection
-      addHistory = this.afs
-        .collection(`cars/${previousData.docId}/history`)
-        .add(previousHistory);
-
-      updateLatestHistory = this.afs
-        .doc(`cars/${previousData.docId}`)
-        .update({ latestHistory: newLatestHistory });
-
-      return Promise.all([addHistory, updateLatestHistory]);
+      // if this isn't the first fuelling just change the latestHistory
+      bodyToUpdateCarDoc = { latestHistory: newLatestHistory };
     } else {
-      // else if this is the first fuelling
-      updateLatestHistory = this.afs.doc(`cars/${previousData.docId}`).update({
+      // else if this is the first fuelling need to add the dateOfFirstHistory to the car document too
+      bodyToUpdateCarDoc = {
         latestHistory: newLatestHistory,
         dateOfFirstHistory: fuelData.date,
-      });
-
-      return updateLatestHistory;
+      };
     }
+
+    // add the new history into the history subcollection
+    const addHistory = this.afs
+      .collection(`cars/${previousData.docId}/history`)
+      .add(newLatestHistory);
+
+    // update latest history in car document
+    const updateLatestHistory = this.afs
+      .doc(`cars/${previousData.docId}`)
+      .update(bodyToUpdateCarDoc);
+
+    return Promise.all([addHistory, updateLatestHistory]);
   }
 
   private updateLatestHistory(

@@ -62,7 +62,7 @@ export class AddHistoryComponent implements OnInit {
       volume: [null, [Validators.required, Validators.min(1)]],
       costPerVolume: [{ value: null, disabled: true }],
       date: [
-        new Date(),
+        null,
         [
           Validators.required,
           mustBeGreaterThanPrevious(
