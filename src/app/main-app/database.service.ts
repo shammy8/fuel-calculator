@@ -160,4 +160,12 @@ export class DatabaseService {
       )
       .subscribe();
   }
+
+  /**
+   * delete car documents and all it's history
+   * @param carDetails carDetails of the car being deleted
+   */
+  async deleteCar(carDetails: Car): Promise<void> {
+    return this.afs.doc(`cars/${carDetails.docId}`).delete();
+  }
 }

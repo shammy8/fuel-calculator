@@ -24,6 +24,7 @@ import { LoseAllDataWarningDialogComponent } from './dialog-boxes/lose-all-data-
 import { AddDriverComponent } from './main-app/add-driver/add-driver.component';
 import { HistoriesComponent } from './main-app/histories/histories.component';
 import { DeleteLatestFuellingWarningDialogComponent } from './dialog-boxes/delete-latest-fuelling-warning-dialog.component';
+import { DeleteCarWarningDialogComponent } from './dialog-boxes/delete-car-warning-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DeleteLatestFuellingWarningDialogComponent } from './dialog-boxes/delet
     AddDriverComponent,
     HistoriesComponent,
     DeleteLatestFuellingWarningDialogComponent,
+    DeleteCarWarningDialogComponent,
   ],
   imports: [
     BrowserModule,

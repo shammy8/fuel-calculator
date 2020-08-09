@@ -7,6 +7,7 @@ import { Car } from '../Car.model';
 import { AddHistoryComponent } from '../add-history/add-history.component';
 import { AddDriverComponent } from '../add-driver/add-driver.component';
 import { DeleteLatestFuellingWarningDialogComponent } from 'src/app/dialog-boxes/delete-latest-fuelling-warning-dialog.component';
+import { DeleteCarWarningDialogComponent } from 'src/app/dialog-boxes/delete-car-warning-dialog.component';
 
 @Component({
   selector: 'app-car-overview',
@@ -52,6 +53,13 @@ export class CarOverviewComponent {
 
   onDeleteLatestFuelling() {
     this.dialog.open(DeleteLatestFuellingWarningDialogComponent, {
+      width: '500px',
+      data: this.carDetails,
+    });
+  }
+
+  onDeleteCar() {
+    this.dialog.open(DeleteCarWarningDialogComponent, {
       width: '500px',
       data: this.carDetails,
     });
