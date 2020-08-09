@@ -1,9 +1,10 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 
 import { Car } from '../main-app/Car.model';
 import { DatabaseService } from '../main-app/database.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-delete-latest-fuelling-warning-dialog',
@@ -32,7 +33,9 @@ import { DatabaseService } from '../main-app/database.service';
   `,
   styles: ['.mat-dialog-actions {flex-direction: row-reverse}'],
 })
-export class DeleteLatestFuellingWarningDialogComponent {
+export class DeleteLatestFuellingWarningDialogComponent implements OnDestroy {
+  deleteSub: Subscription;
+
   @ViewChild('deleteButton') deleteButton: MatButton;
 
   constructor(
@@ -43,11 +46,15 @@ export class DeleteLatestFuellingWarningDialogComponent {
 
   onDelete() {
     this.deleteButton.disabled = true;
-    this.datebaseServce
+    this.deleteSub = this.datebaseServce
       .deleteLatestFuelling(this.carDetails)
-      .then(() => {
+      .subscribe(() => {
         this.dialogRef.close();
-      })
-      .catch(() => (this.deleteButton.disabled = false));
+      });
+    // .catch(() => (this.deleteButton.disabled = false));
+  }
+
+  ngOnDestroy() {
+    this.deleteSub.unsubscribe();
   }
 }

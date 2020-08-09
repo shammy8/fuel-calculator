@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
-import { switchMap, shareReplay } from 'rxjs/operators';
+import { switchMap, shareReplay, tap } from 'rxjs/operators';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
@@ -137,15 +137,9 @@ export class DatabaseService {
    * todo add error handling
    * @param carDetails carDetails of the car history being deleted
    */
-  async deleteLatestFuelling(carDetails: Car) {
-    // delete the latest history in the history subcollection
-    await this.afs
-      .doc<FuelHistory>(
-        `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
-      )
-      .delete();
-
-    // get the new latest history in history subcollection then use it to update the latestHistory in the car doc
+  deleteLatestFuelling(carDetails: Car) {
+    console.log('hi');
+    // get the second newest history in history subcollection
     return this.afs
       .collection<FuelHistory>(`cars/${carDetails.docId}/history`, (ref) =>
         ref.where('mileage', '>', 0).orderBy('mileage', 'desc').limit(1)
@@ -153,16 +147,31 @@ export class DatabaseService {
       .valueChanges()
       .pipe(
         switchMap((newLatestHistory) => {
-          return this.afs
-            .doc(`cars/${carDetails.docId}`)
-            .update({ latestHistory: newLatestHistory[0] });
+          console.log(newLatestHistory);
+
+          // start a batch write so the delete and update are done together atomically
+          const batch = this.afs.firestore.batch();
+
+          // update the latestHistory in the car document with the second newest history
+          batch.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
+            latestHistory: newLatestHistory[0],
+          });
+
+          // delete the latest history in the history subcollection
+          batch.delete(
+            this.afs.doc<FuelHistory>(
+              `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
+            ).ref
+          );
+
+          return batch.commit();
         })
-      )
-      .subscribe();
+      );
   }
 
   /**
    * delete car documents and all it's history
+   * todo move this to a firebase functions to delete all subcollections too??
    * @param carDetails carDetails of the car being deleted
    */
   async deleteCar(carDetails: Car): Promise<void> {
