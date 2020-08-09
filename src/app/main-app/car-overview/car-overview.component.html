@@ -99,7 +99,11 @@
   <mat-card-actions>
     <button mat-button [matMenuTriggerFor]="moreButton">More</button>
     <mat-menu #moreButton="matMenu">
-      <button mat-menu-item (click)="onDeleteLatestFuelling()">
+      <button
+        mat-menu-item
+        (click)="onDeleteLatestFuelling()"
+        [disabled]="!carDetails.dateOfFirstHistory"
+      >
         <mat-icon>backspace</mat-icon>
         Delete Latest Fuelling
       </button>
