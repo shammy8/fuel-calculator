@@ -53,7 +53,7 @@ export class DatabaseService {
    * @param previousData the Car data of the previous fuelling
    */
   // todo add error handling
-  async addFuel(fuelData: FuelHistory, previousData: Car): Promise<void> {
+  addFuel(fuelData: FuelHistory, previousData: Car): Promise<void> {
     const previousHistory = previousData.latestHistory;
     let bodyToUpdateCarDoc: Car;
 
@@ -74,23 +74,29 @@ export class DatabaseService {
       };
     }
 
-    // start a batch write to set and update atomically
-    const batch = this.afs.firestore.batch();
+    // start a transaction to set and update atomically
+    return this.afs.firestore.runTransaction((transaction) => {
+      return transaction
+        .get(
+          // get the car document to make sure it is up to date
+          this.afs.doc(`cars/${previousData.docId}`).ref
+        )
+        .then((carDoc) => {
+          // update latest history in car document
+          transaction.update(
+            this.afs.doc(`cars/${previousData.docId}`).ref,
+            bodyToUpdateCarDoc
+          );
 
-    // add the new history into the history subcollection
-    batch.set(
-      this.afs.doc(`cars/${previousData.docId}/history/${fuelData.mileage}`)
-        .ref,
-      newLatestHistory
-    );
-
-    // update latest history in car document
-    batch.update(
-      this.afs.doc(`cars/${previousData.docId}`).ref,
-      bodyToUpdateCarDoc
-    );
-
-    return batch.commit();
+          // add the new history into the history subcollection
+          transaction.set(
+            this.afs.doc(
+              `cars/${previousData.docId}/history/${fuelData.mileage}`
+            ).ref,
+            newLatestHistory
+          );
+        });
+    });
   }
 
   private updateLatestHistory(
