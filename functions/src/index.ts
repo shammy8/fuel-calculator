@@ -1,2 +1,2 @@
-// export { createUserRecord, deleteUserRecord } from './auth';
+export { createUserRecord } from './auth';
 // export { onNewCar } from './firestore';
