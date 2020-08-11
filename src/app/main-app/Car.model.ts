@@ -21,6 +21,7 @@ export class FuelHistory {
   costSinceRecordsBegan = 0;
   date?: any; // Timestamp;
   mileage?: number;
+  mileageIncrease?: number;
   mileageSinceRecordsBegan = 0;
   volume?: number;
   volumeSinceRecordsBegan = 0;

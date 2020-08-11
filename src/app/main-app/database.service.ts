@@ -99,14 +99,23 @@ export class DatabaseService {
     });
   }
 
+  /**
+   * @description calculate the newest history document
+   * @param fuelData the data from the add fuel form
+   * @param previousData the Car data of the previous fuelling
+   */
   private updateLatestHistory(
     previousHistory: FuelHistory,
     fuelData: FuelHistory
   ) {
+    // ternary expression is used to handle first fuelling and non-first fuelling
     const mileageSinceRecordsBegan = previousHistory?.mileage
       ? previousHistory.mileageSinceRecordsBegan +
         (fuelData.mileage - previousHistory.mileage)
       : 0;
+    const mileageIncrease = previousHistory?.mileage
+      ? fuelData.mileage - previousHistory.mileage
+      : fuelData.mileage;
     const costSinceRecordsBegan = previousHistory?.cost
       ? previousHistory.cost + previousHistory.costSinceRecordsBegan
       : 0;
@@ -123,6 +132,7 @@ export class DatabaseService {
     const newLatestHistory: FuelHistory = {
       ...fuelData,
       mileageSinceRecordsBegan,
+      mileageIncrease,
       costSinceRecordsBegan,
       volumeSinceRecordsBegan,
       avgMilesPerVolume,
@@ -143,6 +153,7 @@ export class DatabaseService {
   }
 
   /**
+   * delete the newest history and update the latestHistory in the car document with the second newest history
    * todo add error handling
    * @param carDetails carDetails of the car history being deleted
    */
@@ -150,48 +161,59 @@ export class DatabaseService {
     // get the mileage of second newest history doc
     const mileageOf2ndNewestHistory =
       carDetails.latestHistory.mileage -
-      carDetails.latestHistory.mileageSinceRecordsBegan;
+      carDetails.latestHistory.mileageIncrease;
 
     // start a transaction to make sure the update and delete are done atomically
     return this.afs.firestore.runTransaction((transaction) => {
       return transaction
         .get(
-          // get the history doc of the second newest document
+          // get the history doc of the second newest document to use to update the carDoc
           this.afs.doc(
             `cars/${carDetails.docId}/history/${mileageOf2ndNewestHistory}`
           ).ref
         )
         .then((secondNewestHistory) => {
-          if (carDetails.latestHistory.mileageSinceRecordsBegan === 0) {
-            // if this is the only history
+          // get the car doc to make sure it's the most up to date
+          return transaction
+            .get(this.afs.doc(`cars/${carDetails.docId}`).ref)
+            .then((carDoc) => {
+              if (carDetails.latestHistory.mileageSinceRecordsBegan === 0) {
+                // if this is the only history
 
-            // update latestHistory of the car document with the 2nd newest history
-            transaction.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
-              dateOfFirstHistory: null,
-              latestHistory: null,
+                // update latestHistory of the car document with the 2nd newest history
+                transaction.update(
+                  this.afs.doc(`cars/${carDetails.docId}`).ref,
+                  {
+                    dateOfFirstHistory: null,
+                    latestHistory: null,
+                  }
+                );
+
+                // delete the only history from history collection
+                transaction.delete(
+                  this.afs.doc<FuelHistory>(
+                    `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
+                  ).ref
+                );
+              } else {
+                // else if this isn't the only history
+
+                // update latestHistory of the car document with the 2nd newest history
+                transaction.update(
+                  this.afs.doc(`cars/${carDetails.docId}`).ref,
+                  {
+                    latestHistory: secondNewestHistory.data(),
+                  }
+                );
+
+                // delete the newest history from history collection
+                transaction.delete(
+                  this.afs.doc<FuelHistory>(
+                    `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
+                  ).ref
+                );
+              }
             });
-
-            // delete the only history from history collection
-            transaction.delete(
-              this.afs.doc<FuelHistory>(
-                `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
-              ).ref
-            );
-          } else {
-            // else if this isn't the only history
-
-            // update latestHistory of the car document with the 2nd newest history
-            transaction.update(this.afs.doc(`cars/${carDetails.docId}`).ref, {
-              latestHistory: secondNewestHistory.data(),
-            });
-
-            // delete the oldest history from history collection
-            transaction.delete(
-              this.afs.doc<FuelHistory>(
-                `cars/${carDetails.docId}/history/${carDetails.latestHistory.mileage}`
-              ).ref
-            );
-          }
         });
     });
   }
