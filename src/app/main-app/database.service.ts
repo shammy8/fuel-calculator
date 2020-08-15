@@ -12,6 +12,8 @@ import { Car, FuelHistory, UIElements } from './Car.model';
   providedIn: 'root',
 })
 export class DatabaseService {
+  user: User;
+
   uiElements$: Observable<UIElements> = this.afs
     .doc('general/ui')
     .valueChanges()
@@ -19,6 +21,7 @@ export class DatabaseService {
 
   // the cars of a particular user
   cars$: Observable<Car[] | []> = this.afAuth.user.pipe(
+    tap((user) => (this.user = user)),
     switchMap((user: User) => {
       if (user) {
         return this.afs
@@ -58,10 +61,16 @@ export class DatabaseService {
     let bodyToUpdateCarDoc: Car;
 
     // update the latest history with new values from the form
-    const newLatestHistory: FuelHistory = this.updateLatestHistory(
+    let newLatestHistory: FuelHistory = this.updateLatestHistory(
       previousHistory,
       fuelData
     );
+
+    // then add the details of who added this fuelling history
+    newLatestHistory = {
+      ...newLatestHistory,
+      fueller: { uid: this.user.uid, displayName: this.user.displayName },
+    };
 
     if (previousHistory) {
       // if this isn't the first fuelling just change the latestHistory

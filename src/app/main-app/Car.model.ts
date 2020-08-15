@@ -20,6 +20,7 @@ export class FuelHistory {
   cost?: number;
   costSinceRecordsBegan = 0;
   date?: any; // Timestamp;
+  fueller?: { uid: string; displayName: string };
   mileage?: number;
   mileageIncrease?: number;
   mileageSinceRecordsBegan = 0;
