@@ -5,11 +5,11 @@ import {
   MAT_BOTTOM_SHEET_DATA,
 } from '@angular/material/bottom-sheet';
 import { MatButton } from '@angular/material/button';
-
-import { DatabaseService } from '../database.service';
-import { Car } from '../Car.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Subscription } from 'rxjs';
+
+import { Car } from '../Car.model';
 
 @Component({
   selector: 'app-add-driver',
@@ -26,6 +26,7 @@ export class AddDriverComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private bottomSheetRef: MatBottomSheetRef<AddDriverComponent>,
     private fns: AngularFireFunctions,
+    private snackBar: MatSnackBar,
     @Inject(MAT_BOTTOM_SHEET_DATA) public carDetails: Car
   ) {}
 
@@ -40,20 +41,27 @@ export class AddDriverComponent implements OnInit, OnDestroy {
     this.addDriverButton.disabled = true;
 
     const addDriverCloudFunction = this.fns.httpsCallable('addDriver');
-    this.addDriverCloudFunctionSub = addDriverCloudFunction({
+    addDriverCloudFunction({
       email: this.addDriverForm.value.email,
       carDoc: this.carDetails,
-    }).subscribe({
-      next: (res) => {
+    })
+      .toPromise() // keeping as observable makes the app act strange
+      .then((res) => {
         console.log(res);
         this.bottomSheetRef.dismiss();
-      },
-      error: (err) => {
+
+        this.snackBar.open(res, 'Close', {
+          duration: 5000,
+        });
+      })
+      .catch((err) => {
         this.addDriverButton.disabled = false;
         console.log(err);
-      },
-    });
-    // this.bottomSheetRef.dismiss();
+
+        this.snackBar.open(err, 'Close', {
+          duration: 5000,
+        });
+      });
   }
 
   onReset(): void {
@@ -66,6 +74,6 @@ export class AddDriverComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addDriverCloudFunctionSub?.unsubscribe();
+    // this.addDriverCloudFunctionSub?.unsubscribe();
   }
 }

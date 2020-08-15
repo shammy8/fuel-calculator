@@ -67,9 +67,11 @@ export const addDriver = functions.https.onCall(
         }
       });
 
-      return carDocRef.update({
+      await carDocRef.update({
         drivers,
       });
+
+      return 'User added!';
     } else if (user.size === 0) {
       // if 0 document is returned need to sent a email
       try {
