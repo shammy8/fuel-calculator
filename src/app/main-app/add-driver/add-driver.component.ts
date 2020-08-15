@@ -37,31 +37,28 @@ export class AddDriverComponent implements OnInit, OnDestroy {
   }
 
   // todo add typing, handle error, dismiss isn't working, add confirmation toast
-  onAddDriver() {
+  async onAddDriver() {
     this.addDriverButton.disabled = true;
 
-    const addDriverCloudFunction = this.fns.httpsCallable('addDriver');
-    addDriverCloudFunction({
-      email: this.addDriverForm.value.email,
-      carDoc: this.carDetails,
-    })
-      .toPromise() // keeping as observable makes the app act strange
-      .then((res) => {
-        console.log(res);
-        this.bottomSheetRef.dismiss();
+    try {
+      const addDriverCloudFunction = this.fns.httpsCallable('addDriver');
+      const res = await addDriverCloudFunction({
+        email: this.addDriverForm.value.email,
+        carDoc: this.carDetails,
+      }).toPromise(); // keeping as observable makes the app act strange
 
-        this.snackBar.open(res, 'Close', {
-          duration: 5000,
-        });
-      })
-      .catch((err) => {
-        this.addDriverButton.disabled = false;
-        console.log(err);
+      this.bottomSheetRef.dismiss();
 
-        this.snackBar.open(err, 'Close', {
-          duration: 5000,
-        });
+      this.snackBar.open(res, 'Close', {
+        duration: 5000,
       });
+    } catch (err) {
+      this.addDriverButton.disabled = false;
+
+      this.snackBar.open(err, 'Close', {
+        duration: 5000,
+      });
+    }
   }
 
   onReset(): void {
