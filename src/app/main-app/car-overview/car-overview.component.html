@@ -1,7 +1,13 @@
 <mat-card>
   <mat-card-header>
     <div mat-card-avatar class="logo">{{ carDetails.logo }}</div>
-    <mat-card-title>{{ carDetails.name }} </mat-card-title>
+    <!-- add more detail below -->
+    <mat-card-title
+      matTooltip="Car created by {{
+        carDetails.owner === user.uid ? 'you' : 'somebody else'
+      }}"
+      >{{ carDetails.name }}
+    </mat-card-title>
     <mat-card-subtitle>{{ carDetails.engineType }}</mat-card-subtitle>
     <div class="fill-space"></div>
     <ng-content></ng-content>
