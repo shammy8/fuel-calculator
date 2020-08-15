@@ -74,6 +74,7 @@
             ? 'you'
             : carDetails.latestHistory.fueller.displayName
         }}
+        {{ carDetails.latestHistory.fueller.uid }}
       </div>
       <div class="totals-content">
         <div class="total">
@@ -107,7 +108,11 @@
       <button
         mat-menu-item
         (click)="onDeleteLatestFuelling()"
-        [disabled]="!carDetails.dateOfFirstHistory"
+        [disabled]="
+          !carDetails.dateOfFirstHistory ||
+          (carDetails.latestHistory.fueller.uid !== user.uid &&
+            carDetails.owner !== user.uid)
+        "
       >
         <mat-icon>backspace</mat-icon>
         Delete Latest Fuelling
