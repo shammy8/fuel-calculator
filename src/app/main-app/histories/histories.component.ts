@@ -45,6 +45,7 @@ export class HistoriesComponent implements OnInit {
     'costSinceRecordsBegan',
     'avgPricePerMile',
     'avgMilesPerVolume',
+    'addedBy',
   ];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;

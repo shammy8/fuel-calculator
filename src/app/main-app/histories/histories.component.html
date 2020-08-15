@@ -142,6 +142,21 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="addedBy">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      cdkDrag
+      matTooltip="User who added this fuelling history"
+    >
+      Added by
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.fueller.displayName }}
+    </td>
+  </ng-container>
+
   <ng-container matColumnDef="expandedDetail">
     <td
       mat-cell
