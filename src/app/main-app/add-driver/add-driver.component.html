@@ -2,8 +2,8 @@
   <div class="mat-title">Add a New Driver to this Vehicle</div>
   <form [formGroup]="addDriverForm" (ngSubmit)="onAddDriver()">
     <mat-form-field>
-      <mat-label>User ID (email not working yet)</mat-label>
-      <input matInput type="text" formControlName="uidOrEmail" />
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
     </mat-form-field>
 
     <div class="buttons">

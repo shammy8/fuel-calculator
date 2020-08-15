@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import 'firebase/firestore';
 import 'firebase/auth';
 
@@ -51,6 +52,7 @@ import { DeleteCarWarningDialogComponent } from './dialog-boxes/delete-car-warni
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthGuardModule,
+    AngularFireFunctionsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
