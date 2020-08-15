@@ -36,7 +36,7 @@ export class AddDriverComponent implements OnInit, OnDestroy {
     });
   }
 
-  // todo add typing, handle error, allow adding driver by email
+  // todo add typing, handle error, dismiss isn't working, add confirmation toast
   onAddDriver() {
     this.addDriverButton.disabled = true;
 
@@ -53,7 +53,7 @@ export class AddDriverComponent implements OnInit, OnDestroy {
         console.log(err);
       },
     });
-    this.bottomSheetRef.dismiss();
+    // this.bottomSheetRef.dismiss();
   }
 
   onReset(): void {
