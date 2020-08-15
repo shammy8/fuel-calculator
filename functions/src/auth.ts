@@ -4,6 +4,7 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
+// when a new user first signs up create a doc in users collection
 export const createUserRecord = functions.auth
   .user()
   .onCreate((user, context) => {
@@ -16,6 +17,11 @@ export const createUserRecord = functions.auth
       createdAt: context.timestamp,
     });
   });
+
+// when a user deletes his account, delete his associated doc in users collection
+export const deleteUserRecord = functions.auth.user().onDelete((user) => {
+  return db.doc(`users/${user.uid}`).delete();
+});
 
 export const addDriver = functions.https.onCall(
   async (
@@ -83,7 +89,3 @@ export const addDriver = functions.https.onCall(
     }
   }
 );
-
-// export const deleteUserRecord = functions.auth.user().onDelete(user => {
-//   return db.doc(`users/${user.uid}`).delete();
-// });
