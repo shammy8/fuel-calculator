@@ -60,7 +60,12 @@ export const addDriver = functions.https.onCall(
 
     if (user.size === 1) {
       // if 1 document is returned then add the uid of that doc into drivers array and update cardoc
-      user.forEach((doc) => drivers.push(doc.data().uid));
+      user.forEach((doc) => {
+        if (!drivers.includes(doc.data().uid)) {
+          // if uid is not already inside the drivers array then add it
+          drivers.push(doc.data().uid);
+        }
+      });
 
       return carDocRef.update({
         drivers,

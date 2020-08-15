@@ -23,7 +23,6 @@ export class AddDriverComponent implements OnInit, OnDestroy {
   @ViewChild('addDriverButton') addDriverButton: MatButton;
 
   constructor(
-    private databaseService: DatabaseService,
     private fb: FormBuilder,
     private bottomSheetRef: MatBottomSheetRef<AddDriverComponent>,
     private fns: AngularFireFunctions,
