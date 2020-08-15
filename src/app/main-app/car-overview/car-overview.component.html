@@ -68,7 +68,12 @@
     <div class="totals" *ngIf="carDetails.latestHistory?.date">
       <div class="lighter">
         Latest Fuelling on
-        {{ carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy' }}
+        {{ carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy' }} by
+        {{
+          user.uid === carDetails.latestHistory.fueller.uid
+            ? 'you'
+            : carDetails.latestHistory.fueller.displayName
+        }}
       </div>
       <div class="totals-content">
         <div class="total">

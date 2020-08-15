@@ -13,6 +13,10 @@ import { Car, FuelHistory, UIElements } from './Car.model';
 })
 export class DatabaseService {
   user: User;
+  user$: Observable<User> = this.afAuth.user.pipe(
+    tap(console.log),
+    shareReplay()
+  );
 
   uiElements$: Observable<UIElements> = this.afs
     .doc('general/ui')
@@ -20,8 +24,7 @@ export class DatabaseService {
     .pipe(shareReplay());
 
   // the cars of a particular user
-  cars$: Observable<Car[] | []> = this.afAuth.user.pipe(
-    tap((user) => (this.user = user)),
+  cars$: Observable<Car[] | []> = this.user$.pipe(
     switchMap((user: User) => {
       if (user) {
         return this.afs
@@ -56,7 +59,11 @@ export class DatabaseService {
    * @param previousData the Car data of the previous fuelling
    */
   // todo add error handling
-  async addFuel(fuelData: FuelHistory, previousData: Car): Promise<void> {
+  async addFuel(
+    fuelData: FuelHistory,
+    previousData: Car,
+    user: User
+  ): Promise<void> {
     const previousHistory = previousData.latestHistory;
     let bodyToUpdateCarDoc: Car;
 
@@ -69,7 +76,7 @@ export class DatabaseService {
     // then add the details of who added this fuelling history
     newLatestHistory = {
       ...newLatestHistory,
-      fueller: { uid: this.user.uid, displayName: this.user.displayName },
+      fueller: { uid: user.uid, displayName: user.displayName },
     };
 
     if (previousHistory) {

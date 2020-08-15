@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { combineLatest } from 'rxjs';
+import { User } from 'firebase';
 
 import { Car } from '../Car.model';
 import { DatabaseService } from '../database.service';
@@ -40,7 +41,7 @@ export class AddHistoryComponent implements OnInit {
     private databaseService: DatabaseService,
     private fb: FormBuilder,
     private bottomSheetRef: MatBottomSheetRef<AddHistoryComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public carDetails: Car
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: { carDetails: Car; user: User }
   ) {}
 
   ngOnInit(): void {
@@ -51,11 +52,13 @@ export class AddHistoryComponent implements OnInit {
   private initialiseForm(): void {
     this.addFuelForm = this.fb.group({
       mileage: [
-        this.carDetails.latestHistory?.mileage + 1 ?? null,
+        this.data.carDetails.latestHistory?.mileage + 1 ?? null,
         [
           Validators.required,
           Validators.min(0),
-          mustBeGreaterThanPrevious(this.carDetails.latestHistory?.mileage),
+          mustBeGreaterThanPrevious(
+            this.data.carDetails.latestHistory?.mileage
+          ),
         ],
       ],
       cost: [null, [Validators.required, Validators.min(0)]],
@@ -66,7 +69,7 @@ export class AddHistoryComponent implements OnInit {
         [
           Validators.required,
           mustBeGreaterThanPrevious(
-            this.carDetails.latestHistory?.date?.toDate()
+            this.data.carDetails.latestHistory?.date?.toDate()
           ),
         ],
       ],
@@ -93,7 +96,7 @@ export class AddHistoryComponent implements OnInit {
   addFuel(): void {
     this.addFuelButton.disabled = true;
     this.databaseService
-      .addFuel(this.addFuelForm.value, this.carDetails)
+      .addFuel(this.addFuelForm.value, this.data.carDetails, this.data.user)
       .then(() => this.bottomSheetRef.dismiss())
       .catch(() => (this.addFuelButton.disabled = false));
   }

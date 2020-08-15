@@ -2,6 +2,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from 'firebase';
 
 import { Car } from '../Car.model';
 import { AddHistoryComponent } from '../add-history/add-history.component';
@@ -17,6 +18,7 @@ import { DeleteCarWarningDialogComponent } from 'src/app/dialog-boxes/delete-car
 })
 export class CarOverviewComponent {
   @Input() carDetails: Car;
+  @Input() user: User;
 
   avgMilesPerVolumeUpperLimit = 10;
   avgMilesPerVolumeLowerLimit = 5;
@@ -32,7 +34,7 @@ export class CarOverviewComponent {
 
   onAddFuel(): void {
     const addHistoryRef = this.bottomSheet.open(AddHistoryComponent, {
-      data: this.carDetails,
+      data: { carDetails: this.carDetails, user: this.user },
       autoFocus: true,
     });
 

@@ -4,7 +4,12 @@
   cdkDropList
   (cdkDropListDropped)="drop($event)"
 >
-  <app-car-overview *ngFor="let car of cars" [carDetails]="car" cdkDrag>
+  <app-car-overview
+    *ngFor="let car of cars"
+    [carDetails]="car"
+    [user]="user"
+    cdkDrag
+  >
     <mat-icon cdkDragHandle>drag_handle</mat-icon>
   </app-car-overview>
 </div>

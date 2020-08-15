@@ -1,19 +1,21 @@
 <div class="container">
-  <div class="mat-title">{{ carDetails.logo }} {{ carDetails.name }}</div>
+  <div class="mat-title">
+    {{ data.carDetails.logo }} {{ data.carDetails.name }}
+  </div>
   <form [formGroup]="addFuelForm" (ngSubmit)="addFuel()">
     <mat-form-field>
       <mat-label>Current Mileage</mat-label>
       <input
         matInput
         type="number"
-        [min]="carDetails.latestHistory?.mileage + 1"
+        [min]="data.carDetails.latestHistory?.mileage + 1"
         formControlName="mileage"
       />
       <mat-hint>Current mileage from the vehicle's odometer</mat-hint>
       <mat-error
         *ngIf="this.addFuelForm.get('mileage').errors?.greaterThanPrevious"
         >Must be greater than the previous mileage of
-        {{ carDetails.latestHistory.mileage }}</mat-error
+        {{ data.carDetails.latestHistory.mileage }}</mat-error
       >
     </mat-form-field>
 
@@ -47,7 +49,7 @@
         *ngIf="this.addFuelForm.get('date').errors?.greaterThanPrevious"
         >Must be after the previous fuelling date of
         {{
-          carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy'
+          data.carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy'
         }}</mat-error
       >
     </mat-form-field>
