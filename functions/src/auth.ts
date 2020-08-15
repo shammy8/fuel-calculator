@@ -70,10 +70,11 @@ export const addDriver = functions.https.onCall(
       try {
         await db.collection('mail').add({
           to: data.email,
-          message: {
-            html: 'Your friend has recommended you to use this app.',
-            subject: 'Fuel Calculator',
-            text: 'Your friend has recommended you to use this app.',
+          template: {
+            name: 'addFuel',
+            data: {
+              displayName: context.auth?.token.email,
+            },
           },
         });
         return 'Email sent';

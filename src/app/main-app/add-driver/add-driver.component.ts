@@ -67,6 +67,6 @@ export class AddDriverComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addDriverCloudFunctionSub.unsubscribe();
+    this.addDriverCloudFunctionSub?.unsubscribe();
   }
 }
