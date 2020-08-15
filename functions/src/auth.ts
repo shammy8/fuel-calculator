@@ -60,13 +60,25 @@ export const addDriver = functions.https.onCall(
         drivers,
       });
     } else if (user.size === 0) {
-      // if 0 document is returned need to sent a email or something todo
-      throw new functions.https.HttpsError('not-found', "Owner doesn't exist");
+      // if 0 document is returned need to sent a email
+      try {
+        await db.collection('mail').add({
+          to: data.email,
+          message: {
+            html: 'Your friend has recommended you to use this app.',
+            subject: 'Fuel Calculator',
+            text: 'Your friend has recommended you to use this app.',
+          },
+        });
+        return 'Email sent';
+      } catch (err) {
+        return err;
+      }
     } else {
-      // if 3 docs are returned then there is an error in the database
+      // if more than 1 docs are returned then there is an error in the database
       throw new functions.https.HttpsError(
         'unknown',
-        'More than one account associated with this account, contact developer.'
+        'More than one email associated with this account, contact developer.'
       );
     }
   }

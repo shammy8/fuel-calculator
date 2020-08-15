@@ -45,7 +45,8 @@ export class AddDriverComponent implements OnInit, OnDestroy {
       email: this.addDriverForm.value.email,
       carDoc: this.carDetails,
     }).subscribe({
-      next: () => {
+      next: (res) => {
+        console.log(res);
         this.bottomSheetRef.dismiss();
       },
       error: (err) => {
