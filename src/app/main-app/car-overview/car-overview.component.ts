@@ -43,7 +43,7 @@ export class CarOverviewComponent {
 
   onAddDriver(): void {
     const addDriverRef = this.bottomSheet.open(AddDriverComponent, {
-      data: { docId: this.carDetails.docId, drivers: this.carDetails.drivers },
+      data: { carDetails: this.carDetails, user: this.user },
       autoFocus: true,
     });
   }

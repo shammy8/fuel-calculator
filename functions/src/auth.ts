@@ -59,35 +59,24 @@ export const addDriver = functions.https.onCall(
       .get();
 
     if (user.size === 1) {
-      // if 1 document is returned then add the uid of that doc into drivers array and update cardoc
-      user.forEach((doc) => {
-        if (!drivers.includes(doc.data().uid)) {
-          // if uid is not already inside the drivers array then add it
-          drivers.push(doc.data().uid);
-        }
-      });
+      // if 1 document is returned
+      if (drivers.includes(user.docs[0].data().uid)) {
+        // if uid is already inside the drivers array then tell the front end
+        return `Driver - ${
+          user.docs[0].data().name
+        } - already exists for this car.`;
+      }
 
+      // if uid is not already inside the drivers array then add it and update the carDoc
+      drivers.push(user.docs[0].data().uid);
       await carDocRef.update({
         drivers,
       });
 
-      return 'User added!';
+      return `Driver - ${user.docs[0].data().name} - added!`;
     } else if (user.size === 0) {
-      // if 0 document is returned need to sent a email
-      try {
-        await db.collection('mail').add({
-          to: data.email,
-          template: {
-            name: 'addFuel',
-            data: {
-              displayName: context.auth?.token.email,
-            },
-          },
-        });
-        return 'Email sent';
-      } catch (err) {
-        return err;
-      }
+      // if 0 document is returned tell user to email the driver
+      return 'Driver not sign up';
     } else {
       // if more than 1 docs are returned then there is an error in the database
       throw new functions.https.HttpsError(
