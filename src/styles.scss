@@ -11,7 +11,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$fuel-calculator-primary: mat-palette($mat-purple);
+$fuel-calculator-primary: mat-palette($mat-purple, 600);
+$fuel-calculator-light-primary: mat-palette($mat-purple, A100);
 $fuel-calculator-accent: mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -24,10 +25,17 @@ $fuel-calculator-theme: mat-dark-theme(
   $fuel-calculator-warn
 );
 
+$fuel-calculator-button-theme: mat-dark-theme(
+  $fuel-calculator-light-primary,
+  $fuel-calculator-accent,
+  $fuel-calculator-warn
+);
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($fuel-calculator-theme);
+@include mat-form-field-theme($fuel-calculator-button-theme);
 
 /* You can add global styles to this file, and also import other style files */
 
