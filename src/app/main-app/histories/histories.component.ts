@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { map, switchMap, debounceTime } from 'rxjs/operators';
+import { Observable, Subscription, Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -36,6 +36,7 @@ export class HistoriesComponent implements OnInit, OnDestroy {
   history$: Observable<FuelHistory[]>;
   historySub: Subscription;
   userDocSub: Subscription;
+  updateSub: Subscription;
 
   dataSource: MatTableDataSource<FuelHistory>;
   expandedElement: FuelHistory | null;
@@ -51,6 +52,7 @@ export class HistoriesComponent implements OnInit, OnDestroy {
     'avgMilesPerVolume',
     'addedBy',
   ];
+  updateColumnInFirestore$ = new Subject<string[]>();
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -83,28 +85,33 @@ export class HistoriesComponent implements OnInit, OnDestroy {
     this.userDocSub = this.databaseService.userDoc$.subscribe(
       (userDoc) => (this.displayedColumns = userDoc.tableColumns)
     );
+
+    this.updateSub = this.updateColumnInFirestore$
+      .pipe(
+        debounceTime(5000), // update every 5 seconds
+        // distinctUntilChanged(), not working fully + seem like it's working with distinctUntilChange in it right now
+        switchMap((columns) => {
+          return this.databaseService.saveColumnOrder(columns);
+        })
+      )
+      .subscribe();
   }
 
   // drag to reorder table columns
-  // todo save the column order for user
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
       this.displayedColumns,
       event.previousIndex,
       event.currentIndex
     );
+
+    // update the firestore with the new column order
+    this.updateColumnInFirestore$.next(this.displayedColumns);
   }
 
   ngOnDestroy() {
     this.historySub.unsubscribe();
     this.userDocSub.unsubscribe();
-
-    // ngOnDestroy doesn't get trigger when page gets closed or refresh
-    // so it will not save this new column order when that happen
-    // need to press the back button for it to save
-    this.databaseService
-      .saveColumnOrder(this.displayedColumns)
-      .subscribe()
-      .unsubscribe();
+    this.updateSub.unsubscribe();
   }
 }
