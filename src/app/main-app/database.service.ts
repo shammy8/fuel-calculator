@@ -153,16 +153,6 @@ export class DatabaseService {
     return newLatestHistory;
   }
 
-  // todo add typing, handle error
-  // todo add code to recognise if a email or uid is entered
-  addDriver(newDriverDetail: string, carDoc: Car): Promise<void> {
-    // drivers has to be in the right order or firebase security rules will reject the request
-    const drivers = [...carDoc.drivers, newDriverDetail];
-    return this.afs.doc(`cars/${carDoc.docId}`).update({
-      drivers,
-    });
-  }
-
   /**
    * delete the newest history and update the latestHistory in the car document with the second newest history
    * todo add error handling
