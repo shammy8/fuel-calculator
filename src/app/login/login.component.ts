@@ -15,7 +15,7 @@ export class LoginComponent {
   // todo handle error
   googleLogin() {
     this.afAuth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .signInWithRedirect(new firebase.auth.GoogleAuthProvider())
       .then(() => {
         this.router.navigate(['']);
       });
