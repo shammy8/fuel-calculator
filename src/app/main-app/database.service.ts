@@ -39,6 +39,11 @@ export class DatabaseService {
     })
   );
 
+  // the doc in the users collection of the current user
+  userDoc$: Observable<any> = this.user$.pipe(
+    switchMap((user) => this.afs.doc(`users/${user.uid}`).valueChanges())
+  );
+
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
 
   async addVehicle(carData: Car): Promise<DocumentReference> {
@@ -214,5 +219,17 @@ export class DatabaseService {
    */
   async deleteCar(carDetails: Car): Promise<void> {
     return this.afs.doc(`cars/${carDetails.docId}`).delete();
+  }
+
+  /**
+   * Save the table columns order to Firestore
+   * @param tableColumns the array of columns
+   */
+  saveColumnOrder(tableColumns: string[]): Observable<void> {
+    return this.user$.pipe(
+      switchMap((user) => {
+        return this.afs.doc(`users/${user.uid}`).update({ tableColumns });
+      })
+    );
   }
 }

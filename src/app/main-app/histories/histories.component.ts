@@ -12,9 +12,10 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { FuelHistory } from '../Car.model';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DatabaseService } from '../database.service';
 
 @Component({
   selector: 'app-histories',
@@ -34,6 +35,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class HistoriesComponent implements OnInit, OnDestroy {
   history$: Observable<FuelHistory[]>;
   historySub: Subscription;
+  userDocSub: Subscription;
+
   dataSource: MatTableDataSource<FuelHistory>;
   expandedElement: FuelHistory | null;
   displayedColumns: string[] = [
@@ -51,7 +54,11 @@ export class HistoriesComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private route: ActivatedRoute, private afs: AngularFirestore) {}
+  constructor(
+    private route: ActivatedRoute,
+    private afs: AngularFirestore,
+    private databaseService: DatabaseService
+  ) {}
 
   ngOnInit(): void {
     // get the carId from the url params and then use it to call firestore for all
@@ -71,6 +78,11 @@ export class HistoriesComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource(history);
       this.dataSource.sort = this.sort;
     });
+
+    // get the saved column order from Firestore
+    this.userDocSub = this.databaseService.userDoc$.subscribe(
+      (userDoc) => (this.displayedColumns = userDoc.tableColumns)
+    );
   }
 
   // drag to reorder table columns
@@ -85,5 +97,14 @@ export class HistoriesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.historySub.unsubscribe();
+    this.userDocSub.unsubscribe();
+
+    // ngOnDestroy doesn't get trigger when page gets closed or refresh
+    // so it will not save this new column order when that happen
+    // need to press the back button for it to save
+    this.databaseService
+      .saveColumnOrder(this.displayedColumns)
+      .subscribe()
+      .unsubscribe();
   }
 }
