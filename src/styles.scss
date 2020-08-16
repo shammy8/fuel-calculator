@@ -18,7 +18,7 @@ $fuel-calculator-accent: mat-palette($mat-pink, A200, A100, A400);
 $fuel-calculator-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$fuel-calculator-theme: mat-light-theme(
+$fuel-calculator-theme: mat-dark-theme(
   $fuel-calculator-primary,
   $fuel-calculator-accent,
   $fuel-calculator-warn
