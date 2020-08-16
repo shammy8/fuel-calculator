@@ -83,7 +83,8 @@ export class HistoriesComponent implements OnInit, OnDestroy {
 
     // get the saved column order from Firestore
     this.userDocSub = this.databaseService.userDoc$.subscribe(
-      (userDoc) => (this.displayedColumns = userDoc.tableColumns)
+      (userDoc) =>
+        (this.displayedColumns = userDoc.tableColumns ?? this.displayedColumns)
     );
 
     this.updateSub = this.updateColumnInFirestore$
