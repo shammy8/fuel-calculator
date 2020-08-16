@@ -26,6 +26,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
 
   user: firebase.User;
   authSub: Subscription;
+  breakSub: Subscription;
 
   @ViewChild('sidenav') drawer: MatSidenav;
 
@@ -39,7 +40,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.breakpointObserver
+    this.breakSub = this.breakpointObserver
       .observe(['(max-width: 780px)'])
       .subscribe((res) => (this.isHandset = res.matches));
 
@@ -78,11 +79,13 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     }
   }
 
+  // todo update user doc when an anon user hook up to google account
   linkAnonymousToGoogleAccount() {
-    this.user.linkWithPopup(new firebase.auth.GoogleAuthProvider());
+    this.user.linkWithRedirect(new firebase.auth.GoogleAuthProvider());
   }
 
   ngOnDestroy() {
+    this.breakSub.unsubscribe();
     this.authSub.unsubscribe();
   }
 }

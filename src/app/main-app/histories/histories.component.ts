@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -31,8 +31,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
     ]),
   ],
 })
-export class HistoriesComponent implements OnInit {
+export class HistoriesComponent implements OnInit, OnDestroy {
   history$: Observable<FuelHistory[]>;
+  historySub: Subscription;
   dataSource: MatTableDataSource<FuelHistory>;
   expandedElement: FuelHistory | null;
   displayedColumns: string[] = [
@@ -66,7 +67,7 @@ export class HistoriesComponent implements OnInit {
       )
     );
 
-    this.history$.subscribe((history) => {
+    this.historySub = this.history$.subscribe((history) => {
       this.dataSource = new MatTableDataSource(history);
       this.dataSource.sort = this.sort;
     });
@@ -80,5 +81,9 @@ export class HistoriesComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
+  }
+
+  ngOnDestroy() {
+    this.historySub.unsubscribe();
   }
 }

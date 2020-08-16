@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
 import {
   MatBottomSheetRef,
   MAT_BOTTOM_SHEET_DATA,
@@ -11,7 +11,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { User } from 'firebase';
 
 import { Car } from '../Car.model';
@@ -32,8 +32,9 @@ function mustBeGreaterThanPrevious(previous: any): ValidatorFn {
   templateUrl: './add-history.component.html',
   styleUrls: ['./add-history.component.scss'],
 })
-export class AddHistoryComponent implements OnInit {
+export class AddHistoryComponent implements OnInit, OnDestroy {
   addFuelForm: FormGroup;
+  sub: Subscription;
 
   @ViewChild('addFuelButton') addFuelButton: MatButton;
 
@@ -81,7 +82,7 @@ export class AddHistoryComponent implements OnInit {
   private autoUpdateCostPerVolume(): void {
     const volume$ = this.addFuelForm.get('volume').valueChanges;
     const cost$ = this.addFuelForm.get('cost').valueChanges;
-    combineLatest([volume$, cost$]).subscribe(([volume, cost]) => {
+    this.sub = combineLatest([volume$, cost$]).subscribe(([volume, cost]) => {
       let costPerVolume: number;
       if (volume <= 0) {
         costPerVolume = null;
@@ -108,5 +109,9 @@ export class AddHistoryComponent implements OnInit {
   onCancel(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();
     event.preventDefault(); // copying the docs
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

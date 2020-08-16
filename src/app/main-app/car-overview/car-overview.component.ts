@@ -37,8 +37,6 @@ export class CarOverviewComponent {
       data: { carDetails: this.carDetails, user: this.user },
       autoFocus: true,
     });
-
-    // addHistoryRef.afterDismissed().subscribe(console.log);
   }
 
   onAddDriver(): void {
