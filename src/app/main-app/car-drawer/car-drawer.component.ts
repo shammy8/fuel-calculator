@@ -68,7 +68,6 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   }
 
   onCarClick(car): void {
-    // console.log(car);
     this.handleCloseDrawerOnClick();
   }
 

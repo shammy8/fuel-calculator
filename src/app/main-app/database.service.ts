@@ -13,10 +13,7 @@ import { Car, FuelHistory, UIElements } from './Car.model';
 })
 export class DatabaseService {
   user: User;
-  user$: Observable<User> = this.afAuth.user.pipe(
-    tap(console.log),
-    shareReplay()
-  );
+  user$: Observable<User> = this.afAuth.user.pipe(shareReplay());
 
   uiElements$: Observable<UIElements> = this.afs
     .doc('general/ui')
