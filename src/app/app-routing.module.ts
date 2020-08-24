@@ -9,6 +9,7 @@ import {
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './main-app/dashboard.component';
 import { HistoriesComponent } from './main-app/histories/histories.component';
+import { SettingsComponent } from './main-app/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       { path: ':carId/history', component: HistoriesComponent },
+      { path: 'settings', component: SettingsComponent },
     ],
   },
   {

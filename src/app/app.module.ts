@@ -27,6 +27,7 @@ import { HistoriesComponent } from './main-app/histories/histories.component';
 import { DeleteLatestFuellingWarningDialogComponent } from './dialog-boxes/delete-latest-fuelling-warning-dialog.component';
 import { DeleteCarWarningDialogComponent } from './dialog-boxes/delete-car-warning-dialog.component';
 import { EmailDriverDialogComponent } from './dialog-boxes/email-driver-dialog.component';
+import { SettingsComponent } from './main-app/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { EmailDriverDialogComponent } from './dialog-boxes/email-driver-dialog.c
     DeleteLatestFuellingWarningDialogComponent,
     DeleteCarWarningDialogComponent,
     EmailDriverDialogComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

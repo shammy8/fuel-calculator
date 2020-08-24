@@ -15,10 +15,6 @@ export class LoginComponent {
   // todo handle error
   googleLogin() {
     this.afAuth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-    // .then(() => {
-    //   console.log('login');
-    //   this.router.navigate(['']);
-    // });
   }
 
   anonymousLogin() {

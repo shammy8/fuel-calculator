@@ -1,0 +1,9 @@
+<ng-container *ngIf="user$ | async as user">
+  <button
+    mat-raised-button
+    *ngIf="user.isAnonymous"
+    (click)="linkAnonymousToGoogleAccount(user)"
+  >
+    <img src="/assets/google-logo.svg" /> Link to Google Account
+  </button>
+</ng-container>

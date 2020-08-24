@@ -79,11 +79,6 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     }
   }
 
-  // todo update user doc when an anon user hook up to google account
-  linkAnonymousToGoogleAccount() {
-    this.user.linkWithRedirect(new firebase.auth.GoogleAuthProvider());
-  }
-
   ngOnDestroy() {
     this.breakSub.unsubscribe();
     this.authSub.unsubscribe();

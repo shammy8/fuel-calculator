@@ -27,13 +27,9 @@
           (click)="onCarClick(car)"
           >{{ car.logo }} {{ car.name }}
         </a>
-        <a
-          class="sidenav-end"
-          *ngIf="user?.isAnonymous"
-          mat-list-item
-          (click)="linkAnonymousToGoogleAccount()"
-        >
-          <img src="/assets/google-logo.svg" /> Link to Google Account
+        <a class="sidenav-end" mat-list-item [routerLink]="['settings']">
+          <mat-icon>settings</mat-icon>
+          &nbsp; Settings
         </a>
       </mat-nav-list>
     </mat-sidenav>
