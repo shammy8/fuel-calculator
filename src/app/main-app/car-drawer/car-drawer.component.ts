@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 
@@ -12,7 +13,6 @@ import { DatabaseService } from '../database.service';
 import { Car } from '../Car.model';
 import { AddCarComponent } from '../add-car/add-car.component';
 import { LoseAllDataWarningDialogComponent } from 'src/app/dialog-boxes/lose-all-data-warning-dialog.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-car-drawer',
@@ -25,6 +25,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   isHandset: boolean; // consider under 780px a handset screen
 
   user: firebase.User;
+
   authSub: Subscription;
   breakSub: Subscription;
 
