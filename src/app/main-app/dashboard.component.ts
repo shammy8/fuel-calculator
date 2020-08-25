@@ -5,6 +5,7 @@ import { User } from 'firebase';
 
 import { Car } from './Car.model';
 import { DatabaseService } from './database.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-main-app',
@@ -17,9 +18,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   subscriptions: Subscription = new Subscription();
 
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private afAuth: AngularFireAuth
+  ) {}
 
   ngOnInit(): void {
+    // need below here or else it'll get called when user go to settings after logging in
+    // and then that'll call a cloud function, which we don't want
+    this.afAuth.getRedirectResult();
+
     this.subscriptions.add(
       this.databaseService.cars$.subscribe((cars) => (this.cars = cars))
     );
