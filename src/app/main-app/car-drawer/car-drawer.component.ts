@@ -26,8 +26,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
 
   user: firebase.User;
 
-  authSub: Subscription;
-  breakSub: Subscription;
+  subscriptions: Subscription = new Subscription();
 
   @ViewChild('sidenav') drawer: MatSidenav;
 
@@ -41,13 +40,17 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.breakSub = this.breakpointObserver
-      .observe(['(max-width: 780px)'])
-      .subscribe((res) => (this.isHandset = res.matches));
+    this.subscriptions.add(
+      this.breakpointObserver
+        .observe(['(max-width: 780px)'])
+        .subscribe((res) => (this.isHandset = res.matches))
+    );
 
-    this.authSub = this.afAuth.user.subscribe((user) => {
-      this.user = user;
-    });
+    this.subscriptions.add(
+      this.afAuth.user.subscribe((user) => {
+        this.user = user;
+      })
+    );
   }
 
   addCar(): void {
@@ -80,7 +83,6 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.breakSub.unsubscribe();
-    this.authSub.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }

@@ -12,20 +12,19 @@ import { DatabaseService } from './database.service';
   styleUrls: ['dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  // cars$: Observable<Car[]> = this.databaseService.cars$;
   cars: Car[];
   user: User;
-  carSub: Subscription;
-  userSub: Subscription;
+
+  subscriptions: Subscription = new Subscription();
 
   constructor(private databaseService: DatabaseService) {}
 
   ngOnInit(): void {
-    this.carSub = this.databaseService.cars$.subscribe(
-      (cars) => (this.cars = cars)
+    this.subscriptions.add(
+      this.databaseService.cars$.subscribe((cars) => (this.cars = cars))
     );
-    this.userSub = this.databaseService.user$.subscribe(
-      (user) => (this.user = user)
+    this.subscriptions.add(
+      this.databaseService.user$.subscribe((user) => (this.user = user))
     );
   }
 
@@ -34,7 +33,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.carSub.unsubscribe();
-    this.userSub.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 }
