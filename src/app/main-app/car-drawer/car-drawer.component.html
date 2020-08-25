@@ -9,9 +9,7 @@
     >
       <mat-nav-list>
         <mat-toolbar color="primary">
-          <div>
-            🚗 Your Vehicles
-          </div>
+          <div>🚗 Your Vehicles</div>
           <button
             type="button"
             mat-icon-button
@@ -44,7 +42,7 @@
         >
           <mat-icon>menu</mat-icon>
         </button>
-        ⛽ Fuelling Dashboard
+        <a [routerLink]="['']">⛽ Fuelling Dashboard</a>
         <div class="fill-space"></div>
         <button
           *ngIf="user"
