@@ -18,6 +18,18 @@ export const createUserRecord = functions.auth
     });
   });
 
+// when an anonymous user links to a email, update the user doc in users collection
+export const linkAnonymous = functions.https.onCall(
+  async (data: { uid: string; displayName: string; email: string }) => {
+    const userRef = db.doc(`users/${data.uid}`);
+
+    return userRef.update({
+      name: data.displayName,
+      email: data.email,
+    });
+  }
+);
+
 // when a user deletes his account, delete his associated doc in users collection
 export const deleteUserRecord = functions.auth.user().onDelete((user) => {
   return db.doc(`users/${user.uid}`).delete();
