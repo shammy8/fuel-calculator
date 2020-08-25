@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap, debounceTime } from 'rxjs/operators';
+import {
+  map,
+  switchMap,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MatSort } from '@angular/material/sort';
@@ -89,11 +94,9 @@ export class HistoriesComponent implements OnInit, OnDestroy {
 
     this.updateSub = this.updateColumnInFirestore$
       .pipe(
-        debounceTime(5000), // update every 5 seconds
-        // distinctUntilChanged(), not working fully + seem like it's working with distinctUntilChange in it right now
-        switchMap((columns) => {
-          return this.databaseService.saveColumnOrder(columns);
-        })
+        debounceTime(5000), // only emit 5 seconds after last array received
+        distinctUntilChanged(this.arraysAreIdentical), // only emit new array if different compared to last one
+        switchMap((columns) => this.databaseService.saveColumnOrder(columns))
       )
       .subscribe();
   }
@@ -108,6 +111,18 @@ export class HistoriesComponent implements OnInit, OnDestroy {
 
     // update the firestore with the new column order
     this.updateColumnInFirestore$.next(this.displayedColumns);
+  }
+
+  private arraysAreIdentical(arr1: string[], arr2: string[]): boolean {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   ngOnDestroy() {
