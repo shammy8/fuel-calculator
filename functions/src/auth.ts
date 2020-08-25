@@ -20,9 +20,18 @@ export const createUserRecord = functions.auth
 
 // when an anonymous user links to a email, update the user doc in users collection
 export const linkAnonymous = functions.https.onCall(
-  async (data: { uid: string; displayName: string; email: string }) => {
-    const userRef = db.doc(`users/${data.uid}`);
+  async (
+    data: { uid: string; displayName: string; email: string },
+    context
+  ) => {
+    if (context.auth?.uid !== data.uid) {
+      throw new functions.https.HttpsError(
+        'permission-denied',
+        'Only allowed to update your own user document'
+      );
+    }
 
+    const userRef = db.doc(`users/${data.uid}`);
     return userRef.update({
       name: data.displayName,
       email: data.email,
