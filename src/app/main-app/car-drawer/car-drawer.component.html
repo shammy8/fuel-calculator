@@ -1,61 +1,40 @@
-<div class="app-container">
-  <mat-sidenav-container>
-    <!-- open sidenav if logged in and not on handset -->
-    <mat-sidenav
-      #sidenav
-      fixedInViewport
-      [mode]="isHandset ? 'over' : 'side'"
-      [opened]="user && !isHandset ? true : false"
+<nav>
+  <mat-list>
+    <mat-list-item
+      matTooltip="Dashboard"
+      [matTooltipPosition]="(isHandset$ | async) ? 'above' : 'right'"
+      [routerLink]="['']"
     >
-      <mat-nav-list>
-        <mat-toolbar color="primary">
-          <div>🚗 Your Vehicles</div>
-          <button
-            type="button"
-            mat-icon-button
-            matTooltip="Add a new vehicle"
-            (click)="addCar()"
-          >
-            <mat-icon>add</mat-icon>
-          </button>
-        </mat-toolbar>
-        <a
-          mat-list-item
-          *ngFor="let car of cars$ | async"
-          (click)="onCarClick(car)"
-          >{{ car.logo }} {{ car.name }}
-        </a>
-        <a class="sidenav-end" mat-list-item [routerLink]="['settings']">
-          <mat-icon>settings</mat-icon>
-          &nbsp; Settings
-        </a>
-      </mat-nav-list>
-    </mat-sidenav>
+      <span>⛽</span>
+    </mat-list-item>
 
-    <mat-sidenav-content>
-      <mat-toolbar>
-        <button
-          *ngIf="user"
-          type="button"
-          mat-icon-button
-          (click)="sidenav.toggle()"
-        >
-          <mat-icon>menu</mat-icon>
-        </button>
-        <a [routerLink]="['']">⛽ Fuelling Dashboard</a>
-        <div class="fill-space"></div>
-        <button
-          *ngIf="user"
-          mat-icon-button
-          (click)="signOut()"
-          matTooltip="Sign Out"
-        >
-          <mat-icon>exit_to_app</mat-icon>
-        </button>
-      </mat-toolbar>
-      <div class="app-body">
-        <ng-content></ng-content>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    <mat-list-item
+      matTooltip="Add a new vehicle"
+      [matTooltipPosition]="(isHandset$ | async) ? 'above' : 'right'"
+      (click)="addCar()"
+    >
+      <mat-icon>add</mat-icon>
+    </mat-list-item>
+
+    <mat-list-item
+      matTooltip="Settings"
+      [matTooltipPosition]="(isHandset$ | async) ? 'above' : 'right'"
+      [routerLink]="['settings']"
+    >
+      <mat-icon>settings</mat-icon>
+    </mat-list-item>
+
+    <mat-list-item
+      *ngIf="user"
+      matTooltip="Sign out"
+      [matTooltipPosition]="(isHandset$ | async) ? 'above' : 'right'"
+      (click)="signOut()"
+    >
+      <mat-icon>exit_to_app</mat-icon>
+    </mat-list-item>
+  </mat-list>
+</nav>
+
+<div class="main">
+  <ng-content></ng-content>
 </div>

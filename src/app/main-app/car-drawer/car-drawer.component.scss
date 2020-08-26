@@ -1,50 +1,57 @@
-.app-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
+nav {
+  width: 5rem;
+  height: 100vh;
+  background-color: #424242;
+  position: fixed;
+  z-index: 100;
 
-mat-sidenav-container {
-  height: 100%;
-}
-
-mat-sidenav {
-  width: 220px;
-  border: none;
-
-  mat-nav-list {
-    padding-top: 0px;
+  mat-list {
     display: flex;
     flex-direction: column;
-    height: 100%;
-  }
+    padding-top: 0;
 
-  .sidenav-end {
-    margin-top: auto;
-  }
+    :hover {
+      cursor: pointer;
+      color: #8e24aa;
+    }
 
-  mat-toolbar {
-    justify-content: space-between;
-    font-size: 18px;
+    :first-child {
+      background-color: #8e24aa;
+    }
+
+    mat-icon,
+    span {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    span {
+      font-size: 1.2rem;
+    }
   }
 }
 
-.app-body {
-  overflow: auto;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 64px;
+.main {
+  margin-left: 5rem;
 }
 
-.fill-space {
-  flex: 1 1 auto;
-}
+@media only screen and (max-width: 700px) {
+  nav {
+    bottom: 0;
+    width: 100vw;
+    height: 3rem;
 
-a {
-  text-decoration: none;
-  color: white;
+    mat-list {
+      flex-direction: row;
+
+      .mat-list-item {
+        height: 3rem;
+      }
+    }
+  }
+
+  .main {
+    margin-left: 0;
+    margin-bottom: 3rem;
+  }
 }

@@ -9,10 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 
-import { DatabaseService } from '../database.service';
-import { Car } from '../Car.model';
 import { AddCarComponent } from '../add-car/add-car.component';
 import { LoseAllDataWarningDialogComponent } from 'src/app/dialog-boxes/lose-all-data-warning-dialog.component';
+import { pluck, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-car-drawer',
@@ -20,42 +19,33 @@ import { LoseAllDataWarningDialogComponent } from 'src/app/dialog-boxes/lose-all
   styleUrls: ['./car-drawer.component.scss'],
 })
 export class CarDrawerComponent implements OnInit, OnDestroy {
-  cars$: Observable<Car[]> = this.databaseService.cars$;
-
-  isHandset: boolean; // consider under 780px a handset screen
+  // consider under 700px a handset screen, this needs to match css media query
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(['(max-width: 700px)'])
+    .pipe(pluck('matches'), share());
 
   user: firebase.User;
 
-  subscriptions: Subscription = new Subscription();
+  subscription: Subscription;
 
   @ViewChild('sidenav') drawer: MatSidenav;
 
   constructor(
     public afAuth: AngularFireAuth,
     private breakpointObserver: BreakpointObserver,
-    private databaseService: DatabaseService,
     private addCarBottomSheet: MatBottomSheet,
     public dialog: MatDialog,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.subscriptions.add(
-      this.breakpointObserver
-        .observe(['(max-width: 780px)'])
-        .subscribe((res) => (this.isHandset = res.matches))
-    );
-
-    this.subscriptions.add(
-      this.afAuth.user.subscribe((user) => {
-        this.user = user;
-      })
-    );
+    this.subscription = this.afAuth.user.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   addCar(): void {
     this.addCarBottomSheet.open(AddCarComponent, { autoFocus: true });
-    this.handleCloseDrawerOnClick();
   }
 
   // todo handle error
@@ -71,18 +61,7 @@ export class CarDrawerComponent implements OnInit, OnDestroy {
     }
   }
 
-  onCarClick(car): void {
-    this.handleCloseDrawerOnClick();
-  }
-
-  // handles whether to close drawer after clicking on the buttons in side drawer
-  handleCloseDrawerOnClick(): void {
-    if (this.isHandset) {
-      this.drawer.close();
-    }
-  }
-
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }
