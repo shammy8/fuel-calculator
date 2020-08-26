@@ -1,6 +1,5 @@
 .car-overviews-container {
   display: grid;
-  gap: 1rem;
   justify-content: center;
   grid-template-columns: repeat(auto-fit, minmax(350px, 600px));
 }
