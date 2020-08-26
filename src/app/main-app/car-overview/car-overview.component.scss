@@ -36,3 +36,10 @@ mat-card-actions {
   display: flex;
   justify-content: space-between;
 }
+
+@media only screen and (max-width: 500px) {
+  mat-card {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
