@@ -1,4 +1,4 @@
-<nav>
+<nav *ngIf="user">
   <mat-list>
     <mat-list-item
       matTooltip="Dashboard"
@@ -25,7 +25,6 @@
     </mat-list-item>
 
     <mat-list-item
-      *ngIf="user"
       matTooltip="Sign out"
       [matTooltipPosition]="(isHandset$ | async) ? 'above' : 'right'"
       (click)="signOut()"
@@ -35,6 +34,9 @@
   </mat-list>
 </nav>
 
-<div class="main">
+<div
+  class="main"
+  [ngClass]="{ 'main-isHandset': !user || (isHandset$ | async) }"
+>
   <ng-content></ng-content>
 </div>
