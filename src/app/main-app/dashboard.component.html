@@ -1,5 +1,5 @@
 <div
-  *ngIf="cars"
+  *ngIf="cars?.length > 1; else noCars"
   class="car-overviews-container"
   cdkDropList
   (cdkDropListDropped)="drop($event)"
@@ -13,3 +13,7 @@
     <mat-icon cdkDragHandle>drag_handle</mat-icon>
   </app-car-overview>
 </div>
+
+<ng-template #noCars>
+  <mat-card> No cars found. Please click the + sign to add a car.</mat-card>
+</ng-template>
