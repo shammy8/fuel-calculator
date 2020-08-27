@@ -1,5 +1,5 @@
 mat-card {
-  margin: 20px 10px 0px 10px;
+  margin: 20px 10px 5px 10px;
 }
 
 .logo {
@@ -11,21 +11,18 @@ mat-card {
   flex: 1 1 auto;
 }
 
+mat-card-content {
+  margin-bottom: 10px;
+}
+
+.totals-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .totals {
-  margin: 20px 0;
-
-  .totals-content {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .total {
-    text-align: center;
-  }
-
-  p {
-    margin-bottom: 0;
-  }
+  margin: 0;
+  width: 50%;
 }
 
 .lighter {

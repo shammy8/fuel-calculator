@@ -30,16 +30,15 @@
       [lowerLimit]="avgPricePerMileLowerLimit"
     ></app-efficiency-bar>
 
-    <!-- start of totals -->
-    <div class="totals" *ngIf="carDetails.latestHistory">
-      <div class="lighter">
-        Stats. since records began
-        <span *ngIf="carDetails.dateOfFirstHistory">on</span>
-        {{ carDetails.dateOfFirstHistory?.toDate() | date: 'dd/MM/yyyy' }}
-      </div>
-      <div class="totals-content">
-        <div class="total">
-          <span class="mat-headline">
+    <div class="totals-container">
+      <!-- start of totals -->
+      <div class="totals" *ngIf="carDetails.latestHistory">
+        <div class="lighter">
+          Total since
+          {{ carDetails.dateOfFirstHistory?.toDate() | date: 'dd/MM/yyyy' }}
+        </div>
+        <div>
+          <span class="mat-title">
             {{
               carDetails.latestHistory.mileageSinceRecordsBegan
                 | number: '1.0-0'
@@ -48,8 +47,8 @@
           <span class="lighter">mi.</span>
         </div>
 
-        <div class="total">
-          <span class="mat-headline">
+        <div>
+          <span class="mat-title">
             {{
               carDetails.latestHistory.volumeSinceRecordsBegan | number: '1.2-2'
             }}
@@ -57,9 +56,9 @@
           <span class="lighter">l</span>
         </div>
 
-        <div class="total">
+        <div>
           <span class="lighter">£</span>
-          <span class="mat-headline">
+          <span class="mat-title">
             {{
               carDetails.latestHistory.costSinceRecordsBegan
                 | currency: 'GBP':''
@@ -67,45 +66,45 @@
           </span>
         </div>
       </div>
-    </div>
-    <!-- end of totals -->
+      <!-- end of totals -->
 
-    <!-- start of last fuelling -->
-    <div class="totals" *ngIf="carDetails.latestHistory?.date">
-      <div class="lighter">
-        Latest Fuelling on
-        {{ carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy' }} by
-        {{
+      <!-- start of last fuelling -->
+      <div class="totals" *ngIf="carDetails.latestHistory?.date">
+        <div class="lighter">
+          Latest on
+          {{ carDetails.latestHistory.date.toDate() | date: 'dd/MM/yyyy' }}
+          <!-- {{
           user.uid === carDetails.latestHistory.fueller.uid
             ? 'you'
             : carDetails.latestHistory.fueller.displayName
-        }}
-        {{ carDetails.latestHistory.fueller.uid }}
-      </div>
-      <div class="totals-content">
-        <div class="total">
-          <span class="mat-headline">
-            {{ carDetails.latestHistory.mileage | number: '1.0-0' }}
-          </span>
-          <span class="lighter">mi.</span>
+        }} -->
+          <!-- {{ carDetails.latestHistory.fueller.uid }} -->
         </div>
+        <div class="totals-content">
+          <div>
+            <span class="mat-title">
+              {{ carDetails.latestHistory.mileage | number: '1.0-0' }}
+            </span>
+            <span class="lighter">mi.</span>
+          </div>
 
-        <div class="total">
-          <span class="mat-headline">
-            {{ carDetails.latestHistory.volume | number: '1.2-2' }}
-          </span>
-          <span class="lighter">l</span>
-        </div>
+          <div>
+            <span class="mat-title">
+              {{ carDetails.latestHistory.volume | number: '1.2-2' }}
+            </span>
+            <span class="lighter">l</span>
+          </div>
 
-        <div class="total">
-          <span class="lighter">£</span>
-          <span class="mat-headline">
-            {{ carDetails.latestHistory.cost | currency: 'GBP':'' }}
-          </span>
+          <div>
+            <span class="lighter">£</span>
+            <span class="mat-title">
+              {{ carDetails.latestHistory.cost | currency: 'GBP':'' }}
+            </span>
+          </div>
         </div>
       </div>
+      <!-- end of last fuelling -->
     </div>
-    <!-- end of last fuelling -->
   </mat-card-content>
 
   <mat-card-actions>
