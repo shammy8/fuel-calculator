@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { share } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,22 +9,42 @@ import * as firebase from 'firebase/app';
 import { User } from 'firebase';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
+import { DatabaseService } from '../database.service';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  user$: Observable<User> = this.afAuth.user.pipe(share());
+  user$: Observable<User> = this.databaseService.user$; // .pipe(share());
+
+  userDoc$ = this.databaseService.userDoc$;
+  minMilesLitre = new FormControl([]);
+  maxMilesLitre = new FormControl([]);
+  minPriceMile = new FormControl([]);
+  maxPriceMile = new FormControl([]);
 
   constructor(
     private afAuth: AngularFireAuth,
     private fns: AngularFireFunctions,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private databaseService: DatabaseService
   ) {}
 
   ngOnInit() {
     this.justLinkedToEmail();
+
+    this.userDoc$.subscribe((userDoc) => {
+      this.minMilesLitre.patchValue(
+        userDoc.gauges.milesPerVolume.min.toString()
+      );
+      this.maxMilesLitre.patchValue(
+        userDoc.gauges.milesPerVolume.max.toString()
+      );
+      this.minPriceMile.patchValue(userDoc.gauges.pricePerMile.min.toString());
+      this.maxPriceMile.patchValue(userDoc.gauges.pricePerMile.max.toString());
+    });
   }
 
   // check if user just got redirected from linking anon account to email

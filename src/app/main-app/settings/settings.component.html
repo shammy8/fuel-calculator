@@ -15,37 +15,37 @@
 
     <mat-card-content>
       <div class="mat-subheading-2">Gauges</div>
+
       <div class="min-max-row">
         <mat-form-field
           ><mat-label>Min. on miles/litre</mat-label>
-          <mat-select>
-            <mat-option value="5"> 0 </mat-option>
+          <mat-select [formControl]="minMilesLitre">
+            <mat-option value="0"> 0 </mat-option>
             <mat-option value="5"> 5 </mat-option>
-            <!-- <mat-option value="5"> 10 </mat-option> -->
           </mat-select>
         </mat-form-field>
         <mat-form-field
           ><mat-label>Max. on miles/litre</mat-label>
-          <mat-select>
-            <!-- <mat-option value="5"> 0 </mat-option> -->
-            <mat-option value="5"> 6 </mat-option>
-            <mat-option value="5"> 15 </mat-option>
+          <mat-select [formControl]="maxMilesLitre">
+            <mat-option value="6"> 6 </mat-option>
+            <mat-option value="15"> 15 </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
+
       <div class="min-max-row">
         <mat-form-field
           ><mat-label>Min. on £/mile</mat-label>
-          <mat-select>
-            <mat-option value="5"> 0 </mat-option>
-            <mat-option value="5"> 0.5 </mat-option>
+          <mat-select [formControl]="minPriceMile">
+            <mat-option value="0"> 0 </mat-option>
+            <mat-option value="0.5"> 0.5 </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field
           ><mat-label>Max. on £/mile</mat-label>
-          <mat-select>
-            <mat-option value="5"> 0.6 </mat-option>
-            <mat-option value="5"> 1.5 </mat-option>
+          <mat-select [formControl]="maxPriceMile">
+            <mat-option value="0.6"> 0.6 </mat-option>
+            <mat-option value="1.5"> 1.5 </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
