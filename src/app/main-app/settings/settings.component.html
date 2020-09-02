@@ -1,9 +1,65 @@
-<ng-container *ngIf="user$ | async as user">
-  <button
-    mat-raised-button
-    *ngIf="user.isAnonymous"
-    (click)="linkAnonymousToGoogleAccount(user)"
-  >
-    <img src="/assets/google-logo.svg" /> Link to Google Account
-  </button>
-</ng-container>
+<div class="container">
+  <mat-card *ngIf="user$ | async as user">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <img class="avatar" src="{{ user.photoURL }}" alt="avatar" />
+      </div>
+      <mat-card-title>{{
+        user.displayName || 'No display name found'
+      }}</mat-card-title>
+      <mat-card-subtitle>{{
+        user.email || 'anonymous user'
+      }}</mat-card-subtitle>
+      <!-- <mat-card-subtitle>{{ user.uid }}</mat-card-subtitle> -->
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="mat-subheading-2">Gauges</div>
+      <div class="min-max-row">
+        <mat-form-field
+          ><mat-label>Min. on miles/litre</mat-label>
+          <mat-select>
+            <mat-option value="5"> 0 </mat-option>
+            <mat-option value="5"> 5 </mat-option>
+            <!-- <mat-option value="5"> 10 </mat-option> -->
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          ><mat-label>Max. on miles/litre</mat-label>
+          <mat-select>
+            <!-- <mat-option value="5"> 0 </mat-option> -->
+            <mat-option value="5"> 6 </mat-option>
+            <mat-option value="5"> 15 </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="min-max-row">
+        <mat-form-field
+          ><mat-label>Min. on £/mile</mat-label>
+          <mat-select>
+            <mat-option value="5"> 0 </mat-option>
+            <mat-option value="5"> 0.5 </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          ><mat-label>Max. on £/mile</mat-label>
+          <mat-select>
+            <mat-option value="5"> 0.6 </mat-option>
+            <mat-option value="5"> 1.5 </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        *ngIf="user.isAnonymous"
+        (click)="linkAnonymousToGoogleAccount(user)"
+      >
+        <img class="google" src="/assets/google-logo.svg" /> Link to Google
+        Account
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
