@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { User } from 'firebase';
 
-import { Car, FuelHistory, UIElements } from './Car.model';
+import { Car, FuelHistory, UIElements, UserDoc } from './Car.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class DatabaseService {
   );
 
   // the doc in the users collection of the current user
-  userDoc$: Observable<any> = this.user$.pipe(
+  userDoc$: Observable<UserDoc> = this.user$.pipe(
     switchMap((user) => this.afs.doc(`users/${user.uid}`).valueChanges())
   );
 

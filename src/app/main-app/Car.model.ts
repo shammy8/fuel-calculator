@@ -32,3 +32,17 @@ export interface UIElements {
   engineTypes?: { label: string; value: string }[];
   logos?: string[];
 }
+
+export interface UserDoc {
+  createdAt?: string; // todo change this to a date?
+  email?: string;
+  gauges?: { milesPerVolume: MinMax; pricePerMile: MinMax };
+  name?: string;
+  tableColumns?: string[];
+  uid?: string;
+}
+
+export interface MinMax {
+  max: number;
+  min: number;
+}

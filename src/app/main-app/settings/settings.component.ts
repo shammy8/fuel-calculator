@@ -10,6 +10,7 @@ import { User } from 'firebase';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
 import { DatabaseService } from '../database.service';
+import { UserDoc } from '../Car.model';
 
 @Component({
   selector: 'app-settings',
@@ -35,7 +36,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.justLinkedToEmail();
 
-    this.userDoc$.subscribe((userDoc) => {
+    this.userDoc$.subscribe((userDoc: UserDoc) => {
       this.minMilesLitre.patchValue(
         userDoc.gauges.milesPerVolume.min.toString()
       );
